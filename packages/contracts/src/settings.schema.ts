@@ -1,0 +1,42 @@
+import { z } from 'zod';
+
+export const settingsSchema = z.object({
+  // General
+  companyName: z.string().min(1, 'Company name is required').max(100),
+  companyEmail: z.string().email('Invalid email address'),
+  companyPhone: z.string().max(20).optional().nullable(),
+  companyWhatsapp: z.string().max(20).optional().nullable(),
+  companyAddress: z.string().max(500).optional().nullable(),
+  businessHours: z.string().max(200).optional().nullable(),
+
+  // Branding
+  logo: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  darkLogo: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  favicon: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+
+  // Contact
+  googleMapEmbed: z.string().optional().nullable(),
+
+  // Social Links
+  facebook: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  instagram: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  linkedin: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  twitter: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  youtube: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  threads: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+
+  // SEO Defaults
+  defaultMetaTitle: z.string().max(60).optional().nullable(),
+  defaultMetaDescription: z.string().max(160).optional().nullable(),
+  defaultKeywords: z.string().max(200).optional().nullable(),
+  defaultCanonical: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  defaultOgImage: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
+  robotsIndex: z.boolean().default(true),
+  robotsFollow: z.boolean().default(true),
+
+  // Footer
+  copyright: z.string().max(100).optional().nullable(),
+  footerDescription: z.string().max(300).optional().nullable(),
+});
+
+export type SettingsInput = z.infer<typeof settingsSchema>;
