@@ -33,16 +33,22 @@ export const adminNavigation: NavigationSection[] = [
         disabled: false,
       },
       {
-        label: 'Blogs',
-        href: '/admin/blogs',
-        icon: FileText,
-        disabled: true,
+        label: 'Programs',
+        href: '/admin/programs',
+        icon: Briefcase,
+        disabled: false,
       },
       {
         label: 'Services',
         href: '/admin/services',
         icon: Briefcase,
         disabled: false,
+      },
+      {
+        label: 'Blogs',
+        href: '/admin/blogs',
+        icon: FileText,
+        disabled: true,
       },
     ]
   },

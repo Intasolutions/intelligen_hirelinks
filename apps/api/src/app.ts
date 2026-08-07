@@ -13,6 +13,7 @@ import { authRoutes } from './modules/auth/auth.routes';
 import { settingsRoutes } from './modules/settings';
 import { reviewRoutes } from './modules/reviews';
 import { serviceRoutes } from './modules/services';
+import { programRoutes } from './modules/programs';
 
 const app: Express = express();
 
@@ -51,6 +52,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/settings', settingsRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/services', serviceRoutes);
+app.use('/api/v1/programs', programRoutes);
 app.use('/api/v1', router);
 
 // Handle 404
