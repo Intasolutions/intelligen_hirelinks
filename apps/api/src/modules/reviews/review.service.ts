@@ -2,6 +2,8 @@ import { Review, IReview } from './review.model';
 import { ReviewInput } from '@hirelinks/contracts';
 import { CloudinaryService } from '../../shared/cloudinary.service';
 import { FilterQuery } from 'mongoose';
+import { Service } from '../services/service.model';
+import { Program } from '../programs/program.model';
 
 export class ReviewService {
   /**
@@ -58,7 +60,41 @@ export class ReviewService {
 
   static async getPublicReviews() {
     return Review.find({ status: 'ACTIVE', moderationStatus: 'APPROVED' })
-      .sort({ featureOnHomepage: -1, displayOrder: 1, createdAt: -1 })
+      .sort({ displayOrder: 1, createdAt: -1 })
+      .lean();
+  }
+
+  static async getFeaturedReviews() {
+    return Review.find({ status: 'ACTIVE', moderationStatus: 'APPROVED', featureOnHomepage: true })
+      .sort({ displayOrder: 1, createdAt: -1 })
+      .lean();
+  }
+
+  static async getReviewsByServiceSlug(slug: string) {
+    const service = await Service.findOne({ slug, status: 'ACTIVE' }).lean();
+    if (!service) return [];
+
+    return Review.find({ 
+      linkedType: 'SERVICE', 
+      linkedItem: (service as any)._id,
+      status: 'ACTIVE', 
+      moderationStatus: 'APPROVED' 
+    })
+      .sort({ displayOrder: 1, createdAt: -1 })
+      .lean();
+  }
+
+  static async getReviewsByProgramSlug(slug: string) {
+    const program = await Program.findOne({ slug, status: 'ACTIVE' }).lean();
+    if (!program) return [];
+
+    return Review.find({ 
+      linkedType: 'PROGRAM', 
+      linkedItem: (program as any)._id,
+      status: 'ACTIVE', 
+      moderationStatus: 'APPROVED' 
+    })
+      .sort({ displayOrder: 1, createdAt: -1 })
       .lean();
   }
 
@@ -96,6 +132,11 @@ export class ReviewService {
         await CloudinaryService.deleteAsset(review.customerPhoto.publicId);
       }
       review.customerPhoto = await CloudinaryService.uploadBuffer(file.buffer, 'reviews');
+    } else if (data.removeImage) {
+      if (review.customerPhoto?.publicId) {
+        await CloudinaryService.deleteAsset(review.customerPhoto.publicId);
+      }
+      review.customerPhoto = undefined;
     }
 
     Object.assign(review, data);

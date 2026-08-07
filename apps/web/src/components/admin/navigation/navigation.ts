@@ -50,6 +50,12 @@ export const adminNavigation: NavigationSection[] = [
         icon: FileText,
         disabled: false,
       },
+      {
+        label: 'Pages',
+        href: '/admin/pages',
+        icon: FileText,
+        disabled: false,
+      },
     ]
   },
   {

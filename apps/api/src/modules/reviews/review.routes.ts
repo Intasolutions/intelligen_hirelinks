@@ -7,6 +7,9 @@ const router: Router = Router();
 
 // Public endpoint
 router.get('/public', ReviewController.getPublicReviews);
+router.get('/public/featured', ReviewController.getFeaturedReviews);
+router.get('/public/service/:slug', ReviewController.getReviewsByServiceSlug);
+router.get('/public/program/:slug', ReviewController.getReviewsByProgramSlug);
 
 // Protected endpoints
 router.get('/', requireAuth, ReviewController.listReviews);

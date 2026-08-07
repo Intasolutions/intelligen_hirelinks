@@ -31,6 +31,33 @@ export class ReviewController {
     }
   }
 
+  static async getFeaturedReviews(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await ReviewService.getFeaturedReviews();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getReviewsByServiceSlug(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await ReviewService.getReviewsByServiceSlug(req.params.slug);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getReviewsByProgramSlug(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await ReviewService.getReviewsByProgramSlug(req.params.slug);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getReview(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await ReviewService.getById(req.params.id);

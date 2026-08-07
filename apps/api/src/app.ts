@@ -15,6 +15,7 @@ import { reviewRoutes } from './modules/reviews';
 import { serviceRoutes } from './modules/services';
 import { programRoutes } from './modules/programs';
 import { blogRoutes } from './modules/blogs';
+import { pageRoutes } from './modules/pages';
 
 const app: Express = express();
 
@@ -55,6 +56,7 @@ app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/services', serviceRoutes);
 app.use('/api/v1/programs', programRoutes);
 app.use('/api/v1/blogs', blogRoutes);
+app.use('/api/v1/pages', pageRoutes);
 app.use('/api/v1', router);
 
 // Handle 404

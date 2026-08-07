@@ -14,7 +14,7 @@ export const reviewSchema = z.object({
   // Optional string fields
   reviewDate: z.string().optional().nullable(), // ISO string or simple date string
   
-  // customerPhoto is handled separately via multipart upload
+  removeImage: z.preprocess((val) => val === 'true' || val === true, z.boolean().optional().default(false)),
 });
 
 export type ReviewInput = z.infer<typeof reviewSchema>;

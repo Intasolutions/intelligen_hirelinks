@@ -1,8 +1,10 @@
 import { apiClient } from '../lib/api-client';
 import { ReviewInput } from '@hirelinks/contracts';
 
-// We omit 'customerPhoto' from ReviewInput and handle it as a File in FormData
-export type CreateReviewPayload = Omit<ReviewInput, 'customerPhoto'> & { image?: File };
+export type CreateReviewPayload = Omit<ReviewInput, 'customerPhoto' | 'removeImage'> & { 
+  image?: File;
+  removeImage?: boolean;
+};
 
 export const ReviewsService = {
   listReviews: async (params: { page?: number; limit?: number; search?: string; status?: string; featureOnHomepage?: boolean }) => {
@@ -18,6 +20,10 @@ export const ReviewsService = {
 
   getPublicReviews: async () => {
     return apiClient<any[]>('/reviews/public', { method: 'GET' });
+  },
+
+  getReviewById: async (id: string) => {
+    return apiClient<any>(`/reviews/${id}`, { method: 'GET' });
   },
 
   createReview: async (data: CreateReviewPayload) => {
