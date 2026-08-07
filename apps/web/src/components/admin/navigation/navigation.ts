@@ -42,7 +42,7 @@ export const adminNavigation: NavigationSection[] = [
         label: 'Services',
         href: '/admin/services',
         icon: Briefcase,
-        disabled: true,
+        disabled: false,
       },
     ]
   },
