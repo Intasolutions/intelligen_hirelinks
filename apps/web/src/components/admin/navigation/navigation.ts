@@ -48,7 +48,7 @@ export const adminNavigation: NavigationSection[] = [
         label: 'Blogs',
         href: '/admin/blogs',
         icon: FileText,
-        disabled: true,
+        disabled: false,
       },
     ]
   },
