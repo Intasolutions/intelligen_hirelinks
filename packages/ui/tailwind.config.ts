@@ -8,6 +8,12 @@ const config: Omit<Config, "content"> = {
           DEFAULT: "#000000",
           foreground: "#ffffff",
         },
+        admin: {
+          bg: "#1D1D1D",
+          card: "#262626", // slightly lighter than bg for cards
+          accent: "#2A9D8F",
+          hover: "#248276",
+        }
       },
     },
   },

@@ -23,6 +23,7 @@ export const apiClient = async <T>(
 
   try {
     const res = await fetch(`${baseUrl}${endpoint}`, {
+      credentials: 'include',
       ...options,
       headers: {
         'Content-Type': 'application/json',

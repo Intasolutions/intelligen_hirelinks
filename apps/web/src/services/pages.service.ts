@@ -28,6 +28,7 @@ export const PagesService = {
 
     const res = await fetch(`${baseUrl}/pages/${slug}`, {
       method: 'PUT',
+      credentials: 'include',
       headers: {
         ...(token ? { 'Cookie': `token=${token}` } : {})
       },
