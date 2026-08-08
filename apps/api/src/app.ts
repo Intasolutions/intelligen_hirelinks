@@ -5,6 +5,8 @@ import compression from 'compression';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
+import path from 'path';
+import fs from 'fs';
 import { env } from './config/env';
 import { requestIdMiddleware } from './middlewares/request-id.middleware';
 import { globalErrorHandler } from './middlewares/error.middleware';
@@ -42,6 +44,15 @@ app.use(cookieParser());
 
 // Custom Middlewares
 app.use(requestIdMiddleware);
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Serve static uploads
+app.use('/uploads', express.static(uploadsDir));
 
 // Routes
 const router = express.Router();

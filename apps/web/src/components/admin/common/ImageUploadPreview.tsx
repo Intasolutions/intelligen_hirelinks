@@ -24,7 +24,7 @@ export function ImageUploadPreview({ label, initialImageUrl, onImageChange, clas
       setPreviewUrl(url);
       onImageChange(file);
     } else {
-      setPreviewUrl(initialImageUrl || null);
+      setPreviewUrl(null);
       onImageChange(null);
     }
   };
