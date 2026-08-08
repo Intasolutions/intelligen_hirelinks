@@ -7,6 +7,15 @@ export async function middleware(request: NextRequest) {
   const isAuthPage = request.nextUrl.pathname.startsWith('/login');
   const isAdminPage = request.nextUrl.pathname.startsWith('/admin');
 
+  if (isAuthPage && request.nextUrl.searchParams.get('clear') === 'true') {
+    // Create a new URL without the 'clear' parameter to avoid loops or ugly URLs, 
+    // but just deleting the cookie and continuing is fine too.
+    const url = new URL('/login', request.url);
+    const response = NextResponse.redirect(url);
+    response.cookies.delete('token');
+    return response;
+  }
+
   // 1. Unauthenticated users cannot access /admin
   if (!token && isAdminPage) {
     return NextResponse.redirect(new URL('/login', request.url));
@@ -16,10 +25,6 @@ export async function middleware(request: NextRequest) {
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL('/admin/dashboard', request.url));
   }
-
-  // Next.js middleware runs on edge, meaning we cannot make fetch calls to standard node.js APIs 
-  // easily if they rely on node-specific fetch. But we can let the Layout verify the session on the server.
-  // We strictly check cookie presence here. The layout will verify its validity.
 
   return NextResponse.next();
 }

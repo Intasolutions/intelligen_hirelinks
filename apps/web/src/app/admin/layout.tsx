@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     }
   } catch (error) {
     // If the token is invalid or expired, the backend returns 401
-    redirect('/login');
+    redirect('/login?clear=true');
   }
 
   return (

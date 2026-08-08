@@ -11,6 +11,7 @@ import { IconPicker } from '../../../../components/admin/common/IconPicker';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { Trash2, Plus, X } from 'lucide-react';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function EditProgramPage() {
   const router = useRouter();
@@ -83,7 +84,7 @@ export default function EditProgramPage() {
       const res = await ProgramsService.updateProgram(id, payload);
       if (res.success) {
         toast.success('Program updated successfully');
-        router.push('/admin/programs');
+        window.location.href = '/admin/programs';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update program');
       }

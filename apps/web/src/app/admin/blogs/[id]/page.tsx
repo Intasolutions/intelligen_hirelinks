@@ -11,6 +11,7 @@ import { TiptapEditor } from '../../../../components/admin/editor/TiptapEditor';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { X } from 'lucide-react';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -77,7 +78,7 @@ export default function EditBlogPage() {
       const res = await BlogsService.updateBlog(id, payload);
       if (res.success) {
         toast.success('Blog updated successfully');
-        router.push('/admin/blogs');
+        window.location.href = '/admin/blogs';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update blog');
       }

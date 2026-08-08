@@ -12,6 +12,7 @@ import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { X } from 'lucide-react';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function EditReviewPage() {
   const router = useRouter();
@@ -94,7 +95,7 @@ export default function EditReviewPage() {
       const res = await ReviewsService.updateReview(id, payload);
       if (res.success) {
         toast.success('Review updated successfully');
-        router.push('/admin/reviews');
+        window.location.href = '/admin/reviews';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update review');
       }

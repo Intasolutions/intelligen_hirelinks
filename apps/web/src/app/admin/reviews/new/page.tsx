@@ -11,6 +11,7 @@ import { ProgramsService } from '../../../../services/programs.service';
 import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function NewReviewPage() {
   const router = useRouter();
@@ -62,7 +63,7 @@ export default function NewReviewPage() {
       const res = await ReviewsService.createReview(payload);
       if (res.success) {
         toast.success('Review created successfully');
-        router.push('/admin/reviews');
+        window.location.href = '/admin/reviews';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to create review');
       }

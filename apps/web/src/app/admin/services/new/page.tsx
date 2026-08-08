@@ -11,6 +11,7 @@ import { IconPicker } from '../../../../components/admin/common/IconPicker';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { Trash2, Plus } from 'lucide-react';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function NewServicePage() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export default function NewServicePage() {
       const res = await ServicesService.createService(payload);
       if (res.success) {
         toast.success('Service created successfully');
-        router.push('/admin/services');
+        window.location.href = '/admin/services';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to create service');
       }
@@ -102,14 +103,8 @@ export default function NewServicePage() {
               </div>
 
               <div className="grid grid-cols-2 gap-6 pt-4 border-t border-admin-card">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Primary Image</label>
-                  <input type="file" accept="image/*" onChange={(e) => setPrimaryImageFile(e.target.files?.[0] || null)} className="text-sm" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Secondary Image</label>
-                  <input type="file" accept="image/*" onChange={(e) => setSecondaryImageFile(e.target.files?.[0] || null)} className="text-sm" />
-                </div>
+                <ImageUploadPreview label="Primary Image" onImageChange={setPrimaryImageFile} />
+                <ImageUploadPreview label="Secondary Image" onImageChange={setSecondaryImageFile} />
               </div>
             </div>
 

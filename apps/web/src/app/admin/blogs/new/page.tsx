@@ -11,6 +11,7 @@ import { TiptapEditor } from '../../../../components/admin/editor/TiptapEditor';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { X, Plus } from 'lucide-react';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function NewBlogPage() {
   const router = useRouter();
@@ -55,7 +56,7 @@ export default function NewBlogPage() {
       const res = await BlogsService.createBlog(payload);
       if (res.success) {
         toast.success('Blog created successfully');
-        router.push('/admin/blogs');
+        window.location.href = '/admin/blogs';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to create blog');
       }
@@ -132,10 +133,7 @@ export default function NewBlogPage() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-admin-card">
-                <label className="block text-sm font-medium text-gray-300 mb-1">Blog Image</label>
-                <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="text-sm" />
-              </div>
+              <div className="pt-4 border-t border-admin-card"><ImageUploadPreview label="Blog Image" onImageChange={setImageFile} /></div>
             </div>
 
             {/* Article Content */}

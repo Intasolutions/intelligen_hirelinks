@@ -11,6 +11,7 @@ import { IconPicker } from '../../../../components/admin/common/IconPicker';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { Trash2, Plus } from 'lucide-react';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function EditServicePage() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function EditServicePage() {
       const res = await ServicesService.updateService(id, payload);
       if (res.success) {
         toast.success('Service updated successfully');
-        router.push('/admin/services');
+        window.location.href = '/admin/services';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update service');
       }
@@ -127,14 +128,8 @@ export default function EditServicePage() {
               </div>
 
               <div className="grid grid-cols-2 gap-6 pt-4 border-t border-admin-card">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Primary Image (Replace)</label>
-                  <input type="file" accept="image/*" onChange={(e) => setPrimaryImageFile(e.target.files?.[0] || null)} className="text-sm" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Secondary Image (Replace)</label>
-                  <input type="file" accept="image/*" onChange={(e) => setSecondaryImageFile(e.target.files?.[0] || null)} className="text-sm" />
-                </div>
+                <ImageUploadPreview label="Primary Image (Replace)" initialImageUrl={form.getValues("primaryImage")?.url} onImageChange={setPrimaryImageFile} />
+                <ImageUploadPreview label="Secondary Image (Replace)" initialImageUrl={form.getValues("secondaryImage")?.url} onImageChange={setSecondaryImageFile} />
               </div>
             </div>
 

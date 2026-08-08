@@ -9,6 +9,7 @@ import { AdminPage } from '../../../components/admin/common/AdminPage';
 import { Button, Input, Tabs, TabsList, TabsTrigger, TabsContent } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { Plus, Trash2 } from 'lucide-react';
+import { ImageUploadPreview } from '../../../components/admin/common/ImageUploadPreview';
 
 
 export default function SettingsPage() {

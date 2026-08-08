@@ -12,6 +12,7 @@ import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { X, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
 export default function EditPagePage() {
   const router = useRouter();
@@ -44,11 +45,11 @@ export default function EditPagePage() {
           setExistingImage(res.data.image?.url || null);
         } else {
           toast.error('Failed to load page');
-          router.push('/admin/pages');
+          window.location.href = '/admin/pages';
         }
       } catch (err) {
         toast.error('An unexpected error occurred');
-        router.push('/admin/pages');
+        window.location.href = '/admin/pages';
       } finally {
         setIsLoading(false);
       }
@@ -68,7 +69,7 @@ export default function EditPagePage() {
       const res = await PagesService.updatePage(slug, payload);
       if (res.success) {
         toast.success('Page updated successfully');
-        router.push('/admin/pages');
+        window.location.href = '/admin/pages';
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update page');
       }
