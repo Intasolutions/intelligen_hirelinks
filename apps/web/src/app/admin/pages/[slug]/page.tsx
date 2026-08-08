@@ -115,6 +115,12 @@ export default function EditPagePage() {
               {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
             </div>
 
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-1">URL Slug (Optional)</label>
+              <Input {...register('slug')} placeholder="Leave blank to auto-generate from title" />
+              {errors.slug && <p className="mt-1 text-sm text-red-600">{errors.slug.message}</p>}
+            </div>
+
             <div className="border-t border-admin-card pt-4">
               <ImageUploadPreview 
                 label="Optional Cover Image"
@@ -124,6 +130,11 @@ export default function EditPagePage() {
                   setRemoveImage(!file && !!existingImage);
                 }}
               />
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-300 mb-1">Image Alt Text</label>
+                <Input {...register('imageAlt')} placeholder="Describe the image..." />
+                {errors.imageAlt && <p className="mt-1 text-xs text-red-600">{errors.imageAlt.message}</p>}
+              </div>
             </div>
           </div>
 
@@ -142,6 +153,30 @@ export default function EditPagePage() {
                 />
               )}
             />
+          </div>
+
+          {/* SEO Settings */}
+          <div className="bg-white p-6 rounded-md border border-admin-card space-y-4">
+            <h3 className="text-lg font-medium text-white mb-4 border-b border-admin-card pb-2">SEO Settings</h3>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1">Meta Title</label>
+              <Input {...register('seo.metaTitle')} />
+              {errors.seo?.metaTitle && <p className="mt-1 text-xs text-red-600">{errors.seo?.metaTitle?.message}</p>}
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1">Meta Description</label>
+              <textarea 
+                {...register('seo.metaDescription')} 
+                rows={2}
+                className="w-full rounded-md border border-admin-card bg-admin-bg p-2 text-sm text-white focus:border-admin-accent focus:outline-none focus:ring-1 focus:ring-admin-accent"
+              />
+                {errors.seo?.metaDescription && <p className="mt-1 text-xs text-red-600">{errors.seo?.metaDescription?.message}</p>}
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1">Keywords</label>
+              <Input {...register('seo.keywords')} placeholder="comma, separated" />
+              {errors.seo?.keywords && <p className="mt-1 text-xs text-red-600">{errors.seo?.keywords?.message}</p>}
+            </div>
           </div>
 
         </form>

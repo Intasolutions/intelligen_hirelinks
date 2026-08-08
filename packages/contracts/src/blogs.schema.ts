@@ -13,6 +13,7 @@ const jsonParseString = (val: unknown) => {
 
 export const blogSchema = z.object({
   title: z.string().min(1, 'Title is required').max(150),
+  slug: z.string().optional(),
   subTitle: z.string().optional().nullable(),
   
   tags: z.preprocess(
@@ -39,6 +40,7 @@ export const blogSchema = z.object({
   ),
 
   removeImage: z.preprocess((val) => val === 'true' || val === true, z.boolean().optional().default(false)),
+  coverImageAlt: z.string().optional().nullable(),
 });
 
 export type BlogInput = z.infer<typeof blogSchema>;

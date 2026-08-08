@@ -29,7 +29,9 @@ export interface IProgram extends Document {
   benefitItems: IProgramBenefitItem[];
   
   primaryImage?: { url: string; publicId: string };
+  primaryImageAlt?: string;
   secondaryImage?: { url: string; publicId: string };
+  secondaryImageAlt?: string;
   
   reviewSectionDescription?: string;
   
@@ -83,7 +85,9 @@ const ProgramSchema = new Schema<IProgram>(
     benefitItems: { type: [BenefitItemSchema], default: [] },
     
     primaryImage: { url: String, publicId: String },
+    primaryImageAlt: { type: String },
     secondaryImage: { url: String, publicId: String },
+    secondaryImageAlt: { type: String },
     
     reviewSectionDescription: { type: String },
     
@@ -108,7 +112,9 @@ const ProgramSchema = new Schema<IProgram>(
 );
 
 ProgramSchema.pre('validate', function(next) {
-  if (this.title && !this.slug) {
+  if (this.slug) {
+    this.slug = slugify(this.slug, { lower: true, strict: true });
+  } else if (this.title && !this.slug) {
     this.slug = slugify(this.title, { lower: true, strict: true });
   }
   next();

@@ -117,6 +117,12 @@ export default function EditServicePage() {
               </div>
               
               <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">URL Slug (Optional)</label>
+                <Input {...register('slug')} placeholder="Leave blank to auto-generate from title" />
+                {errors.slug && <p className="mt-1 text-sm text-red-600">{errors.slug.message}</p>}
+              </div>
+              
+              <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Short Description *</label>
                 <textarea 
                   {...register('shortDescription')} 
@@ -128,8 +134,22 @@ export default function EditServicePage() {
               </div>
 
               <div className="grid grid-cols-2 gap-6 pt-4 border-t border-admin-card">
-                <ImageUploadPreview label="Primary Image (Replace)" initialImageUrl={form.getValues("primaryImage")?.url} onImageChange={setPrimaryImageFile} />
-                <ImageUploadPreview label="Secondary Image (Replace)" initialImageUrl={form.getValues("secondaryImage")?.url} onImageChange={setSecondaryImageFile} />
+                <div>
+                  <ImageUploadPreview label="Primary Image (Replace)" initialImageUrl={form.getValues("primaryImage")?.url} onImageChange={setPrimaryImageFile} />
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Primary Image Alt Text</label>
+                    <Input {...register('primaryImageAlt')} placeholder="Describe the image..." />
+                    {errors.primaryImageAlt && <p className="mt-1 text-xs text-red-600">{errors.primaryImageAlt.message}</p>}
+                  </div>
+                </div>
+                <div>
+                  <ImageUploadPreview label="Secondary Image (Replace)" initialImageUrl={form.getValues("secondaryImage")?.url} onImageChange={setSecondaryImageFile} />
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Secondary Image Alt Text</label>
+                    <Input {...register('secondaryImageAlt')} placeholder="Describe the image..." />
+                    {errors.secondaryImageAlt && <p className="mt-1 text-xs text-red-600">{errors.secondaryImageAlt.message}</p>}
+                  </div>
+                </div>
               </div>
             </div>
 

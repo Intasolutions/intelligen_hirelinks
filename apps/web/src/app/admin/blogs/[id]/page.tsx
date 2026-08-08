@@ -123,6 +123,12 @@ export default function EditBlogPage() {
               </div>
 
               <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">URL Slug (Optional)</label>
+                <Input {...register('slug')} placeholder="Leave blank to auto-generate from title" />
+                {errors.slug && <p className="mt-1 text-sm text-red-600">{errors.slug.message}</p>}
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Subtitle</label>
                 <Input {...register('subTitle')} placeholder="Optional brief sub-heading" />
                 {errors.subTitle && <p className="mt-1 text-xs text-red-600">{errors.subTitle?.message}</p>}
@@ -172,6 +178,11 @@ export default function EditBlogPage() {
                     setRemoveImage(!file && !!existingImage);
                   }}
                 />
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Image Alt Text</label>
+                  <Input {...register('coverImageAlt')} placeholder="Describe the image for SEO..." />
+                  {errors.coverImageAlt && <p className="mt-1 text-xs text-red-600">{errors.coverImageAlt.message}</p>}
+                </div>
               </div>
             </div>
 

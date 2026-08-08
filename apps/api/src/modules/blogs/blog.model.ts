@@ -11,6 +11,7 @@ export interface IBlog extends Document {
   content: string;
   
   image?: { url: string; publicId: string };
+  coverImageAlt?: string;
   
   publishStatus: 'DRAFT' | 'PUBLISHED';
   displayOrder: number;
@@ -45,6 +46,7 @@ const BlogSchema = new Schema<IBlog>(
     content: { type: String, required: true },
     
     image: { url: String, publicId: String },
+    coverImageAlt: { type: String },
     
     publishStatus: { type: String, enum: ['DRAFT', 'PUBLISHED'], default: 'DRAFT' },
     displayOrder: { type: Number, default: 999 },
@@ -68,7 +70,9 @@ const BlogSchema = new Schema<IBlog>(
 );
 
 BlogSchema.pre('validate', function(next) {
-  if (this.title && !this.slug) {
+  if (this.slug) {
+    this.slug = slugify(this.slug, { lower: true, strict: true });
+  } else if (this.title && !this.slug) {
     this.slug = slugify(this.title, { lower: true, strict: true });
   }
   

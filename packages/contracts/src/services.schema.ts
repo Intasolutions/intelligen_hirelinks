@@ -13,6 +13,7 @@ const jsonParseString = (val: unknown) => {
 
 export const serviceSchema = z.object({
   title: z.string().min(1, 'Title is required').max(150),
+  slug: z.string().optional(),
   shortDescription: z.string().min(1, 'Short description is required').max(300),
   
   processDescription: z.string().optional().nullable(),
@@ -62,7 +63,12 @@ export const serviceSchema = z.object({
       keywords: z.string().optional().nullable(),
       canonicalUrl: z.string().optional().nullable(),
     }).optional().default({})
-  )
+  ),
+
+  removePrimaryImage: z.preprocess((val) => val === 'true' || val === true, z.boolean().optional().default(false)),
+  removeSecondaryImage: z.preprocess((val) => val === 'true' || val === true, z.boolean().optional().default(false)),
+  primaryImageAlt: z.string().optional().nullable(),
+  secondaryImageAlt: z.string().optional().nullable(),
 });
 
 export type ServiceInput = z.infer<typeof serviceSchema>;
