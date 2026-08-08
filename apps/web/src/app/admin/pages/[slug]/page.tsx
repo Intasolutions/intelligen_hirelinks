@@ -116,24 +116,14 @@ export default function EditPagePage() {
             </div>
 
             <div className="border-t border-admin-card pt-4">
-              <label className="block text-sm font-medium text-gray-300 mb-2">Optional Cover Image</label>
-              {!removeImage && existingImage && !imageFile ? (
-                <div className="mb-3 relative inline-block">
-                  <img src={existingImage} alt="Page cover" className="h-32 w-64 object-cover rounded-md border border-admin-card" />
-                  <button 
-                    type="button" 
-                    onClick={() => setRemoveImage(true)}
-                    className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1.5 hover:bg-red-200 transition-colors shadow-sm"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : null}
-              <input type="file" accept="image/*" onChange={(e) => {
-                setImageFile(e.target.files?.[0] || null);
-                setRemoveImage(false);
-              }} className="text-sm" />
-              {removeImage && <p className="text-xs text-orange-600 mt-2">Image will be permanently removed upon save.</p>}
+              <ImageUploadPreview 
+                label="Optional Cover Image"
+                initialImageUrl={existingImage}
+                onImageChange={(file) => {
+                  setImageFile(file);
+                  setRemoveImage(!file && !!existingImage);
+                }}
+              />
             </div>
           </div>
 

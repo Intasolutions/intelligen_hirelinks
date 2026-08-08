@@ -109,6 +109,7 @@ export default function ReviewsPage() {
           <table className="w-full text-left text-sm text-gray-300">
             <thead className="bg-admin-card text-xs uppercase text-gray-400">
               <tr>
+                <th className="px-6 py-4 font-medium">Image</th>
                 <th className="px-6 py-4 font-medium">Customer</th>
                 <th className="px-6 py-4 font-medium">Rating</th>
                 <th className="px-6 py-4 font-medium">Status</th>
@@ -119,16 +120,16 @@ export default function ReviewsPage() {
             <tbody className="divide-y divide-admin-card bg-admin-bg">
               {isLoading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-gray-400">Loading reviews...</td>
+                  <td colSpan={6} className="px-6 py-8 text-center text-gray-400">Loading reviews...</td>
                 </tr>
               ) : reviews.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-gray-400">No reviews found.</td>
+                  <td colSpan={6} className="px-6 py-8 text-center text-gray-400">No reviews found.</td>
                 </tr>
               ) : (
                 reviews.map((review) => (
                   <tr key={review._id} className="hover:bg-[#252525] transition-colors">
-                    <td className="px-6 py-4 flex items-center gap-3">
+                    <td className="px-6 py-4">
                       {review.customerPhoto?.url ? (
                         <img src={review.customerPhoto.url} alt={review.customerName} className="h-10 w-10 object-cover rounded-full border border-admin-card" />
                       ) : (
@@ -136,9 +137,10 @@ export default function ReviewsPage() {
                           {review.customerName.charAt(0).toUpperCase()}
                         </div>
                       )}
+                    </td>
+                    <td className="px-6 py-4">
                       <div>
                         <div className="font-medium text-white">{review.customerName}</div>
-                        <div className="text-xs text-gray-400 truncate max-w-xs mt-1">{review.reviewComment}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4">

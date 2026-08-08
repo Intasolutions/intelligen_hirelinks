@@ -1,15 +1,29 @@
 import { z } from 'zod';
 
+const jsonParseString = (val: unknown) => {
+  if (typeof val === 'string') {
+    try {
+      return JSON.parse(val);
+    } catch {
+      return val;
+    }
+  }
+  return val;
+};
+
 export const settingsSchema = z.object({
   // General
   companyName: z.string().min(1, 'Company name is required').max(100),
   companyEmail: z.string().email('Invalid email address'),
   companyPhone: z.string().max(20).optional().nullable(),
   companyWhatsapp: z.string().max(20).optional().nullable(),
-  addresses: z.array(z.object({
-    address: z.string().min(1, 'Address is required').max(500),
-    isPrimary: z.boolean().default(false)
-  })).optional().default([]),
+  addresses: z.preprocess(
+    jsonParseString,
+    z.array(z.object({
+      address: z.string().min(1, 'Address is required').max(500),
+      isPrimary: z.boolean().default(false)
+    }))
+  ).optional().default([]),
   businessHours: z.string().max(200).optional().nullable(),
 
   // Branding
@@ -34,8 +48,8 @@ export const settingsSchema = z.object({
   defaultKeywords: z.string().max(200).optional().nullable(),
   defaultCanonical: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
   defaultOgImage: z.string().url('Must be a valid URL').optional().nullable().or(z.literal('')),
-  robotsIndex: z.boolean().default(true),
-  robotsFollow: z.boolean().default(true),
+  robotsIndex: z.preprocess((val) => val === 'true' || val === true, z.boolean()).default(true),
+  robotsFollow: z.preprocess((val) => val === 'true' || val === true, z.boolean()).default(true),
 
 });
 

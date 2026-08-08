@@ -141,45 +141,25 @@ export default function EditProgramPage() {
 
               <div className="grid grid-cols-2 gap-6 pt-4 border-t border-admin-card">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Primary Image</label>
-                  {!removePrimaryImage && existingPrimary && !primaryImageFile ? (
-                    <div className="mb-2 relative inline-block">
-                      <img src={existingPrimary} alt="Primary" className="h-24 w-40 object-cover rounded-md border border-admin-card" />
-                      <button 
-                        type="button" 
-                        onClick={() => setRemovePrimaryImage(true)}
-                        className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200 transition-colors"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ) : null}
-                  <input type="file" accept="image/*" onChange={(e) => {
-                    setPrimaryImageFile(e.target.files?.[0] || null);
-                    setRemovePrimaryImage(false); // If they upload a new one, don't remove, just replace
-                  }} className="text-sm" />
-                  {removePrimaryImage && <p className="text-xs text-orange-600 mt-1">Image will be removed upon save.</p>}
+                  <ImageUploadPreview 
+                    label="Primary Image"
+                    initialImageUrl={existingPrimary}
+                    onImageChange={(file) => {
+                      setPrimaryImageFile(file);
+                      setRemovePrimaryImage(!file && !!existingPrimary);
+                    }}
+                  />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Secondary Image</label>
-                  {!removeSecondaryImage && existingSecondary && !secondaryImageFile ? (
-                    <div className="mb-2 relative inline-block">
-                      <img src={existingSecondary} alt="Secondary" className="h-24 w-40 object-cover rounded-md border border-admin-card" />
-                      <button 
-                        type="button" 
-                        onClick={() => setRemoveSecondaryImage(true)}
-                        className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200 transition-colors"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ) : null}
-                  <input type="file" accept="image/*" onChange={(e) => {
-                    setSecondaryImageFile(e.target.files?.[0] || null);
-                    setRemoveSecondaryImage(false);
-                  }} className="text-sm" />
-                  {removeSecondaryImage && <p className="text-xs text-orange-600 mt-1">Image will be removed upon save.</p>}
+                  <ImageUploadPreview 
+                    label="Secondary Image"
+                    initialImageUrl={existingSecondary}
+                    onImageChange={(file) => {
+                      setSecondaryImageFile(file);
+                      setRemoveSecondaryImage(!file && !!existingSecondary);
+                    }}
+                  />
                 </div>
               </div>
             </div>

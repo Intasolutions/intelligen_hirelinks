@@ -164,24 +164,14 @@ export default function EditBlogPage() {
               </div>
 
               <div className="pt-4 border-t border-admin-card">
-                <label className="block text-sm font-medium text-gray-300 mb-1">Blog Image</label>
-                {!removeImage && existingImage && !imageFile ? (
-                  <div className="mb-2 relative inline-block">
-                    <img src={existingImage} alt="Blog cover" className="h-24 w-40 object-cover rounded-md border border-admin-card" />
-                    <button 
-                      type="button" 
-                      onClick={() => setRemoveImage(true)}
-                      className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200 transition-colors"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                ) : null}
-                <input type="file" accept="image/*" onChange={(e) => {
-                  setImageFile(e.target.files?.[0] || null);
-                  setRemoveImage(false);
-                }} className="text-sm" />
-                {removeImage && <p className="text-xs text-orange-600 mt-1">Image will be removed upon save.</p>}
+                <ImageUploadPreview 
+                  label="Blog Image"
+                  initialImageUrl={existingImage}
+                  onImageChange={(file) => {
+                    setImageFile(file);
+                    setRemoveImage(!file && !!existingImage);
+                  }}
+                />
               </div>
             </div>
 

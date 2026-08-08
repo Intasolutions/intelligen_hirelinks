@@ -120,8 +120,10 @@ export default function NewReviewPage() {
               </div>
 
               <div className="pt-4 border-t border-admin-card">
-                <label className="block text-sm font-medium text-gray-300 mb-1">Customer Photo</label>
-                <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="text-sm" />
+                <ImageUploadPreview 
+                  label="Customer Photo"
+                  onImageChange={setImageFile}
+                />
               </div>
             </div>
 

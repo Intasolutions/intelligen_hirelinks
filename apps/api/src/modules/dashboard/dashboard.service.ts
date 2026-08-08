@@ -14,10 +14,10 @@ export class DashboardService {
       activeReviewsCount,
       pendingContactsCount
     ] = await Promise.all([
-      Service.countDocuments({ status: 'Active' }),
-      Program.countDocuments({ status: 'Active' }),
-      Blog.countDocuments({ status: 'Active', publishStatus: 'Published' }),
-      Review.countDocuments({ status: 'Active' }),
+      Service.countDocuments({ status: 'ACTIVE' }),
+      Program.countDocuments({ status: 'ACTIVE' }),
+      Blog.countDocuments({ status: 'ACTIVE', publishStatus: 'PUBLISHED' }),
+      Review.countDocuments({ status: 'ACTIVE' }),
       Contact.countDocuments({ status: 'PENDING' })
     ]);
 
@@ -55,7 +55,7 @@ export class DashboardService {
       })),
       ...recentReviews.map(r => ({
         id: r._id.toString(),
-        title: r.name,
+        title: r.customerName,
         type: 'REVIEW',
         status: r.status,
         createdAt: r.updatedAt || r.createdAt

@@ -139,16 +139,6 @@ export default function BlogsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="font-medium text-white">{blog.title}</div>
-                      <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                        <LinkIcon className="h-3 w-3" /> /{blog.slug}
-                      </div>
-                      <div className="mt-1 flex gap-1 flex-wrap max-w-[200px]">
-                        {blog.tags?.map((tag: string) => (
-                          <span key={tag} className="bg-admin-card text-gray-300 px-1.5 py-0.5 rounded text-[10px]">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${

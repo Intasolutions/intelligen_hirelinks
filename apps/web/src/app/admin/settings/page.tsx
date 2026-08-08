@@ -95,7 +95,6 @@ export default function SettingsPage() {
           <TabsList className="mb-8 overflow-x-auto whitespace-nowrap flex max-w-full justify-start w-max">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="branding">Branding</TabsTrigger>
-            <TabsTrigger value="contact">Contact</TabsTrigger>
             <TabsTrigger value="social">Social Links</TabsTrigger>
             <TabsTrigger value="seo">SEO Defaults</TabsTrigger>
           </TabsList>
@@ -169,28 +168,30 @@ export default function SettingsPage() {
             <TabsContent value="branding" className="space-y-6 max-w-2xl">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Light Logo</label>
-                <input type="file" accept="image/*" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} className="text-sm block w-full text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#18232c] file:text-[#2A9D8F] hover:file:bg-blue-100" />
-                {form.getValues('logo') && !logoFile && <p className="text-xs text-gray-400 mt-1">Current: {form.getValues('logo')}</p>}
+                <ImageUploadPreview 
+                  label=""
+                  initialImageUrl={form.getValues('logo')}
+                  onImageChange={setLogoFile}
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Dark Logo</label>
-                <input type="file" accept="image/*" onChange={(e) => setDarkLogoFile(e.target.files?.[0] || null)} className="text-sm block w-full text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#18232c] file:text-[#2A9D8F] hover:file:bg-blue-100" />
-                {form.getValues('darkLogo') && !darkLogoFile && <p className="text-xs text-gray-400 mt-1">Current: {form.getValues('darkLogo')}</p>}
+                <ImageUploadPreview 
+                  label=""
+                  initialImageUrl={form.getValues('darkLogo')}
+                  onImageChange={setDarkLogoFile}
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Favicon</label>
-                <input type="file" accept="image/*" onChange={(e) => setFaviconFile(e.target.files?.[0] || null)} className="text-sm block w-full text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#18232c] file:text-[#2A9D8F] hover:file:bg-blue-100" />
-                {form.getValues('favicon') && !faviconFile && <p className="text-xs text-gray-400 mt-1">Current: {form.getValues('favicon')}</p>}
+                <ImageUploadPreview 
+                  label=""
+                  initialImageUrl={form.getValues('favicon')}
+                  onImageChange={setFaviconFile}
+                />
               </div>
             </TabsContent>
 
-            <TabsContent value="contact" className="space-y-6 max-w-2xl">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Google Maps Embed URL</label>
-                <Input {...register('googleMapEmbed')} placeholder="<iframe src='...' />" />
-                {errors.googleMapEmbed && <p className="mt-1 text-xs text-red-600">{errors.googleMapEmbed?.message}</p>}
-              </div>
-            </TabsContent>
 
             <TabsContent value="social" className="space-y-6 max-w-2xl">
               {['facebook', 'instagram', 'twitter', 'linkedin', 'youtube', 'threads'].map((social) => (
@@ -224,8 +225,11 @@ export default function SettingsPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Default OpenGraph Image</label>
-                <input type="file" accept="image/*" onChange={(e) => setOgImageFile(e.target.files?.[0] || null)} className="text-sm block w-full text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#18232c] file:text-[#2A9D8F] hover:file:bg-blue-100" />
-                {form.getValues('defaultOgImage') && !ogImageFile && <p className="text-xs text-gray-400 mt-1">Current: {form.getValues('defaultOgImage')}</p>}
+                <ImageUploadPreview 
+                  label=""
+                  initialImageUrl={form.getValues('defaultOgImage')}
+                  onImageChange={setOgImageFile}
+                />
               </div>
               <div className="flex gap-6">
                 <label className="flex items-center gap-2">

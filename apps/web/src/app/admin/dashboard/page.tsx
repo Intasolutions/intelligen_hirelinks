@@ -49,13 +49,12 @@ export default async function DashboardPage() {
           Welcome back, {capitalizedName} <span className="text-2xl">👋</span>
         </h1>
         <p className="mt-2 text-gray-400">
-          Here's what's happening with your platform today. You have <span className="text-admin-accent font-medium">0 new enquiries</span> waiting for review.
+          Here's what's happening with your platform today. You have <span className="text-admin-accent font-medium">{stats.enquiries} new enquiries</span> waiting for review.
         </p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-        {/* Total Enquiries (Hardcoded for now as it's not a module yet) */}
         <div className="overflow-hidden rounded-xl bg-admin-bg p-6 shadow-sm border border-admin-card relative group">
           <div className="flex items-center justify-between mb-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#252525]">
@@ -63,7 +62,7 @@ export default async function DashboardPage() {
             </div>
           </div>
           <div>
-            <p className="text-3xl font-bold text-white mb-1">1</p>
+            <p className="text-3xl font-bold text-white mb-1">{stats.enquiries}</p>
             <p className="text-sm font-medium text-gray-400">Total Enquiries</p>
           </div>
         </div>

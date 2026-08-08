@@ -5,7 +5,7 @@ import { ProgramsService } from '../../../services/programs.service';
 import { AdminPage } from '../../../components/admin/common/AdminPage';
 import { Button } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
-import { Plus, Search, Edit2, Trash2, Link as LinkIcon } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProgramsPage() {
@@ -108,6 +108,7 @@ export default function ProgramsPage() {
           <table className="w-full text-left text-sm text-gray-300">
             <thead className="bg-admin-card text-xs uppercase text-gray-400">
               <tr>
+                <th className="px-6 py-4 font-medium">Image</th>
                 <th className="px-6 py-4 font-medium">Program Name</th>
                 <th className="px-6 py-4 font-medium">Publish Status</th>
                 <th className="px-6 py-4 font-medium">Active Status</th>
@@ -118,20 +119,26 @@ export default function ProgramsPage() {
             <tbody className="divide-y divide-admin-card bg-admin-bg">
               {isLoading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-gray-400">Loading programs...</td>
+                  <td colSpan={6} className="px-6 py-8 text-center text-gray-400">Loading programs...</td>
                 </tr>
               ) : programs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-gray-400">No programs found.</td>
+                  <td colSpan={6} className="px-6 py-8 text-center text-gray-400">No programs found.</td>
                 </tr>
               ) : (
                 programs.map((program) => (
                   <tr key={program._id} className="hover:bg-[#252525] transition-colors">
                     <td className="px-6 py-4">
+                      {program.primaryImage?.url ? (
+                        <img src={program.primaryImage.url} alt="Program Thumbnail" className="h-10 w-16 object-cover rounded-md border border-admin-card" />
+                      ) : (
+                        <div className="h-10 w-16 bg-admin-card flex items-center justify-center rounded-md border border-admin-card">
+                          <ImageIcon className="h-5 w-5 text-gray-400" />
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-6 py-4">
                       <div className="font-medium text-white">{program.title}</div>
-                      <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                        <LinkIcon className="h-3 w-3" /> /{program.slug}
-                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${

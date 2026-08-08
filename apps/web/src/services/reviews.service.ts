@@ -46,10 +46,7 @@ export const ReviewsService = {
     // which breaks multipart/form-data boundary generation.
     const res = await fetch(`${baseUrl}/reviews`, {
       method: 'POST',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-        // Do NOT set Content-Type, fetch sets it automatically with the boundary for FormData
-      },
+      credentials: 'include',
       body: formData,
     });
     
