@@ -72,7 +72,7 @@ export class ReviewController {
       // Body may have stringified JSON or raw string fields due to FormData.
       // Zod coerce will handle most of the typing correctly.
       const validatedData = reviewSchema.parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
 
       const data = await ReviewService.createReview(validatedData, adminId, req.file);
       res.status(201).json({ success: true, data });
@@ -84,7 +84,7 @@ export class ReviewController {
   static async updateReview(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = reviewSchema.partial().parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
 
       const data = await ReviewService.updateReview(req.params.id, validatedData, adminId, req.file);
       res.status(200).json({ success: true, data });
@@ -95,7 +95,7 @@ export class ReviewController {
 
   static async deleteReview(req: Request, res: Response, next: NextFunction) {
     try {
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       await ReviewService.softDelete(req.params.id, adminId);
       res.status(200).json({ success: true, message: 'Review deleted successfully' });
     } catch (error) {

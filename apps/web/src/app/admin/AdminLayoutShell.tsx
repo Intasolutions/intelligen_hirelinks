@@ -14,7 +14,7 @@ export default function AdminLayout({
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-[#151515]">
       <Sidebar isCollapsed={isSidebarCollapsed} />
       
       <div className="flex flex-1 flex-col overflow-hidden">

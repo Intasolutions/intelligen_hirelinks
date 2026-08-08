@@ -6,7 +6,10 @@ export const settingsSchema = z.object({
   companyEmail: z.string().email('Invalid email address'),
   companyPhone: z.string().max(20).optional().nullable(),
   companyWhatsapp: z.string().max(20).optional().nullable(),
-  companyAddress: z.string().max(500).optional().nullable(),
+  addresses: z.array(z.object({
+    address: z.string().min(1, 'Address is required').max(500),
+    isPrimary: z.boolean().default(false)
+  })).optional().default([]),
   businessHours: z.string().max(200).optional().nullable(),
 
   // Branding
@@ -34,9 +37,6 @@ export const settingsSchema = z.object({
   robotsIndex: z.boolean().default(true),
   robotsFollow: z.boolean().default(true),
 
-  // Footer
-  copyright: z.string().max(100).optional().nullable(),
-  footerDescription: z.string().max(300).optional().nullable(),
 });
 
 export type SettingsInput = z.infer<typeof settingsSchema>;

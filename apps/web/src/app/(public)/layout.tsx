@@ -49,7 +49,7 @@ export default async function PublicLayout({ children }: { children: React.React
           <div className="max-w-sm">
             <span className="text-lg font-bold text-gray-900">{companyName}</span>
             <p className="mt-4 text-sm text-gray-500">
-              {settings?.footerDescription || 'Empowering businesses with modern digital solutions.'}
+              'Empowering businesses with modern digital solutions.'
             </p>
           </div>
           
@@ -62,8 +62,8 @@ export default async function PublicLayout({ children }: { children: React.React
               {settings?.companyPhone && (
                 <li>Phone: {settings.companyPhone}</li>
               )}
-              {settings?.companyAddress && (
-                <li>Address: {settings.companyAddress}</li>
+              {settings?.addresses && settings.addresses.length > 0 && (
+                <li>Address: {settings.addresses.find((a: any) => a.isPrimary)?.address || settings.addresses[0].address}</li>
               )}
             </ul>
           </div>
@@ -71,7 +71,7 @@ export default async function PublicLayout({ children }: { children: React.React
         
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-200 text-center">
           <p className="text-sm text-gray-400">
-            {settings?.copyright || `© ${new Date().getFullYear()} ${companyName}. All rights reserved.`}
+            {`© ${new Date().getFullYear()} ${companyName}. All rights reserved.`}
           </p>
         </div>
       </footer>

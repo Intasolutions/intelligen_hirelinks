@@ -14,9 +14,35 @@ export class SettingsController {
 
   static async updateSettings(req: Request, res: Response, next: NextFunction) {
     try {
-      const validatedData = settingsSchema.parse(req.body);
+      const body = { ...req.body };
       
-      const adminId = (req.user as any)?.id;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      if (files) {
+        if (files['logo']?.[0]) body.logo = `/uploads/${files['logo'][0].filename}`;
+        if (files['darkLogo']?.[0]) body.darkLogo = `/uploads/${files['darkLogo'][0].filename}`;
+        if (files['favicon']?.[0]) body.favicon = `/uploads/${files['favicon'][0].filename}`;
+        if (files['defaultOgImage']?.[0]) body.defaultOgImage = `/uploads/${files['defaultOgImage'][0].filename}`;
+      }
+
+      // Convert "null" strings from FormData back to null or empty string
+      for (const key in body) {
+        if (body[key] === 'null' || body[key] === 'undefined') body[key] = null;
+        if (body[key] === 'true') body[key] = true;
+        if (body[key] === 'false') body[key] = false;
+      }
+
+      if (typeof body.addresses === 'string') {
+        try {
+          body.addresses = JSON.parse(body.addresses);
+        } catch (e) {
+          // fallback
+          body.addresses = [];
+        }
+      }
+
+      const validatedData = settingsSchema.parse(body);
+      
+      const adminId = (req.user as any)?.userId;
       if (!adminId) {
          res.status(401).json({ success: false, message: 'Unauthorized' });
          return;

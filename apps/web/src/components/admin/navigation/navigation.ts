@@ -1,4 +1,4 @@
-import { LayoutDashboard, FileText, Image as ImageIcon, Settings, Users, Briefcase } from 'lucide-react';
+import { LayoutDashboard, FileText, Image as ImageIcon, Settings, Users, Briefcase, Inbox } from 'lucide-react';
 
 export interface NavigationSection {
   title: string;
@@ -26,6 +26,12 @@ export const adminNavigation: NavigationSection[] = [
   {
     title: 'CONTENT',
     items: [
+      {
+        label: 'Enquiries',
+        href: '/admin/enquiries',
+        icon: Inbox,
+        disabled: false,
+      },
       {
         label: 'Reviews',
         href: '/admin/reviews',
@@ -55,35 +61,18 @@ export const adminNavigation: NavigationSection[] = [
         href: '/admin/pages',
         icon: FileText,
         disabled: false,
-      },
+      }
     ]
   },
   {
-    title: 'SYSTEM',
+    title: 'SETTINGS',
     items: [
       {
-        label: 'Media',
-        href: '/admin/media',
-        icon: ImageIcon,
-        disabled: true,
-      },
-      {
-        label: 'Settings',
+        label: 'General Settings',
         href: '/admin/settings',
         icon: Settings,
         disabled: false,
-      },
-    ]
-  },
-  {
-    title: 'ACCESS',
-    items: [
-      {
-        label: 'Administrators',
-        href: '/admin/users',
-        icon: Users,
-        disabled: true,
-      },
+      }
     ]
   }
 ];

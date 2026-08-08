@@ -13,6 +13,14 @@ export class CloudinaryService {
    * Does not write to disk.
    */
   static async uploadBuffer(buffer: Buffer, folder: string): Promise<{ url: string; publicId: string }> {
+    if (env.CLOUDINARY_API_KEY === 'test_key' || !env.CLOUDINARY_API_KEY) {
+      console.warn('⚠️ Cloudinary is not configured. Returning a dummy image URL.');
+      return {
+        url: 'https://placehold.co/600x400/png?text=Dummy+Image',
+        publicId: `dummy_${Date.now()}`
+      };
+    }
+
     return new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         { folder: `hirelinks/${folder}` },
@@ -36,6 +44,10 @@ export class CloudinaryService {
    * Deletes an asset from Cloudinary by its public ID.
    */
   static async deleteAsset(publicId: string): Promise<void> {
+    if (publicId.startsWith('dummy_') || env.CLOUDINARY_API_KEY === 'test_key' || !env.CLOUDINARY_API_KEY) {
+      return; // Do nothing for dummy images or if not configured
+    }
+    
     try {
       await cloudinary.uploader.destroy(publicId);
     } catch (error) {

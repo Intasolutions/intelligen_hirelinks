@@ -53,7 +53,7 @@ export class ServiceController {
   static async createService(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = serviceSchema.parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       
       const files = req.files as {
         primaryImage?: Express.Multer.File[];
@@ -71,7 +71,7 @@ export class ServiceController {
   static async updateService(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = serviceSchema.partial().parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
 
       const files = req.files as {
         primaryImage?: Express.Multer.File[];
@@ -88,7 +88,7 @@ export class ServiceController {
 
   static async deleteService(req: Request, res: Response, next: NextFunction) {
     try {
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       await ServiceEngine.softDelete(req.params.id, adminId);
       res.status(200).json({ success: true, message: 'Service deleted successfully' });
     } catch (error) {

@@ -15,7 +15,7 @@ export class PageController {
   static async updatePage(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = pageSchema.partial().parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
 
       const data = await PageEngine.updatePage(req.params.slug, validatedData, adminId, req.file);
       res.status(200).json({ success: true, data });

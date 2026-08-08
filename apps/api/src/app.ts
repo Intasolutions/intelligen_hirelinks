@@ -16,6 +16,8 @@ import { serviceRoutes } from './modules/services';
 import { programRoutes } from './modules/programs';
 import { blogRoutes } from './modules/blogs';
 import { pageRoutes } from './modules/pages';
+import { dashboardRoutes } from './modules/dashboard/dashboard.routes';
+import { contactRoutes } from './modules/contacts/contact.routes';
 
 const app: Express = express();
 
@@ -63,6 +65,8 @@ app.use('/api/v1/services', serviceRoutes);
 app.use('/api/v1/programs', programRoutes);
 app.use('/api/v1/blogs', blogRoutes);
 app.use('/api/v1/pages', pageRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes);
+app.use('/api/v1/contacts', contactRoutes);
 app.use('/api/v1', router);
 
 // Handle 404

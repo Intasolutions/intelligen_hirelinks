@@ -5,7 +5,7 @@ export interface ISettings extends Document {
   companyEmail: string;
   companyPhone?: string;
   companyWhatsapp?: string;
-  companyAddress?: string;
+  addresses?: { address: string; isPrimary: boolean }[];
   businessHours?: string;
 
   logo?: string;
@@ -29,9 +29,6 @@ export interface ISettings extends Document {
   robotsIndex: boolean;
   robotsFollow: boolean;
 
-  copyright?: string;
-  footerDescription?: string;
-
   updatedBy?: mongoose.Types.ObjectId;
 }
 
@@ -41,7 +38,10 @@ const SettingsSchema = new Schema<ISettings>(
     companyEmail: { type: String, required: true },
     companyPhone: { type: String },
     companyWhatsapp: { type: String },
-    companyAddress: { type: String },
+    addresses: [{
+      address: { type: String, required: true },
+      isPrimary: { type: Boolean, default: false }
+    }],
     businessHours: { type: String },
 
     logo: { type: String },
@@ -64,9 +64,6 @@ const SettingsSchema = new Schema<ISettings>(
     defaultOgImage: { type: String },
     robotsIndex: { type: Boolean, default: true },
     robotsFollow: { type: Boolean, default: true },
-
-    copyright: { type: String },
-    footerDescription: { type: String },
 
     updatedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   },

@@ -61,9 +61,7 @@ export const ProgramsService = {
 
     const res = await fetch(`${baseUrl}/programs`, {
       method: 'POST',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-      },
+      credentials: 'include',
       body: formData,
     });
     
@@ -94,9 +92,7 @@ export const ProgramsService = {
 
     const res = await fetch(`${baseUrl}/programs/${id}`, {
       method: 'PUT',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-      },
+      credentials: 'include',
       body: formData,
     });
     

@@ -70,7 +70,7 @@ export default function EditPagePage() {
         toast.success('Page updated successfully');
         router.push('/admin/pages');
       } else {
-        toast.error(res.error || 'Failed to update page');
+        toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update page');
       }
     } catch (err) {
       toast.error('An unexpected error occurred');
@@ -82,7 +82,7 @@ export default function EditPagePage() {
   if (isLoading) {
     return (
       <AdminPage title="Edit Page">
-        <div className="p-8 text-center text-gray-500">Loading page...</div>
+        <div className="p-8 text-center text-gray-400">Loading page...</div>
       </AdminPage>
     );
   }
@@ -105,20 +105,20 @@ export default function EditPagePage() {
       <div className="p-6">
         <form id="page-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-5xl">
           
-          <div className="bg-white p-6 rounded-md border border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Page Details</h3>
+          <div className="bg-white p-6 rounded-md border border-admin-card">
+            <h3 className="text-lg font-medium text-white mb-4">Page Details</h3>
             
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Page Title *</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Page Title *</label>
               <Input {...register('title')} placeholder="e.g. Privacy Policy" />
               {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
             </div>
 
-            <div className="border-t border-gray-100 pt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Optional Cover Image</label>
+            <div className="border-t border-admin-card pt-4">
+              <label className="block text-sm font-medium text-gray-300 mb-2">Optional Cover Image</label>
               {!removeImage && existingImage && !imageFile ? (
                 <div className="mb-3 relative inline-block">
-                  <img src={existingImage} alt="Page cover" className="h-32 w-64 object-cover rounded-md border border-gray-200" />
+                  <img src={existingImage} alt="Page cover" className="h-32 w-64 object-cover rounded-md border border-admin-card" />
                   <button 
                     type="button" 
                     onClick={() => setRemoveImage(true)}
@@ -136,9 +136,9 @@ export default function EditPagePage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-md border border-gray-200">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Detailed Content *</label>
-            <p className="text-xs text-gray-500 mb-4">There is no character limit. Write your complete legal document below.</p>
+          <div className="bg-white p-6 rounded-md border border-admin-card">
+            <label className="block text-sm font-medium text-gray-300 mb-2">Detailed Content *</label>
+            <p className="text-xs text-gray-400 mb-4">There is no character limit. Write your complete legal document below.</p>
             {errors.content && <p className="mb-2 text-sm text-red-600">{errors.content.message}</p>}
             
             <Controller

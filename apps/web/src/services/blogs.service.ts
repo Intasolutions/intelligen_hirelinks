@@ -62,9 +62,7 @@ export const BlogsService = {
 
     const res = await fetch(`${baseUrl}/blogs`, {
       method: 'POST',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-      },
+      credentials: 'include',
       body: formData,
     });
     
@@ -94,9 +92,7 @@ export const BlogsService = {
 
     const res = await fetch(`${baseUrl}/blogs/${id}`, {
       method: 'PUT',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-      },
+      credentials: 'include',
       body: formData,
     });
     

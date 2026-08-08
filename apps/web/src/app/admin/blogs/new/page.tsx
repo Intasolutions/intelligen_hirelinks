@@ -8,7 +8,7 @@ import { blogSchema, BlogInput } from '@hirelinks/contracts';
 import { BlogsService } from '../../../../services/blogs.service';
 import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { TiptapEditor } from '../../../../components/admin/editor/TiptapEditor';
-import { Button, Input, Tabs, TabsList, TabsTrigger, TabsContent } from '@hirelinks/ui';
+import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { X, Plus } from 'lucide-react';
 
@@ -50,15 +50,14 @@ export default function NewBlogPage() {
     try {
       const payload = {
         ...data,
-        image: imageFile || undefined,
-      };
+        image: imageFile || undefined };
       
       const res = await BlogsService.createBlog(payload);
       if (res.success) {
         toast.success('Blog created successfully');
         router.push('/admin/blogs');
       } else {
-        toast.error(res.error || 'Failed to create blog');
+        toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to create blog');
       }
     } catch (err) {
       toast.error('An unexpected error occurred');
@@ -78,45 +77,42 @@ export default function NewBlogPage() {
       }
     >
       <div className="p-6">
-        <Tabs defaultValue="general" className="w-full">
-          <TabsList className="mb-8 overflow-x-auto whitespace-nowrap flex max-w-full justify-start w-max">
-            <TabsTrigger value="general">General</TabsTrigger>
-            <TabsTrigger value="article">Article Content</TabsTrigger>
-            <TabsTrigger value="seo">SEO Settings</TabsTrigger>
-            <TabsTrigger value="settings">Publish Settings</TabsTrigger>
-          </TabsList>
+        
+          
 
-          <form id="blog-form" onSubmit={handleSubmit(onSubmit)}>
+          <form id="blog-form" onSubmit={handleSubmit(onSubmit)} className="space-y-10">
             
             {/* General Info */}
-            <TabsContent value="general" className="space-y-6 max-w-3xl">
+            <div className="space-y-6 max-w-3xl">
+              <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">General</h2>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Blog Title *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Blog Title *</label>
                 <Input {...register('title')} placeholder="e.g. 5 Strategies for Success" />
                 {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Subtitle</label>
                 <Input {...register('subTitle')} placeholder="Optional brief sub-heading" />
+                {errors.subTitle && <p className="mt-1 text-xs text-red-600">{errors.subTitle?.message}</p>}
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Brief Excerpt Summary *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Brief Excerpt Summary *</label>
                 <textarea 
                   {...register('excerpt')} 
                   rows={3}
-                  className="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  className="w-full rounded-md border border-admin-card bg-admin-bg p-2 text-sm text-white focus:border-admin-accent focus:outline-none focus:ring-1 focus:ring-admin-accent"
                   placeholder="Short summary used for blog cards and previews..." 
                 />
                 {errors.excerpt && <p className="mt-1 text-sm text-red-600">{errors.excerpt.message}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Tags</label>
                 <div className="flex gap-2 mb-3 flex-wrap">
                   {currentTags.map((tag) => (
-                    <span key={tag} className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md text-sm">
+                    <span key={tag} className="inline-flex items-center gap-1 bg-gray-100 text-gray-300 px-2.5 py-1 rounded-md text-sm">
                       {tag}
                       <button type="button" onClick={() => handleRemoveTag(tag)} className="text-gray-400 hover:text-red-500">
                         <X className="w-3 h-3" />
@@ -136,16 +132,17 @@ export default function NewBlogPage() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Blog Image</label>
+              <div className="pt-4 border-t border-admin-card">
+                <label className="block text-sm font-medium text-gray-300 mb-1">Blog Image</label>
                 <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="text-sm" />
               </div>
-            </TabsContent>
+            </div>
 
             {/* Article Content */}
-            <TabsContent value="article" className="space-y-6">
+            <div className="space-y-6">
+              <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">Article Content</h2>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Detailed Article Content *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Detailed Article Content *</label>
                 {errors.content && <p className="mb-2 text-sm text-red-600">{errors.content.message}</p>}
                 
                 <Controller
@@ -159,65 +156,74 @@ export default function NewBlogPage() {
                   )}
                 />
               </div>
-            </TabsContent>
+            </div>
 
             {/* SEO Settings */}
-            <TabsContent value="seo" className="space-y-6 max-w-3xl">
+            <div className="space-y-6 max-w-3xl">
+              <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">SEO Settings</h2>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Meta Title</label>
+                <label className="block text-xs text-gray-400 mb-1">Meta Title</label>
                 <Input {...register('seo.metaTitle')} />
+                {errors.seo?.metaTitle && <p className="mt-1 text-xs text-red-600">{errors.seo?.metaTitle?.message}</p>}
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Meta Description</label>
+                <label className="block text-xs text-gray-400 mb-1">Meta Description</label>
                 <textarea 
                   {...register('seo.metaDescription')} 
                   rows={2}
-                  className="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  className="w-full rounded-md border border-admin-card bg-admin-bg p-2 text-sm text-white focus:border-admin-accent focus:outline-none focus:ring-1 focus:ring-admin-accent"
                 />
+                  {errors.seo?.metaDescription && <p className="mt-1 text-xs text-red-600">{errors.seo?.metaDescription?.message}</p>}
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Keywords</label>
+                <label className="block text-xs text-gray-400 mb-1">Keywords</label>
                 <Input {...register('seo.keywords')} placeholder="comma, separated" />
+                {errors.seo?.keywords && <p className="mt-1 text-xs text-red-600">{errors.seo?.keywords?.message}</p>}
               </div>
-            </TabsContent>
+            </div>
 
             {/* Settings */}
-            <TabsContent value="settings" className="space-y-6 max-w-xl">
+            <div className="space-y-6 max-w-xl">
+              <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">Publish Settings</h2>
               <div className="flex flex-col gap-6">
                 <label className="flex items-center gap-3">
                   <input type="checkbox" {...register('isFeatured')} className="h-4 w-4 text-blue-600" />
+                  {errors.isFeatured && <p className="mt-1 text-xs text-red-600">{errors.isFeatured?.message}</p>}
                   <div>
-                    <div className="text-sm font-medium text-gray-900">Feature Blog</div>
-                    <div className="text-xs text-gray-500">Highlight this article in featured sections</div>
+                    <div className="text-sm font-medium text-white">Feature Blog</div>
+                    <div className="text-xs text-gray-400">Highlight this article in featured sections</div>
                   </div>
                 </label>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Publish Status</label>
-                  <select {...register('publishStatus')} className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Publish Status</label>
+                  <select {...register('publishStatus')} className="h-10 w-full rounded-md border border-admin-card bg-admin-bg px-3 py-2 text-sm text-white focus:border-admin-accent focus:outline-none">
                     <option value="DRAFT">Draft</option>
                     <option value="PUBLISHED">Published</option>
                   </select>
+                  {errors.publishStatus && <p className="mt-1 text-xs text-red-600">{errors.publishStatus?.message}</p>}
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Active Status</label>
-                  <select {...register('status')} className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Active Status</label>
+                  <select {...register('status')} className="h-10 w-full rounded-md border border-admin-card bg-admin-bg px-3 py-2 text-sm text-white focus:border-admin-accent focus:outline-none">
                     <option value="ACTIVE">Active</option>
                     <option value="INACTIVE">Inactive</option>
                   </select>
+                  {errors.status && <p className="mt-1 text-xs text-red-600">{errors.status?.message}</p>}
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Display Order (Optional)</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Display Order (Optional)</label>
                   <Input type="number" {...register('displayOrder')} />
-                  <p className="mt-1 text-xs text-gray-500">Normally blogs are ordered by publish date, use this for manual overriding.</p>
+                  {errors.displayOrder && <p className="mt-1 text-xs text-red-600">{errors.displayOrder?.message}</p>}
+                  <p className="mt-1 text-xs text-gray-400">Normally blogs are ordered by publish date, use this for manual overriding.</p>
                 </div>
               </div>
-            </TabsContent>
+            </div>
 
           </form>
-        </Tabs>
+        
       </div>
       <Toaster position="top-right" />
     </AdminPage>

@@ -24,9 +24,9 @@ export default function PagesList() {
       description="Manage content for fixed legal documents."
     >
       <div className="p-6">
-        <div className="overflow-x-auto rounded-md border border-gray-200">
-          <table className="w-full text-left text-sm text-gray-600">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+        <div className="overflow-x-auto rounded-md border border-admin-card">
+          <table className="w-full text-left text-sm text-gray-400">
+            <thead className="bg-[#1D1D1D] text-xs uppercase text-gray-400">
               <tr>
                 <th className="px-6 py-4 font-medium">Page Title</th>
                 <th className="px-6 py-4 font-medium">Description</th>
@@ -35,20 +35,20 @@ export default function PagesList() {
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
               {pages.map((page) => (
-                <tr key={page.slug} className="hover:bg-gray-50 transition-colors">
+                <tr key={page.slug} className="hover:bg-[#1D1D1D] transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-blue-50 flex items-center justify-center rounded-md border border-blue-100">
+                      <div className="h-10 w-10 bg-[#18232c] flex items-center justify-center rounded-md border border-[#21353f]">
                         <FileText className="h-5 w-5 text-blue-600" />
                       </div>
-                      <div className="font-medium text-gray-900">{page.title}</div>
+                      <div className="font-medium text-white">{page.title}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     {page.description}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <Link href={`/admin/pages/${page.slug}`} className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors">
+                    <Link href={`/admin/pages/${page.slug}`} className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-[#2A9D8F] bg-[#18232c] hover:bg-blue-100 rounded-md transition-colors">
                       <Edit2 className="h-4 w-4" /> Edit Content
                     </Link>
                   </td>

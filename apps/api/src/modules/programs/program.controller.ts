@@ -53,7 +53,7 @@ export class ProgramController {
   static async createProgram(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = programSchema.parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       
       const files = req.files as {
         primaryImage?: Express.Multer.File[];
@@ -71,7 +71,7 @@ export class ProgramController {
   static async updateProgram(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = programSchema.partial().parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
 
       const files = req.files as {
         primaryImage?: Express.Multer.File[];
@@ -88,7 +88,7 @@ export class ProgramController {
 
   static async deleteProgram(req: Request, res: Response, next: NextFunction) {
     try {
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       await ProgramEngine.softDelete(req.params.id, adminId);
       res.status(200).json({ success: true, message: 'Program deleted successfully' });
     } catch (error) {

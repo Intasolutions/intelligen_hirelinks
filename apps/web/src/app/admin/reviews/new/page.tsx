@@ -9,7 +9,7 @@ import { ReviewsService } from '../../../../services/reviews.service';
 import { ServicesService } from '../../../../services/services.service';
 import { ProgramsService } from '../../../../services/programs.service';
 import { AdminPage } from '../../../../components/admin/common/AdminPage';
-import { Button, Input, Tabs, TabsList, TabsTrigger, TabsContent } from '@hirelinks/ui';
+import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 
 export default function NewReviewPage() {
@@ -64,7 +64,7 @@ export default function NewReviewPage() {
         toast.success('Review created successfully');
         router.push('/admin/reviews');
       } else {
-        toast.error(res.error || 'Failed to create review');
+        toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to create review');
       }
     } catch (err) {
       toast.error('An unexpected error occurred');
@@ -84,63 +84,61 @@ export default function NewReviewPage() {
       }
     >
       <div className="p-6">
-        <Tabs defaultValue="general" className="w-full">
-          <TabsList className="mb-8">
-            <TabsTrigger value="general">Testimonial Details</TabsTrigger>
-            <TabsTrigger value="settings">Status & Settings</TabsTrigger>
-          </TabsList>
-
-          <form id="review-form" onSubmit={handleSubmit(onSubmit)}>
+        <form id="review-form" onSubmit={handleSubmit(onSubmit)} className="space-y-10">
             
             {/* General Info */}
-            <TabsContent value="general" className="space-y-6 max-w-2xl">
+            <div className="space-y-6 max-w-2xl">
+              <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">Testimonial Details</h2>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Customer Name *</label>
                 <Input {...register('customerName')} placeholder="e.g. John Doe" />
                 {errors.customerName && <p className="mt-1 text-sm text-red-600">{errors.customerName.message}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Rating (1-5) *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Rating (1-5) *</label>
                 <Input type="number" min={1} max={5} {...register('rating')} />
                 {errors.rating && <p className="mt-1 text-sm text-red-600">{errors.rating.message}</p>}
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Review Comment *</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Review Comment *</label>
                 <textarea 
                   {...register('reviewComment')} 
                   rows={4}
-                  className="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  className="w-full rounded-md border border-admin-card bg-admin-bg p-2 text-sm text-white focus:border-admin-accent focus:outline-none focus:ring-1 focus:ring-admin-accent"
                   placeholder="Their testimonial..." 
                 />
                 {errors.reviewComment && <p className="mt-1 text-sm text-red-600">{errors.reviewComment.message}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Review Date (Optional)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Review Date (Optional)</label>
                 <Input type="date" {...register('reviewDate')} />
+                {errors.reviewDate && <p className="mt-1 text-xs text-red-600">{errors.reviewDate?.message}</p>}
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Customer Photo</label>
+              <div className="pt-4 border-t border-admin-card">
+                <label className="block text-sm font-medium text-gray-300 mb-1">Customer Photo</label>
                 <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="text-sm" />
               </div>
-            </TabsContent>
+            </div>
 
             {/* Settings */}
-            <TabsContent value="settings" className="space-y-6 max-w-xl">
+            <div className="space-y-6 max-w-2xl">
+              <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">Status & Settings</h2>
               <div className="flex flex-col gap-6">
                 
-                <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Linked Category</label>
-                  <select {...register('linkedType')} className="h-10 w-full mb-3 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none">
+                <div className="bg-[#1D1D1D] p-4 rounded-md border border-admin-card">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Linked Category</label>
+                  <select {...register('linkedType')} className="h-10 w-full mb-3 rounded-md border border-admin-card px-3 py-2 text-sm focus:border-admin-accent focus:outline-none">
                     <option value="SERVICE">Service</option>
                     <option value="PROGRAM">Program</option>
                   </select>
+                  {errors.linkedType && <p className="mt-1 text-xs text-red-600">{errors.linkedType?.message}</p>}
                   
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Linked Item *</label>
-                  <select {...register('linkedItem')} className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Linked Item *</label>
+                  <select {...register('linkedItem')} className="h-10 w-full rounded-md border border-admin-card bg-admin-bg px-3 py-2 text-sm text-white focus:border-admin-accent focus:outline-none">
                     <option value="">-- Select {currentLinkedType} --</option>
                     {linkedOptions.map(opt => (
                       <option key={opt._id} value={opt._id}>{opt.title}</option>
@@ -151,37 +149,40 @@ export default function NewReviewPage() {
 
                 <label className="flex items-center gap-3">
                   <input type="checkbox" {...register('featureOnHomepage')} className="h-4 w-4 text-blue-600" />
+                  {errors.featureOnHomepage && <p className="mt-1 text-xs text-red-600">{errors.featureOnHomepage?.message}</p>}
                   <div>
-                    <div className="text-sm font-medium text-gray-900">Feature on Homepage</div>
-                    <div className="text-xs text-gray-500">Highlight this review on the main landing page</div>
+                    <div className="text-sm font-medium text-white">Feature on Homepage</div>
+                    <div className="text-xs text-gray-400">Highlight this review on the main landing page</div>
                   </div>
                 </label>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Moderation Status</label>
-                  <select {...register('moderationStatus')} className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Moderation Status</label>
+                  <select {...register('moderationStatus')} className="h-10 w-full rounded-md border border-admin-card bg-admin-bg px-3 py-2 text-sm text-white focus:border-admin-accent focus:outline-none">
                     <option value="APPROVED">Approved</option>
                     <option value="REJECTED">Rejected</option>
                   </select>
+                  {errors.moderationStatus && <p className="mt-1 text-xs text-red-600">{errors.moderationStatus?.message}</p>}
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Active Status</label>
-                  <select {...register('status')} className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Active Status</label>
+                  <select {...register('status')} className="h-10 w-full rounded-md border border-admin-card bg-admin-bg px-3 py-2 text-sm text-white focus:border-admin-accent focus:outline-none">
                     <option value="ACTIVE">Active</option>
                     <option value="INACTIVE">Inactive</option>
                   </select>
+                  {errors.status && <p className="mt-1 text-xs text-red-600">{errors.status?.message}</p>}
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Display Order (Optional)</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Display Order (Optional)</label>
                   <Input type="number" {...register('displayOrder')} />
+                  {errors.displayOrder && <p className="mt-1 text-xs text-red-600">{errors.displayOrder?.message}</p>}
                 </div>
               </div>
-            </TabsContent>
+            </div>
 
           </form>
-        </Tabs>
       </div>
       <Toaster position="top-right" />
     </AdminPage>

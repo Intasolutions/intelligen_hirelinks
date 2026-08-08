@@ -7,12 +7,13 @@ export type CreateReviewPayload = Omit<ReviewInput, 'customerPhoto' | 'removeIma
 };
 
 export const ReviewsService = {
-  listReviews: async (params: { page?: number; limit?: number; search?: string; status?: string; featureOnHomepage?: boolean }) => {
+  listReviews: async (params: { page?: number; limit?: number; search?: string; status?: string; moderationStatus?: string; featureOnHomepage?: boolean }) => {
     const query = new URLSearchParams();
     if (params.page) query.append('page', params.page.toString());
     if (params.limit) query.append('limit', params.limit.toString());
     if (params.search) query.append('search', params.search);
     if (params.status) query.append('status', params.status);
+    if (params.moderationStatus) query.append('moderationStatus', params.moderationStatus);
     if (params.featureOnHomepage !== undefined) query.append('featureOnHomepage', params.featureOnHomepage.toString());
     
     return apiClient<any>(`/reviews?${query.toString()}`, { method: 'GET' });
@@ -72,9 +73,7 @@ export const ReviewsService = {
 
     const res = await fetch(`${baseUrl}/reviews/${id}`, {
       method: 'PUT',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-      },
+      credentials: 'include',
       body: formData,
     });
     

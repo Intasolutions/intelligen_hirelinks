@@ -57,7 +57,7 @@ export class BlogController {
   static async createBlog(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = blogSchema.parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       
       const file = req.file;
       const data = await BlogEngine.createBlog(validatedData, adminId, file);
@@ -71,7 +71,7 @@ export class BlogController {
   static async updateBlog(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedData = blogSchema.partial().parse(req.body);
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
 
       const file = req.file;
       const data = await BlogEngine.updateBlog(req.params.id, validatedData, adminId, file);
@@ -84,7 +84,7 @@ export class BlogController {
 
   static async deleteBlog(req: Request, res: Response, next: NextFunction) {
     try {
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       await BlogEngine.softDelete(req.params.id, adminId);
       res.status(200).json({ success: true, message: 'Blog deleted successfully' });
     } catch (error) {
@@ -94,7 +94,7 @@ export class BlogController {
   
   static async restoreBlog(req: Request, res: Response, next: NextFunction) {
     try {
-      const adminId = (req.user as any)?.id;
+      const adminId = (req.user as any)?.userId;
       await BlogEngine.restore(req.params.id, adminId);
       res.status(200).json({ success: true, message: 'Blog restored successfully' });
     } catch (error) {

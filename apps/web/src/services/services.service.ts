@@ -59,9 +59,7 @@ export const ServicesService = {
 
     const res = await fetch(`${baseUrl}/services`, {
       method: 'POST',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-      },
+      credentials: 'include',
       body: formData,
     });
     
@@ -92,9 +90,7 @@ export const ServicesService = {
 
     const res = await fetch(`${baseUrl}/services/${id}`, {
       method: 'PUT',
-      headers: {
-        ...(token ? { 'Cookie': `token=${token}` } : {})
-      },
+      credentials: 'include',
       body: formData,
     });
     

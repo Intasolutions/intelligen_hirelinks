@@ -12,9 +12,9 @@ export const AdminPage = ({ title, description, actions, children }: AdminPagePr
     <div className="flex-1 p-6 lg:p-8">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">{title}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-white">{title}</h1>
           {description && (
-            <p className="mt-1 text-sm text-gray-500">{description}</p>
+            <p className="mt-1 text-sm text-gray-400">{description}</p>
           )}
         </div>
         {actions && (
@@ -24,7 +24,7 @@ export const AdminPage = ({ title, description, actions, children }: AdminPagePr
         )}
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100">
+      <div className="bg-admin-bg rounded-lg shadow-sm border border-admin-card p-6">
         {children}
       </div>
     </div>
