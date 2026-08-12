@@ -11,7 +11,7 @@ export default async function PublicLayout({ children }: { children: React.React
     console.error('Failed to load settings', err);
   }
 
-  const companyName = settings?.companyName || 'Intelligen';
+  const companyName = settings?.companyName || 'Intelligen Hirelinks';
   const logoUrl = settings?.logo || null;
 
   return (

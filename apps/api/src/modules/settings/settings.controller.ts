@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { SettingsService } from './settings.service';
 import { settingsSchema } from '@hirelinks/contracts';
+import { CloudinaryService } from '../../shared/cloudinary.service';
 
 export class SettingsController {
   static async getSettings(req: Request, res: Response, next: NextFunction) {
@@ -18,10 +19,22 @@ export class SettingsController {
       
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
       if (files) {
-        if (files['logo']?.[0]) body.logo = `/uploads/${files['logo'][0].filename}`;
-        if (files['darkLogo']?.[0]) body.darkLogo = `/uploads/${files['darkLogo'][0].filename}`;
-        if (files['favicon']?.[0]) body.favicon = `/uploads/${files['favicon'][0].filename}`;
-        if (files['defaultOgImage']?.[0]) body.defaultOgImage = `/uploads/${files['defaultOgImage'][0].filename}`;
+        if (files['logo']?.[0]) {
+          const result = await CloudinaryService.uploadBuffer(files['logo'][0].buffer, 'settings');
+          body.logo = result.url;
+        }
+        if (files['darkLogo']?.[0]) {
+          const result = await CloudinaryService.uploadBuffer(files['darkLogo'][0].buffer, 'settings');
+          body.darkLogo = result.url;
+        }
+        if (files['favicon']?.[0]) {
+          const result = await CloudinaryService.uploadBuffer(files['favicon'][0].buffer, 'settings');
+          body.favicon = result.url;
+        }
+        if (files['defaultOgImage']?.[0]) {
+          const result = await CloudinaryService.uploadBuffer(files['defaultOgImage'][0].buffer, 'settings');
+          body.defaultOgImage = result.url;
+        }
       }
 
       // Convert "null" strings from FormData back to null or empty string

@@ -3,7 +3,7 @@ import { Button } from '@hirelinks/ui';
 import Link from 'next/link';
 
 export default async function PublicHomePage() {
-  let companyName = 'Intelligen';
+  let companyName = 'Intelligen Hirelinks';
   
   try {
     const res = await SettingsService.getSettings();

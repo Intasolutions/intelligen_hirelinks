@@ -19,9 +19,9 @@ export const Sidebar = ({ isCollapsed = false }: SidebarProps) => {
     )}>
       <div className="flex h-16 items-center justify-center border-b border-gray-200 px-4">
         {isCollapsed ? (
-          <span className="text-xl font-bold text-admin-accent">IH</span>
+          <span className="text-xl font-bold text-admin-accent">HL</span>
         ) : (
-          <span className="text-xl font-extrabold text-white tracking-tight">Intelligen<span className="text-admin-accent text-sm ml-1 font-medium">Admin Panel</span></span>
+          <span className="text-xl font-extrabold text-white tracking-tight">Hirelinks<span className="text-admin-accent text-sm ml-1 font-medium">CMS</span></span>
         )}
       </div>
 

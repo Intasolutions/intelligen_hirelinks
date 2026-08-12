@@ -50,7 +50,7 @@ export const RegistrationForm = () => {
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Registration Successful!</h2>
         <p className="text-gray-600 mb-8">
-          Thank you for registering with Intelligen Academy. Our team has received your details and will get in touch with you shortly.
+          Thank you for registering with Intelligen Hirelinks. Our team has received your details and will get in touch with you shortly.
         </p>
         <Button onClick={() => setIsSuccess(false)} variant="outline">
           Submit Another Registration

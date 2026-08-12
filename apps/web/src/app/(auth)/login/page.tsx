@@ -1,7 +1,7 @@
 import { LoginForm } from '../../../components/auth/LoginForm';
 
 export const metadata = {
-  title: 'Login - CMS Admin'
+  title: 'Login - Hirelinks CMS'
 };
 
 export default function LoginPage() {
