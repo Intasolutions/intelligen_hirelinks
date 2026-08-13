@@ -3,13 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { PillButton } from '../PillButton';
-
-const PROFILES = [
-  { name: 'Olivia Williams', country: 'India', image: '/images/home/badge_4_India.png', top: 451, right: 261 },
-  { name: 'Rachel McDermott', country: 'Brazil', image: '/images/home/badge_3_Brazil.png', top: 343, right: 940 },
-  { name: 'Angelina David', country: 'Australia', image: '/images/home/badge_2_australia.png', top: 451, right: 176 },
-  { name: 'Catherine Meg', country: 'USA', image: '/images/home/badge_1_USA.png', top: 76, right: 1124 },
-];
+import { MAP_PROFILES, WorldMap } from './WorldMap';
 
 const ROTATE_INTERVAL_MS = 3500;
 
@@ -18,21 +12,29 @@ export function Hero() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % PROFILES.length);
+      setActiveIndex((prev) => (prev + 1) % MAP_PROFILES.length);
     }, ROTATE_INTERVAL_MS);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#f2f2f2] to-[#e2e2e2]">
-      <div className="relative mx-auto h-[1046px] max-w-[1440px]">
-        <Image
-          src="/images/home/hero-visual.png"
-          alt=""
-          fill
-          priority
-          className="pointer-events-none select-none object-cover object-top"
-        />
+    <section className="relative overflow-hidden">
+      <div
+        className="relative mx-auto h-[1046px] max-w-[1440px]"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, #ffffff 0%, #b0b1b1 100%)',
+        }}
+      >
+        <h2
+          aria-hidden
+          className="pointer-events-none absolute left-0 top-[100px] w-full select-none text-center text-[180px] font-black uppercase leading-none tracking-tight text-white/70"
+        >
+          Hirelinks
+        </h2>
+
+        <div className="absolute inset-x-0 top-[380px] h-[550px]">
+          <WorldMap activeIndex={activeIndex} />
+        </div>
 
         <div className="absolute bottom-0 left-[312px] h-[921px] w-[721px]">
           <Image
@@ -43,27 +45,6 @@ export function Hero() {
             className="object-contain object-bottom"
           />
         </div>
-
-        {PROFILES.map((profile, i) => (
-          <div
-            key={profile.name}
-            className="absolute w-[125px] transition-opacity duration-700 ease-in-out"
-            style={{
-              top: profile.top,
-              right: profile.right,
-              opacity: i === activeIndex ? 1 : 0,
-              pointerEvents: i === activeIndex ? 'auto' : 'none',
-            }}
-          >
-            <Image
-              src={profile.image}
-              alt={`${profile.name}, ${profile.country}`}
-              width={125}
-              height={127}
-              className="h-auto w-full rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
-            />
-          </div>
-        ))}
 
         <div className="absolute left-[60px] top-[649px] w-[513px]">
           <PillButton href="#contact" variant="white">
