@@ -162,8 +162,17 @@ function DogboneButton({
         </g>
       </svg>
       <span
-        className="absolute flex items-center justify-center whitespace-nowrap text-center text-xs font-medium uppercase tracking-wide"
-        style={{ color: textColor, width: seamX, height: HEIGHT, left: pad, top: pad }}
+        className="absolute flex items-center justify-center whitespace-nowrap text-center font-sans font-medium uppercase"
+        style={{
+          color: textColor,
+          width: seamX,
+          height: HEIGHT,
+          left: pad,
+          top: pad,
+          fontSize: 16,
+          lineHeight: '169%',
+          letterSpacing: '1%',
+        }}
       >
         <span ref={labelRef}>{children}</span>
       </span>

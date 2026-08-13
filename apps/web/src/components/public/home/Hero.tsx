@@ -27,9 +27,12 @@ export function Hero() {
       <div className="relative mx-auto h-full max-w-[1440px]">
         <h2
           aria-hidden
-          className="pointer-events-none absolute left-0 top-[100px] w-full select-none text-center text-[180px] font-black uppercase leading-none tracking-tight text-white/70"
+          className="pointer-events-none absolute left-[47px] top-[41.33px] flex h-[335px] w-[1344px] select-none items-center justify-between font-display-rounded font-bold uppercase leading-none tracking-normal text-white"
+          style={{ fontSize: 239 }}
         >
-          Hirelinks
+          {'HIRELINKS'.split('').map((letter, i) => (
+            <span key={i}>{letter}</span>
+          ))}
         </h2>
 
         <div className="absolute inset-x-0 top-[340px] z-0 w-full">
@@ -51,13 +54,19 @@ export function Hero() {
             Talk to Expert
           </PillButton>
 
-          <h1 className="mt-6 text-6xl font-normal leading-[1.05] text-gray-900">
+          <h1
+            className="mt-6 w-[513px] font-medium normal text-gray-900"
+            style={{ fontSize: 68, lineHeight: '110%' }}
+          >
             Lorem Ipsum
             <br />
-            Dolor <span className="text-[#2a9d8f]">Sit Amit</span>
+            Dolor <span className="font-bold text-[#2a9d8f]">Sit Amit</span>
           </h1>
 
-          <p className="mt-6 max-w-[520px] text-base leading-relaxed text-gray-600">
+          <p
+            className="mt-6 w-[613px] font-sans font-light text-black"
+            style={{ fontSize: 20, lineHeight: '169%', letterSpacing: '1%' }}
+          >
             T Purus in in fames sit ac vitae. Curabitur scelerisque nunc mauris blandit. Donec
             tristique placerat consectetur molestie est ornare. Suspendisse
           </p>
