@@ -25,16 +25,16 @@ export function Header() {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-[17px] font-bold uppercase tracking-wide text-[#2a9f90]">
+            <span className="text-[17.5px] font-bold uppercase tracking-[1.05px] text-[#2a9f90]">
               Hirelinks
             </span>
-            <span className="text-[10px] tracking-wide text-[#0c78b8]">
+            <span className="font-normal text-[10px] tracking-[0.1px] text-[#0c78b8]">
               Powered by Intelligen
             </span>
           </div>
         </Link>
 
-        <nav className="flex items-center gap-9 rounded-[84px] bg-white py-1.5 pl-[26px] pr-1.5 shadow-[0_2px_20px_rgba(0,0,0,0.06)]">
+        <nav className="relative flex items-center gap-9 rounded-[84px] bg-white py-1.5 pl-[26px] pr-1.5 shadow-[0_2px_20px_rgba(0,0,0,0.06)]">
           <a
             href="https://intelligenoverseas.com"
             target="_blank"
@@ -88,11 +88,13 @@ export function Header() {
             <a
               key={link.label}
               href={link.href}
-              className="relative whitespace-nowrap text-sm font-medium uppercase tracking-wide text-black"
+              className={`relative whitespace-nowrap text-sm uppercase tracking-[0.14px] text-black ${
+                link.label === 'HOME' ? 'font-light' : 'font-medium'
+              }`}
             >
               {link.label}
               {link.label === 'HOME' && (
-                <span className="absolute -bottom-[18px] left-0 h-1.5 w-full rounded-t-[10px] bg-[#2a9d8f]" />
+                <span className="absolute bottom-[-14px] left-0 h-1.5 w-full rounded-t-[10px] bg-[#2a9d8f]" />
               )}
             </a>
           ))}

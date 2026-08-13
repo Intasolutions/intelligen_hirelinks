@@ -1,5 +1,6 @@
 import { SettingsService } from '../../services/settings.service';
 import { Header } from '../../components/public/home/Header';
+import { fhLecturis, fhLecturisRounded, helveticaNeue } from '../../fonts';
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   let settings = null;
@@ -15,7 +16,9 @@ export default async function PublicLayout({ children }: { children: React.React
   const companyName = settings?.companyName || 'Intelligen Hirelinks';
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-white">
+    <div
+      className={`relative flex min-h-screen flex-col bg-white font-sans ${helveticaNeue.variable} ${fhLecturis.variable} ${fhLecturisRounded.variable}`}
+    >
       <Header />
 
       {/* Main Content */}
