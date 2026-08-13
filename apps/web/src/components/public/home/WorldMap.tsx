@@ -87,13 +87,16 @@ export function WorldMap({ activeIndex }: WorldMapProps) {
         return (
           <div
             key={`badge-${profile.name}`}
-            className="absolute w-[50vw] max-w-[250px] -translate-y-full overflow-visible lg:w-[145px] lg:max-w-none lg:-translate-x-1/2"
-            style={{
-              left: `min(max(${badgeLeft}% - 25vw, 8px), calc(100% - 50vw - 8px))`,
-              top: `${badgeTop}%`,
-              pointerEvents: isActive ? 'auto' : 'none',
-              zIndex: isActive ? 1 : 0,
-            }}
+            className="hero-map-badge absolute overflow-visible"
+            style={
+              {
+                '--badge-left-mobile': `min(max(${badgeLeft}% - 25vw, 8px), calc(100% - 50vw - 8px))`,
+                '--badge-left-desktop': `${badgeLeft}%`,
+                top: `${badgeTop}%`,
+                pointerEvents: isActive ? 'auto' : 'none',
+                zIndex: isActive ? 1 : 0,
+              } as React.CSSProperties
+            }
           >
             <AnimatePresence>
               {isActive && (
@@ -103,17 +106,17 @@ export function WorldMap({ activeIndex }: WorldMapProps) {
                   exit={{ opacity: 0, y: 32 }}
                   transition={{ duration: 1.1, ease: 'easeInOut' }}
                 >
-                  <div className="w-full rounded-lg bg-white p-2 shadow-[0px_13px_10.4px_rgba(0,0,0,0.16)]">
+                  <div className="hero-map-badge-card w-full rounded-lg bg-white p-2 shadow-[0px_13px_10.4px_rgba(0,0,0,0.16)]">
                     <div
-                      className="relative h-[180px] w-full overflow-hidden rounded-md lg:h-[82px]"
+                      className="hero-map-badge-photo relative w-full overflow-hidden rounded-md"
                       style={{ backgroundColor: '#dddddd' }}
                     >
                       <Image src={profile.photo} alt={profile.name} fill className="object-cover" />
                     </div>
                     <div className="px-2 pb-2 pt-3">
-                      <p className="truncate text-xl font-semibold text-gray-900 lg:text-sm">{profile.name}</p>
-                      <p className="mt-1.5 flex items-center gap-2 text-lg text-gray-500 lg:mt-0.5 lg:gap-1.5 lg:text-xs">
-                        <span className="relative size-7 shrink-0 overflow-hidden rounded-full lg:size-4">
+                      <p className="hero-map-badge-name truncate font-semibold text-gray-900">{profile.name}</p>
+                      <p className="hero-map-badge-country mt-1.5 flex items-center gap-2 text-gray-500">
+                        <span className="hero-map-badge-flag relative shrink-0 overflow-hidden rounded-full">
                           <Image src={profile.flagIcon} alt="" fill className="object-cover" />
                         </span>
                         {profile.country}
@@ -126,6 +129,55 @@ export function WorldMap({ activeIndex }: WorldMapProps) {
           </div>
         );
       })}
+
+      <style jsx>{`
+        .hero-map-badge {
+          left: var(--badge-left-mobile);
+          width: 50vw;
+          max-width: 250px;
+          transform: translateY(-100%);
+        }
+        .hero-map-badge-photo {
+          height: 180px;
+        }
+        .hero-map-badge-name {
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+        }
+        .hero-map-badge-country {
+          font-size: 1.125rem;
+          line-height: 1.75rem;
+        }
+        .hero-map-badge-flag {
+          width: 1.75rem;
+          height: 1.75rem;
+        }
+        @media (min-width: 1024px) {
+          .hero-map-badge {
+            left: var(--badge-left-desktop);
+            width: 145px;
+            max-width: none;
+            transform: translate(-50%, -100%);
+          }
+          .hero-map-badge-photo {
+            height: 82px;
+          }
+          .hero-map-badge-name {
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+          }
+          .hero-map-badge-country {
+            font-size: 0.75rem;
+            line-height: 1rem;
+            margin-top: 0.125rem;
+            gap: 0.375rem;
+          }
+          .hero-map-badge-flag {
+            width: 1rem;
+            height: 1rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }
