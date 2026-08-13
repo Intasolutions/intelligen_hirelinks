@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { PillButton } from '../PillButton';
+import { GrowMedLinkLogo } from './GrowMedLinkLogo';
+import { MobileNav } from './MobileNav';
 
 const NAV_LINKS = [
   { label: 'HOME', href: '/' },
@@ -12,8 +14,12 @@ const NAV_LINKS = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white bg-gradient-to-r from-white to-white/0 to-[53%]">
-      <div className="mx-auto flex h-[90px] max-w-[1440px] items-center justify-between px-[60px]">
+    <header className="sticky top-0 z-50 lg:border-b lg:border-white lg:bg-gradient-to-r lg:from-white lg:to-white/0 lg:to-[53%]">
+      <div className="relative lg:hidden">
+        <MobileNav />
+      </div>
+
+      <div className="mx-auto hidden h-[90px] max-w-[1440px] items-center justify-between px-[60px] lg:flex">
         <Link href="/" className="flex items-end gap-2.5">
           <div className="relative h-10 w-[50px] shrink-0">
             <Image
@@ -58,27 +64,9 @@ export function Header() {
             href="https://growmedlink.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-2"
           >
-            {/* growmedlink-logo.png is a single stacked lockup (icon over wordmark); crop icon vs wordmark via oversized absolute image, matching the source Figma export */}
-            <div className="relative h-6 w-6 shrink-0 overflow-hidden">
-              <Image
-                src="/images/home/growmedlink-logo.png"
-                alt=""
-                width={100}
-                height={100}
-                className="absolute left-[-42%] top-0 h-[195%] w-[184%] max-w-none object-contain"
-              />
-            </div>
-            <div className="relative h-5 w-[136px] overflow-hidden">
-              <Image
-                src="/images/home/growmedlink-logo.png"
-                alt="GrowMedLink"
-                width={400}
-                height={400}
-                className="absolute left-0 top-[-374%] h-[729%] w-full max-w-none object-contain"
-              />
-            </div>
+            <GrowMedLinkLogo />
             <span className="flex size-6 items-center justify-center rounded bg-[#2a9d8f]">
               <Image src="/images/home/arrow-up-right.svg" alt="" width={10} height={10} />
             </span>

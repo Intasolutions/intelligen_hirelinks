@@ -64,8 +64,8 @@ export function Hero() {
           </h1>
 
           <p
-            className="mt-6 w-[613px] font-sans font-light text-black"
-            style={{ fontSize: 20, lineHeight: '169%', letterSpacing: '1%' }}
+            className="mt-6 w-[613px] font-sans font-medium text-black"
+              style={{ fontSize: 17,}}  // style={{ fontSize: 20, lineHeight: '90%', letterSpacing: '1%' }}
           >
             T Purus in in fames sit ac vitae. Curabitur scelerisque nunc mauris blandit. Donec
             tristique placerat consectetur molestie est ornare. Suspendisse
