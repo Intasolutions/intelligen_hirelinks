@@ -87,9 +87,9 @@ export function WorldMap({ activeIndex }: WorldMapProps) {
         return (
           <div
             key={`badge-${profile.name}`}
-            className="absolute w-[145px] -translate-x-1/2 -translate-y-full overflow-visible"
+            className="absolute w-[50vw] max-w-[250px] -translate-y-full overflow-visible lg:w-[145px] lg:max-w-none lg:-translate-x-1/2"
             style={{
-              left: `${badgeLeft}%`,
+              left: `min(max(${badgeLeft}% - 25vw, 8px), calc(100% - 50vw - 8px))`,
               top: `${badgeTop}%`,
               pointerEvents: isActive ? 'auto' : 'none',
               zIndex: isActive ? 1 : 0,
@@ -103,17 +103,17 @@ export function WorldMap({ activeIndex }: WorldMapProps) {
                   exit={{ opacity: 0, y: 32 }}
                   transition={{ duration: 1.1, ease: 'easeInOut' }}
                 >
-                  <div className="w-[145px] rounded-lg bg-white p-2 shadow-[0px_13px_10.4px_rgba(0,0,0,0.16)]">
+                  <div className="w-full rounded-lg bg-white p-2 shadow-[0px_13px_10.4px_rgba(0,0,0,0.16)]">
                     <div
-                      className="relative h-[82px] w-full overflow-hidden rounded-md"
+                      className="relative h-[180px] w-full overflow-hidden rounded-md lg:h-[82px]"
                       style={{ backgroundColor: '#dddddd' }}
                     >
                       <Image src={profile.photo} alt={profile.name} fill className="object-cover" />
                     </div>
-                    <div className="px-1 pb-1 pt-2">
-                      <p className="truncate text-sm font-semibold text-gray-900">{profile.name}</p>
-                      <p className="mt-1 flex items-center gap-1.5 text-xs text-gray-500">
-                        <span className="relative size-4 shrink-0 overflow-hidden rounded-full">
+                    <div className="px-2 pb-2 pt-3">
+                      <p className="truncate text-xl font-semibold text-gray-900 lg:text-sm">{profile.name}</p>
+                      <p className="mt-1.5 flex items-center gap-2 text-lg text-gray-500 lg:mt-0.5 lg:gap-1.5 lg:text-xs">
+                        <span className="relative size-7 shrink-0 overflow-hidden rounded-full lg:size-4">
                           <Image src={profile.flagIcon} alt="" fill className="object-cover" />
                         </span>
                         {profile.country}

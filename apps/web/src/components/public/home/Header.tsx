@@ -14,8 +14,8 @@ const NAV_LINKS = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 lg:border-b lg:border-white lg:bg-gradient-to-r lg:from-white lg:to-white/0 lg:to-[53%]">
-      <div className="relative lg:hidden">
+    <header className="absolute inset-x-0 top-0 z-50 lg:sticky lg:border-b lg:border-white lg:bg-gradient-to-r lg:from-white lg:to-white/0 lg:to-[53%]">
+      <div className="relative bg-transparent lg:hidden">
         <MobileNav />
       </div>
 
