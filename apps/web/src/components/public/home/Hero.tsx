@@ -18,13 +18,13 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden">
-      <div
-        className="relative mx-auto h-[1046px] max-w-[1440px]"
-        style={{
-          background: 'radial-gradient(circle at 50% 50%, #ffffff 0%, #b0b1b1 100%)',
-        }}
-      >
+    <section
+      className="relative -mt-[90px] h-[1046px] w-full overflow-hidden"
+      style={{
+        background: 'radial-gradient(circle at 50% 50%, #ffffff 0%, #b0b1b1 100%)',
+      }}
+    >
+      <div className="relative mx-auto h-full max-w-[1440px]">
         <h2
           aria-hidden
           className="pointer-events-none absolute left-0 top-[100px] w-full select-none text-center text-[180px] font-black uppercase leading-none tracking-tight text-white/70"
@@ -32,11 +32,11 @@ export function Hero() {
           Hirelinks
         </h2>
 
-        <div className="absolute inset-x-0 top-[340px] w-full">
+        <div className="absolute inset-x-0 top-[340px] z-0 w-full">
           <WorldMap activeIndex={activeIndex} />
         </div>
 
-        <div className="absolute bottom-0 left-[312px] h-[921px] w-[721px]">
+        <div className="absolute bottom-0 left-[312px] z-10 h-[921px] w-[721px]">
           <Image
             src="/images/home/hero-doctor.png"
             alt="Healthcare professional"
@@ -46,7 +46,7 @@ export function Hero() {
           />
         </div>
 
-        <div className="absolute left-[60px] top-[649px] w-[513px]">
+        <div className="absolute left-[60px] top-[649px] z-20 w-[513px]">
           <PillButton href="#contact" variant="white">
             Talk to Expert
           </PillButton>

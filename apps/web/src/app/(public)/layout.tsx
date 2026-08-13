@@ -15,7 +15,7 @@ export default async function PublicLayout({ children }: { children: React.React
   const companyName = settings?.companyName || 'Intelligen Hirelinks';
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="relative flex min-h-screen flex-col bg-white">
       <Header />
 
       {/* Main Content */}
