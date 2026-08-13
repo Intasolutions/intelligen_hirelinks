@@ -81,7 +81,7 @@ export function Hero() {
             tristique placerat consectetur molestie est ornare. Suspendisse
           </p>
 
-          <PillButton href="#contact" variant="solid" className="mt-8">
+          <PillButton href="#contact" variant="solid" borderColor="#ffffff" className="mt-8">
             Register Now!
           </PillButton>
         </div>

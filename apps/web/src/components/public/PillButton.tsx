@@ -7,7 +7,14 @@ type PillButtonVariant = 'solid' | 'white';
 
 interface PillButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
+  /** Convenience presets for the common teal/white combos used across the site. */
   variant?: PillButtonVariant;
+  /** Override the shape fill. Takes precedence over `variant`. */
+  bgColor?: string;
+  /** Override the label + arrow color. Takes precedence over `variant`. */
+  textColor?: string;
+  /** Border stroke color; omit for no border. */
+  borderColor?: string;
   arrow?: boolean;
   external?: boolean;
 }
@@ -22,42 +29,57 @@ const VARIANT_TEXT: Record<PillButtonVariant, string> = {
   white: '#2a9d8f',
 };
 
-const HEIGHT = 50;
-const LEFT_CAP_R = 25; // radius of the left rounded end
-const PAD_LEFT = 24; // px of teal visible before the label text starts
+const HEIGHT = 42;
+const SCALE = HEIGHT / 50; // source geometry was traced at 50px tall
+const LEFT_CAP_R = 25 * SCALE;
+const PAD_LEFT = 22 * SCALE;
+const BORDER_WIDTH = 1;
+const CAP_WIDTH = 82.5 * SCALE;
 
-// Right end-cap (neck + circle + arrow), traced verbatim from the Figma export
-// (node 32:8759, "Frame 1984078235", original path offset by -182.5/-0.5) in
-// its own local coordinate space where x=0 is the neck seam — i.e. where the
-// pill's straight top/bottom wall ends and the concave curve into the circle
-// begins. This chunk is fixed-shape and never stretches; only the straight
-// pill run before the seam grows or shrinks with the label's measured width.
-const CAP_WIDTH = 82.5;
-const CAP_D = `
-  M 0 0
-  C 11.382 0.000001 20.985 7.60633 24.009 18.0127
-  C 27.004 22.4971 30.496 22.9937 33.99 18.0117
-  C 37.014 7.60569 46.619 0 58 0
-  C 71.807 0 83 11.1929 83 25
-  C 83 38.8071 71.807 50 58 50
-  C 46.616 50 37.011 42.3914 33.989 31.9824
-  C 31.985 28.4989 27.006 27.0118 24.01 31.9844
-  C 20.987 42.3923 11.383 50 0 50
-  Z
-`.trim();
+function round2(n: number) {
+  return Math.round(n * 100) / 100;
+}
 
-// Arrow glyph, traced verbatim from the same export into the CAP_D local space.
-const ARROW_D = 'M 53 30 L 63 20 M 63 30 V 20 H 53';
+// Right end-cap (neck + circle), traced verbatim from the Figma export (node
+// 32:8759, "Frame 1984078235", original path offset by -182.5/-0.5), given
+// here as raw (x,y) point pairs at 1x scale so it can be emitted inline as
+// part of ONE continuous path with the pill body — a single path means a
+// single fill/stroke, so no seam line can appear at the body/cap join.
+const CAP_POINTS_1X: [number, number][] = [
+  [11.382, 0], [20.985, 7.60633], [24.009, 18.0127],
+  [27.004, 22.4971], [30.496, 22.9937], [33.99, 18.0117],
+  [37.014, 7.60569], [46.619, 0], [58, 0],
+  [71.807, 0], [83, 11.1929], [83, 25],
+  [83, 38.8071], [71.807, 50], [58, 50],
+  [46.616, 50], [37.011, 42.3914], [33.989, 31.9824],
+  [31.985, 28.4989], [27.006, 27.0118], [24.01, 31.9844],
+  [20.987, 42.3923], [11.383, 50], [0, 50],
+];
+
+// Arrow glyph center, in the cap's local space, used to rotate ↗ into → on hover.
+const ARROW_CENTER_X_1X = 58;
+const ARROW_CENTER_Y_1X = 25;
+const ARROW_SIZE_1X = 5;
+const ARROW_D_1X = `M ${ARROW_CENTER_X_1X - ARROW_SIZE_1X} ${ARROW_CENTER_Y_1X + ARROW_SIZE_1X} L ${ARROW_CENTER_X_1X + ARROW_SIZE_1X} ${ARROW_CENTER_Y_1X - ARROW_SIZE_1X} M ${ARROW_CENTER_X_1X + ARROW_SIZE_1X} ${ARROW_CENTER_Y_1X + ARROW_SIZE_1X} V ${ARROW_CENTER_Y_1X - ARROW_SIZE_1X} H ${ARROW_CENTER_X_1X - ARROW_SIZE_1X}`;
 
 function DogboneButton({
-  variant,
+  fill,
+  textColor,
+  border,
   children,
 }: {
-  variant: PillButtonVariant;
+  fill: string;
+  textColor: string;
+  border?: string;
   children: React.ReactNode;
 }) {
   const labelRef = useRef<HTMLSpanElement>(null);
-  const [labelWidth, setLabelWidth] = useState<number | null>(null);
+  const labelText = typeof children === 'string' ? children : '';
+  // Rough character-width estimate sizes the SVG shape correctly for
+  // server-rendered/first-paint HTML; useLayoutEffect corrects it to the exact
+  // measured width immediately after mount, before the browser paints.
+  const estimatedWidth = Math.round(labelText.length * 7.2 * SCALE);
+  const [labelWidth, setLabelWidth] = useState<number>(estimatedWidth);
 
   useLayoutEffect(() => {
     if (labelRef.current) {
@@ -65,53 +87,94 @@ function DogboneButton({
     }
   }, [children]);
 
-  const seamX = LEFT_CAP_R + PAD_LEFT + (labelWidth ?? 0);
-  const totalWidth = seamX + CAP_WIDTH;
+  const seamX = round2(LEFT_CAP_R + PAD_LEFT + labelWidth);
+  const shapeWidth = round2(seamX + CAP_WIDTH);
+  const r = round2(HEIGHT / 2);
 
-  const bodyD = `
+  // A centered stroke extends half its width outside the path's own geometry.
+  // If the shape touches the SVG viewport's edges exactly, that outer half gets
+  // clipped — most visibly on the right, where the trailing circle sits flush
+  // against the viewBox boundary. Inset the whole drawing by `pad` and grow the
+  // SVG element to match so the border has room to render on every side.
+  const pad = border ? BORDER_WIDTH : 0;
+  const totalWidth = round2(shapeWidth + pad * 2);
+  const totalHeight = round2(HEIGHT + pad * 2);
+
+  // Round every coordinate to 2dp — raw floating-point products (e.g. from
+  // `* SCALE`) can carry long repeating decimals, and SVG renderers alias
+  // stroke edges unevenly on those, showing up as small gaps/missing pixels
+  // along the border at the curve joints.
+  const capPoints = CAP_POINTS_1X.map(([x, y]) => [round2(seamX + x * SCALE), round2(y * SCALE)]);
+  const capCurve = [0, 3, 6, 9, 12, 15, 18, 21]
+    .map(
+      (i) =>
+        `C ${capPoints[i][0]} ${capPoints[i][1]} ${capPoints[i + 1][0]} ${capPoints[i + 1][1]} ${capPoints[i + 2][0]} ${capPoints[i + 2][1]}`
+    )
+    .join(' ');
+
+  // One continuous outline: left round cap -> straight top -> neck+circle (cap
+  // curve) -> straight bottom -> back to start. Single path = single fill/stroke,
+  // so there is no seam between the pill body and the trailing circle.
+  const outlineD = `
     M ${LEFT_CAP_R} 0
     H ${seamX}
-    v ${HEIGHT}
+    ${capCurve}
     H ${LEFT_CAP_R}
-    C 11.2 ${HEIGHT} 0 38.8 0 25
-    C 0 11.2 11.2 0 ${LEFT_CAP_R} 0
+    C ${round2(r * 0.448)} ${HEIGHT} 0 ${round2(HEIGHT * 0.776)} 0 ${r}
+    C 0 ${round2(r * 0.448)} ${round2(r * 0.448)} 0 ${LEFT_CAP_R} 0
     Z
   `.trim();
 
+  const arrowD = `M ${round2(seamX + (ARROW_CENTER_X_1X - ARROW_SIZE_1X) * SCALE)} ${round2((ARROW_CENTER_Y_1X + ARROW_SIZE_1X) * SCALE)} L ${round2(seamX + (ARROW_CENTER_X_1X + ARROW_SIZE_1X) * SCALE)} ${round2((ARROW_CENTER_Y_1X - ARROW_SIZE_1X) * SCALE)} M ${round2(seamX + (ARROW_CENTER_X_1X + ARROW_SIZE_1X) * SCALE)} ${round2((ARROW_CENTER_Y_1X + ARROW_SIZE_1X) * SCALE)} V ${round2((ARROW_CENTER_Y_1X - ARROW_SIZE_1X) * SCALE)} H ${round2(seamX + (ARROW_CENTER_X_1X - ARROW_SIZE_1X) * SCALE)}`;
+
   return (
     <span
-      className="relative inline-flex items-center"
-      style={{ width: labelWidth === null ? undefined : totalWidth, height: HEIGHT }}
+      className="pill-button relative inline-flex items-center justify-center"
+      style={{ width: totalWidth, height: totalHeight }}
     >
-      {labelWidth !== null && (
-        <svg
-          width={totalWidth}
-          height={HEIGHT}
-          viewBox={`0 0 ${totalWidth} ${HEIGHT}`}
-          className="absolute inset-0"
-          aria-hidden
-        >
-          <path d={bodyD} fill={VARIANT_FILL[variant]} />
-          <g transform={`translate(${seamX}, 0)`}>
-            <path d={CAP_D} fill={VARIANT_FILL[variant]} />
-            <path
-              d={ARROW_D}
-              stroke={VARIANT_TEXT[variant]}
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            />
-          </g>
-        </svg>
-      )}
-      <span
-        ref={labelRef}
-        className="relative whitespace-nowrap text-sm font-medium uppercase tracking-wide"
-        style={{ color: VARIANT_TEXT[variant], marginLeft: PAD_LEFT }}
+      <svg
+        width={totalWidth}
+        height={totalHeight}
+        viewBox={`${-pad} ${-pad} ${totalWidth} ${totalHeight}`}
+        className="absolute inset-0"
+        aria-hidden
       >
-        {children}
+        <path
+          d={outlineD}
+          fill={fill}
+          stroke={border}
+          strokeWidth={pad ? BORDER_WIDTH : 0}
+          strokeLinejoin="round"
+          shapeRendering="geometricPrecision"
+        />
+        <g
+          className="pill-button-arrow"
+          style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+        >
+          <path
+            d={arrowD}
+            stroke={textColor}
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        </g>
+      </svg>
+      <span
+        className="absolute flex items-center justify-center whitespace-nowrap text-center text-xs font-medium uppercase tracking-wide"
+        style={{ color: textColor, width: seamX, height: HEIGHT, left: pad, top: pad }}
+      >
+        <span ref={labelRef}>{children}</span>
       </span>
+      <style jsx>{`
+        .pill-button-arrow {
+          transition: transform 0.25s ease;
+        }
+        .pill-button:hover .pill-button-arrow {
+          transform: rotate(45deg);
+        }
+      `}</style>
     </span>
   );
 }
@@ -119,30 +182,42 @@ function DogboneButton({
 export function PillButton({
   href,
   variant = 'solid',
+  bgColor,
+  textColor,
+  borderColor,
   arrow = true,
   external = false,
   className = '',
   children,
   ...rest
 }: PillButtonProps) {
+  const fill = bgColor ?? VARIANT_FILL[variant];
+  const text = textColor ?? VARIANT_TEXT[variant];
+
   if (!arrow) {
-    const plainClasses = [
-      'inline-flex items-center rounded-full px-6 py-2.5 text-sm font-medium uppercase tracking-wide transition-colors',
-      variant === 'solid' ? 'bg-[#2a9d8f] hover:bg-[#238277] text-white' : 'bg-white text-[#2a9d8f]',
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ');
+    const plainClasses = 'inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wide transition-colors';
+    const plainStyle = {
+      backgroundColor: fill,
+      color: text,
+      border: borderColor ? `${BORDER_WIDTH}px solid ${borderColor}` : undefined,
+    };
 
     if (external) {
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" className={plainClasses} {...rest}>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${plainClasses} ${className}`}
+          style={plainStyle}
+          {...rest}
+        >
           {children}
         </a>
       );
     }
     return (
-      <Link href={href} className={plainClasses}>
+      <Link href={href} className={`${plainClasses} ${className}`} style={plainStyle}>
         {children}
       </Link>
     );
@@ -157,7 +232,9 @@ export function PillButton({
       className={`inline-block transition-transform hover:scale-[1.02] ${className}`}
       {...rest}
     >
-      <DogboneButton variant={variant}>{children}</DogboneButton>
+      <DogboneButton fill={fill} textColor={text} border={borderColor}>
+        {children}
+      </DogboneButton>
     </Tag>
   );
 }
