@@ -32,7 +32,7 @@ export function Hero() {
           Hirelinks
         </h2>
 
-        <div className="absolute inset-x-0 top-[380px] h-[550px]">
+        <div className="absolute inset-x-0 top-[340px] w-full">
           <WorldMap activeIndex={activeIndex} />
         </div>
 
