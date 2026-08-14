@@ -1,4 +1,5 @@
 import { Hero } from '../../components/public/home/Hero';
+import { PartnersSection } from '../../components/public/home/PartnersSection';
 import { StatsSection } from '../../components/public/home/StatsSection';
 import { LoadingScreen } from '../../components/public/LoadingScreen';
 import { PageReadyProvider } from '../../components/public/PageReadyContext';
@@ -10,6 +11,7 @@ export default async function PublicHomePage() {
       <div>
         <Hero />
         <StatsSection />
+        <PartnersSection />
       </div>
     </PageReadyProvider>
   );
