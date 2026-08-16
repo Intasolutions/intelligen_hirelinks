@@ -31,12 +31,11 @@ const NOTCH_HEIGHT = 38;
 
 export function PartnersSection() {
   return (
-    <section className="relative w-full bg-white px-4 pb-6 pt-12 lg:px-10 lg:pb-8 lg:pt-20">
+    <section className="relative w-full bg-white px-4 pb-6 pt-4 lg:px-10 lg:pb-8 lg:pt-20">
       <div
-        className="relative mx-auto overflow-hidden rounded-[6px]"
+        className="relative mx-auto overflow-hidden rounded-[6px] lg:aspect-[1360/369]"
         style={{
           maxWidth: CARD_WIDTH,
-          aspectRatio: `${CARD_WIDTH} / ${CARD_HEIGHT}`,
           background: 'radial-gradient(circle at 50% 0%, #ffffff 0%, #e2e3e5 100%)',
         }}
       >
@@ -61,12 +60,13 @@ export function PartnersSection() {
         />
 
         <div className="relative flex h-full flex-col items-center justify-center py-10 lg:py-14">
-          {/* Mobile/tablet heading, matching StatsSection's mobile size exactly */}
-          <FadeInWhenVisible className="flex items-center justify-center gap-2 px-6 pt-6 text-center lg:hidden">
-            <div className="relative h-[22px] w-[25px] shrink-0">
+          {/* Mobile/tablet heading, matching StatsSection's mobile size exactly
+              (text-2xl/sm:text-3xl). ADJUST HEADING SIZE HERE if needed. */}
+          <FadeInWhenVisible className="flex items-start justify-center gap-2 px-4 pt-3 text-center lg:hidden">
+            <div className="relative mt-1 h-[18px] w-[20px] shrink-0">
               <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
             </div>
-            <p className="font-display-rounded text-2xl font-bold text-black sm:text-3xl">
+            <p className="font-display-rounded text-2xl font-bold leading-tight text-black sm:text-3xl">
               <span className="text-black">Our</span>{' '}
               <span className="text-[#2a9d8f]">International Partners</span>
             </p>
@@ -83,11 +83,33 @@ export function PartnersSection() {
             </p>
           </FadeInWhenVisible>
 
-          <FadeInWhenVisible delay={0.15} className="relative mt-6 w-full lg:mt-14">
+          {/* Mobile/tablet carousel — smaller + slower + tighter gap than desktop.
+              ADJUST MOBILE LOGO SIZE: logoHeight below.
+              ADJUST MOBILE CAROUSEL SPEED: duration below (seconds per sweep —
+              higher = slower).
+              ADJUST MOBILE GAP BETWEEN LOGOS: gap below (pixels). */}
+          <FadeInWhenVisible delay={0.15} className="relative mt-6 w-full lg:hidden">
+            <LogoMarquee
+              logos={PARTNER_LOGOS}
+              duration={14}
+              logoHeight={40}
+              gap={25}
+              style={{
+                maskImage:
+                  'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+                WebkitMaskImage:
+                  'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+              }}
+            />
+          </FadeInWhenVisible>
+
+          {/* Desktop carousel. ADJUST DESKTOP GAP BETWEEN LOGOS: gap below (pixels). */}
+          <FadeInWhenVisible delay={0.15} className="relative mt-14 hidden w-full lg:block">
             <LogoMarquee
               logos={PARTNER_LOGOS}
               duration={6}
               logoHeight={60}
+              gap={64}
               style={{
                 maskImage:
                   'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
