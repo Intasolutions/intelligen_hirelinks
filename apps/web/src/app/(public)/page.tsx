@@ -1,3 +1,4 @@
+import { DomesticPartnersSection } from '../../components/public/home/DomesticPartnersSection';
 import { Hero } from '../../components/public/home/Hero';
 import { PartnersSection } from '../../components/public/home/PartnersSection';
 import { StatsSection } from '../../components/public/home/StatsSection';
@@ -12,6 +13,7 @@ export default async function PublicHomePage() {
         <Hero />
         <StatsSection />
         <PartnersSection />
+        <DomesticPartnersSection />
       </div>
     </PageReadyProvider>
   );
