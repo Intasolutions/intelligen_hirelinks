@@ -1,6 +1,7 @@
 import { DomesticPartnersSection } from '../../components/public/home/DomesticPartnersSection';
 import { Hero } from '../../components/public/home/Hero';
 import { PartnersSection } from '../../components/public/home/PartnersSection';
+import { ServicesSection } from '../../components/public/home/ServicesSection';
 import { StatsSection } from '../../components/public/home/StatsSection';
 import { LoadingScreen } from '../../components/public/LoadingScreen';
 import { PageReadyProvider } from '../../components/public/PageReadyContext';
@@ -14,6 +15,7 @@ export default async function PublicHomePage() {
         <StatsSection />
         <PartnersSection />
         <DomesticPartnersSection />
+        <ServicesSection />
       </div>
     </PageReadyProvider>
   );
