@@ -1,6 +1,7 @@
 import { AboutUsSection } from '../../components/public/home/AboutUsSection';
 import { DomesticPartnersSection } from '../../components/public/home/DomesticPartnersSection';
 import { Hero } from '../../components/public/home/Hero';
+import { MissionSection } from '../../components/public/home/MissionSection';
 import { PartnersSection } from '../../components/public/home/PartnersSection';
 import { ProgramsSection } from '../../components/public/home/ProgramsSection';
 import { ServicesSection } from '../../components/public/home/ServicesSection';
@@ -24,6 +25,7 @@ export default async function PublicHomePage() {
         <AboutUsSection />
         <WhyChooseUsSection />
         <TestimonialsSection />
+        <MissionSection />
       </div>
     </PageReadyProvider>
   );
