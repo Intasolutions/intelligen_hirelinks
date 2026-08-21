@@ -17,6 +17,14 @@ interface PillButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   borderColor?: string;
   arrow?: boolean;
   external?: boolean;
+  /** False renders the same shape with no Link/anchor wrapper — for a
+   * decorative/disabled-looking pill that must not itself be a nested
+   * interactive element (e.g. inside a parent that's already a button). */
+  interactive?: boolean;
+  /** Renders just the trailing arrow circle, no pill body/label — for tight
+   * spaces (e.g. mobile cards) where the full pill would overwhelm the
+   * layout. Same arrow glyph/hover-rotate as the full button. */
+  iconOnly?: boolean;
 }
 
 const VARIANT_FILL: Record<PillButtonVariant, string> = {
@@ -188,6 +196,37 @@ function DogboneButton({
   );
 }
 
+const ICON_SIZE = 36;
+
+// Just the trailing circle + arrow from DogboneButton's shape, at a smaller
+// fixed size — same glyph, same hover-rotate, no pill body/label to measure.
+function IconButton({ fill, textColor, border }: { fill: string; textColor: string; border?: string }) {
+  const r = ICON_SIZE / 2;
+  const pad = border ? BORDER_WIDTH : 0;
+  const total = round2(ICON_SIZE + pad * 2);
+  const size = 4.5;
+  const arrowD = `M ${r - size} ${r + size} L ${r + size} ${r - size} M ${r + size} ${r + size} V ${r - size} H ${r - size}`;
+
+  return (
+    <span className="pill-button relative inline-flex items-center justify-center" style={{ width: total, height: total }}>
+      <svg width={total} height={total} viewBox={`${-pad} ${-pad} ${total} ${total}`} className="absolute inset-0" aria-hidden>
+        <circle cx={r} cy={r} r={r} fill={fill} stroke={border} strokeWidth={pad ? BORDER_WIDTH : 0} />
+        <g className="pill-button-arrow" style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}>
+          <path d={arrowD} stroke={textColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        </g>
+      </svg>
+      <style jsx>{`
+        .pill-button-arrow {
+          transition: transform 0.25s ease;
+        }
+        .pill-button:hover .pill-button-arrow {
+          transform: rotate(45deg);
+        }
+      `}</style>
+    </span>
+  );
+}
+
 export function PillButton({
   href,
   variant = 'solid',
@@ -196,12 +235,25 @@ export function PillButton({
   borderColor,
   arrow = true,
   external = false,
+  interactive = true,
+  iconOnly = false,
   className = '',
   children,
   ...rest
 }: PillButtonProps) {
   const fill = bgColor ?? VARIANT_FILL[variant];
   const text = textColor ?? VARIANT_TEXT[variant];
+  const shape = iconOnly ? (
+    <IconButton fill={fill} textColor={text} border={borderColor} />
+  ) : (
+    <DogboneButton fill={fill} textColor={text} border={borderColor}>
+      {children}
+    </DogboneButton>
+  );
+
+  if (!interactive) {
+    return <span className={`inline-block ${className}`}>{shape}</span>;
+  }
 
   if (!arrow) {
     const plainClasses = 'inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wide transition-colors';
@@ -241,9 +293,7 @@ export function PillButton({
       className={`inline-block transition-transform hover:scale-[1.02] ${className}`}
       {...rest}
     >
-      <DogboneButton fill={fill} textColor={text} border={borderColor}>
-        {children}
-      </DogboneButton>
+      {shape}
     </Tag>
   );
 }
