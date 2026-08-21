@@ -1,6 +1,6 @@
 import { SettingsService } from '../../services/settings.service';
 import { Header } from '../../components/public/home/Header';
-import { fhLecturis, fhLecturisRounded, helveticaNeue } from '../../fonts';
+import { fhLecturis, fhLecturisRounded, helveticaNeue, leagueGothic } from '../../fonts';
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   let settings = null;
@@ -17,7 +17,7 @@ export default async function PublicLayout({ children }: { children: React.React
 
   return (
     <div
-      className={`relative flex min-h-screen flex-col bg-white font-sans ${helveticaNeue.variable} ${fhLecturis.variable} ${fhLecturisRounded.variable}`}
+      className={`relative flex min-h-screen flex-col bg-white font-sans ${helveticaNeue.variable} ${fhLecturis.variable} ${fhLecturisRounded.variable} ${leagueGothic.variable}`}
     >
       <Header />
 

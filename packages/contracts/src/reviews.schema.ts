@@ -13,7 +13,18 @@ export const reviewSchema = z.object({
   
   // Optional string fields
   reviewDate: z.string().optional().nullable(), // ISO string or simple date string
-  
+  country: z.string().optional().nullable(),
+  // ISO 3166-1 alpha-2 code, lowercase (e.g. "es" for Spain) — used to resolve the flag icon path.
+  // Empty string (an unfilled optional form field) is treated as "not provided" rather than a validation failure.
+  countryCode: z.preprocess(
+    (val) => (val === '' || val === undefined || val === null ? undefined : val),
+    z
+      .string()
+      .regex(/^[a-zA-Z]{2}$/, 'Country code must be exactly 2 letters (ISO 3166-1 alpha-2, e.g. "in" for India) — not a phone dialing code')
+      .toLowerCase()
+      .optional()
+  ),
+
   removeImage: z.preprocess((val) => val === 'true' || val === true, z.boolean().optional().default(false)),
 });
 

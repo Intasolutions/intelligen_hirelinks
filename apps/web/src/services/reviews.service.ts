@@ -23,6 +23,10 @@ export const ReviewsService = {
     return apiClient<any[]>('/reviews/public', { method: 'GET' });
   },
 
+  getFeaturedReviews: async () => {
+    return apiClient<any[]>('/reviews/public/featured', { method: 'GET' });
+  },
+
   getReviewById: async (id: string) => {
     return apiClient<any>(`/reviews/${id}`, { method: 'GET' });
   },

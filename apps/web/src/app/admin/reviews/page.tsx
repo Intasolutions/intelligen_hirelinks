@@ -99,7 +99,6 @@ export default function ReviewsPage() {
             >
               <option value="All Moderation Status">All Moderation Status</option>
               <option value="APPROVED">Approved</option>
-              <option value="PENDING">Pending</option>
               <option value="REJECTED">Rejected</option>
             </select>
           </div>

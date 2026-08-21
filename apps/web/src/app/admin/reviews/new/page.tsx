@@ -119,6 +119,18 @@ export default function NewReviewPage() {
                 {errors.reviewDate && <p className="mt-1 text-xs text-red-600">{errors.reviewDate?.message}</p>}
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Country (Optional)</label>
+                <Input {...register('country')} placeholder="e.g. Spain" />
+                {errors.country && <p className="mt-1 text-xs text-red-600">{errors.country?.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Country Code (Optional)</label>
+                <Input {...register('countryCode')} placeholder="e.g. es (ISO 3166-1 alpha-2, used for the flag icon)" maxLength={2} />
+                {errors.countryCode && <p className="mt-1 text-xs text-red-600">{errors.countryCode?.message}</p>}
+              </div>
+
               <div className="pt-4 border-t border-admin-card">
                 <ImageUploadPreview 
                   label="Customer Photo"

@@ -14,6 +14,7 @@ export class ReviewService {
     limit?: number;
     search?: string;
     status?: string;
+    moderationStatus?: string;
     featureOnHomepage?: boolean;
     sort?: string;
   }) {
@@ -30,6 +31,7 @@ export class ReviewService {
       ];
     }
     if (query.status) filter.status = query.status;
+    if (query.moderationStatus) filter.moderationStatus = query.moderationStatus;
     if (query.featureOnHomepage !== undefined) filter.featureOnHomepage = query.featureOnHomepage;
 
     // Sorting: default to displayOrder ascending, then createdAt descending

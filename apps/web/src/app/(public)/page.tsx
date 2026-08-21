@@ -5,6 +5,7 @@ import { PartnersSection } from '../../components/public/home/PartnersSection';
 import { ProgramsSection } from '../../components/public/home/ProgramsSection';
 import { ServicesSection } from '../../components/public/home/ServicesSection';
 import { StatsSection } from '../../components/public/home/StatsSection';
+import { TestimonialsSection } from '../../components/public/home/TestimonialsSection';
 import { WhyChooseUsSection } from '../../components/public/home/WhyChooseUsSection';
 import { LoadingScreen } from '../../components/public/LoadingScreen';
 import { PageReadyProvider } from '../../components/public/PageReadyContext';
@@ -22,6 +23,7 @@ export default async function PublicHomePage() {
         <ProgramsSection />
         <AboutUsSection />
         <WhyChooseUsSection />
+        <TestimonialsSection />
       </div>
     </PageReadyProvider>
   );

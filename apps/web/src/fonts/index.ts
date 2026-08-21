@@ -1,4 +1,14 @@
+import { League_Gothic } from 'next/font/google';
 import localFont from 'next/font/local';
+
+// League Gothic — used for the large faint "TESTIMONIALS" watermark text
+// behind the reviews carousel (per Figma: League Gothic Regular, ~338px).
+export const leagueGothic = League_Gothic({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-league-gothic',
+  display: 'swap',
+});
 
 // Helvetica Neue — full weight family used across the public site's nav, body,
 // and buttons per the Figma design (font-['Helvetica_Neue:*'] on every text layer).

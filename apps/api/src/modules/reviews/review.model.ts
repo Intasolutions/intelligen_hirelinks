@@ -6,6 +6,9 @@ export interface IReview extends Document {
   rating: number;
   reviewDate?: Date;
   reviewComment: string;
+  country?: string;
+  /** ISO 3166-1 alpha-2 code, lowercase (e.g. "es" for Spain) — used to build the flag icon path. */
+  countryCode?: string;
   
   linkedType: 'SERVICE' | 'PROGRAM';
   linkedItem: mongoose.Types.ObjectId;
@@ -37,7 +40,9 @@ const ReviewSchema = new Schema<IReview>(
     rating: { type: Number, required: true, min: 1, max: 5 },
     reviewDate: { type: Date },
     reviewComment: { type: String, required: true },
-    
+    country: { type: String },
+    countryCode: { type: String, lowercase: true },
+
     linkedType: { type: String, enum: ['SERVICE', 'PROGRAM'], required: true },
     linkedItem: { type: Schema.Types.ObjectId, required: true, refPath: 'linkedType' },
     

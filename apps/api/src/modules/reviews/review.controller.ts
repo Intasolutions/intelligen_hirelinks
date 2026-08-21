@@ -5,13 +5,14 @@ import { reviewSchema } from '@hirelinks/contracts';
 export class ReviewController {
   static async listReviews(req: Request, res: Response, next: NextFunction) {
     try {
-      const { page, limit, search, status, featureOnHomepage, sort } = req.query;
-      
+      const { page, limit, search, status, moderationStatus, featureOnHomepage, sort } = req.query;
+
       const result = await ReviewService.listReviews({
         page: page ? parseInt(page as string) : undefined,
         limit: limit ? parseInt(limit as string) : undefined,
         search: search as string,
         status: status as string,
+        moderationStatus: moderationStatus as string,
         featureOnHomepage: featureOnHomepage === 'true' ? true : featureOnHomepage === 'false' ? false : undefined,
         sort: sort as string
       });

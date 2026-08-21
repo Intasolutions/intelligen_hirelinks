@@ -15,6 +15,7 @@ const config: Pick<Config, "content" | "presets" | "theme"> = {
         sans: ["var(--font-helvetica-neue)", "Helvetica Neue", "Arial", "sans-serif"],
         display: ["var(--font-fh-lecturis)", "var(--font-helvetica-neue)", "sans-serif"],
         "display-rounded": ["var(--font-fh-lecturis-rounded)", "var(--font-helvetica-neue)", "sans-serif"],
+        "league-gothic": ["var(--font-league-gothic)", "sans-serif"],
       },
     },
   },
