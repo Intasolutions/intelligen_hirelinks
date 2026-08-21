@@ -51,6 +51,10 @@ export function LogoMarquee({
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [bounceDistance, setBounceDistance] = useState(0);
+  // Missing/broken logo files show the browser's native broken-image icon by
+  // default — drop a slot from the strip instead once its image fails, so a
+  // not-yet-uploaded asset degrades to "fewer logos" rather than an ugly icon.
+  const [failedSrcs, setFailedSrcs] = useState<Set<string>>(new Set());
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -80,20 +84,23 @@ export function LogoMarquee({
 
   const baseItems =
     children ??
-    logos.map((logo) => (
-      <div
-        key={logo.name}
-        className="relative flex shrink-0 items-center justify-center"
-        style={{ height: logoHeight, width: logoHeight * 2.5 }}
-      >
-        <Image
-          src={logo.src}
-          alt={logo.name}
-          fill
-          className="object-contain"
-        />
-      </div>
-    ));
+    logos
+      .filter((logo) => !failedSrcs.has(logo.src))
+      .map((logo) => (
+        <div
+          key={logo.name}
+          className="relative flex shrink-0 items-center justify-center"
+          style={{ height: logoHeight, width: logoHeight * 2.5 }}
+        >
+          <Image
+            src={logo.src}
+            alt={logo.name}
+            fill
+            className="object-contain"
+            onError={() => setFailedSrcs((prev) => (prev.has(logo.src) ? prev : new Set(prev).add(logo.src)))}
+          />
+        </div>
+      ));
 
   const items = baseItems;
 

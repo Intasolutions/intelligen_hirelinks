@@ -105,11 +105,20 @@ export function Footer({ settings }: { settings: SettingsInput | null }) {
   const year = new Date().getFullYear();
 
   return (
-    <div className="bg-[#f2f2f2] px-4 py-8 sm:px-6 sm:py-10 lg:px-10 lg:py-14">
-      <footer className="relative mx-auto max-w-[1360px] overflow-hidden rounded-[28px] bg-white shadow-[0_2px_24px_rgba(0,0,0,0.06)]">
-        <div className="relative grid grid-cols-1 gap-10 p-6 sm:p-8 lg:grid-cols-2 lg:gap-8 lg:p-12">
-          {/* Left: brand, blurb, CTA, socials */}
-          <div className="flex flex-col">
+    <div className="bg-gradient-to-b from-white to-[#e9e9e9] px-1 py-1 sm:px-1.5 sm:py-1.5 lg:px-2 lg:py-2">
+      {/* No max-w cap here — the gap to the viewport edge should be exactly
+          the small padding on the wrapper above, not that plus extra grey
+          space left over from a width cap on top of it. */}
+      <footer className="relative overflow-hidden rounded-[28px] bg-white shadow-[0_2px_24px_rgba(0,0,0,0.06)]">
+        <div className="grid grid-cols-1 gap-8 p-5 sm:p-6 lg:grid-cols-[0.8fr_1fr] lg:gap-6 lg:p-8">
+          {/* Left: brand, blurb, CTA, socials. Spans both grid rows (this one
+              and the watermark row below) so its stretched height matches the
+              full card content height, not just the row-1 height next to the
+              right column — otherwise `mt-auto` only had the shorter row-1
+              height to push against, landing the icons above the watermark
+              row instead of at the true bottom of the content, flush with
+              where the copyright bar starts. */}
+          <div className="flex h-full flex-col lg:row-span-2">
             <Link href="/" className="flex items-center gap-2.5">
               <div className="relative h-8 w-10 shrink-0">
                 <Image src="/images/home/hirelinks-logo.png" alt="" fill className="object-contain" />
@@ -145,8 +154,10 @@ export function Footer({ settings }: { settings: SettingsInput | null }) {
             )}
           </div>
 
-          {/* Right: quick links + location/contact */}
-          <div className="relative grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {/* Right: quick links + location/contact. Bordered on the left at
+              lg, where it sits beside the brand column — this is also where
+              the watermark row below is aligned to start from. */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:border-l lg:border-[#eee] lg:pl-8">
             <div>
               <p className="font-display-rounded text-2xl font-bold text-black">
                 Quick <span className="text-[#2a9d8f]">Links</span>
@@ -199,18 +210,39 @@ export function Footer({ settings }: { settings: SettingsInput | null }) {
                 </a>
               )}
             </div>
+          </div>
 
-            {/* Faint "HIRELINKS" watermark, tucked behind the contact block. */}
-            <p
-              aria-hidden
-              className="pointer-events-none absolute -bottom-4 -right-2 select-none whitespace-nowrap font-display-rounded text-[64px] font-bold uppercase leading-none text-[#f2f2f2] sm:text-[80px]"
-            >
-              Hirelinks
-            </p>
+          {/* "HIRELINKS" watermark — a third child of this same grid, pinned
+              to lg:col-start-2 so its left edge lands exactly on the border
+              above (the same line the right column starts from), instead of
+              a guessed 50% split that wouldn't necessarily match it. Row
+              height is tight against the text's own cap-height (this font
+              has no lowercase descenders to allow for), not padded out —
+              cqw sizing lives on these inner divs, not the outermost one, so
+              it scales with the (now column-width, not full-card-width)
+              container rather than a fixed px guess that would drift out of
+              proportion at other widths. */}
+          <div className="relative w-full overflow-hidden lg:col-start-2" style={{ containerType: 'inline-size' }}>
+            <div className="relative flex h-[14cqw] items-center overflow-hidden">
+              <div
+                className="absolute inset-0 flex items-center overflow-hidden"
+                style={{
+                  maskImage: 'linear-gradient(to right, #000 0%, transparent 88%)',
+                  WebkitMaskImage: 'linear-gradient(to right, #000 0%, transparent 88%)',
+                }}
+              >
+                <p
+                  aria-hidden
+                  className="pointer-events-none select-none whitespace-nowrap font-display-rounded text-[17cqw] font-bold uppercase leading-none text-[#e9e9e9]"
+                >
+                  Hirelinks
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="relative flex flex-col items-center gap-3 border-t border-[#eee] px-6 py-5 text-center sm:flex-row sm:justify-between sm:px-8 sm:text-left lg:px-12">
+        <div className="relative flex flex-col items-center gap-3 border-t border-[#eee] px-5 py-4 text-center sm:flex-row sm:justify-between sm:px-6 sm:text-left lg:px-8">
           <p className="font-sans text-xs text-[#9a9a9a]">
             © {year} {companyName}. All Rights Reserved
           </p>

@@ -277,7 +277,7 @@ export function ProgramsSection() {
             a squeezed-down version of the desktop fan effect. */}
         <div className="mt-10 flex flex-col gap-5 sm:hidden">
           {PROGRAMS.map((program, i) => (
-            <ProgramCardMobile key={program.title} program={program} index={i} />
+            <ProgramCardMobile key={i} program={program} index={i} />
           ))}
         </div>
 
@@ -286,7 +286,7 @@ export function ProgramsSection() {
             height spread as it scrolls in/out of view. */}
         <div className="relative mt-16 hidden sm:block sm:h-[400px] lg:mt-20 lg:h-[420px]">
           {PROGRAMS.map((program, i) => (
-            <ProgramCardEl key={program.title} program={program} index={i} />
+            <ProgramCardEl key={i} program={program} index={i} />
           ))}
         </div>
       </div>

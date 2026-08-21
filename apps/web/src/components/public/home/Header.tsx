@@ -19,7 +19,7 @@ export function Header() {
         <MobileNav />
       </div>
 
-      <div className="mx-auto hidden h-[90px] max-w-[1440px] items-center justify-between px-[60px] lg:flex">
+      <div className="mx-auto hidden h-[90px] max-w-[1440px] items-center justify-between px-6 lg:flex xl:px-[60px]">
         <Link href="/" className="flex items-end gap-2.5">
           <div className="relative h-10 w-[50px] shrink-0">
             <Image
@@ -40,12 +40,16 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="relative flex items-center gap-9 rounded-[84px] bg-white py-1.5 pl-[26px] pr-1.5 shadow-[0_2px_20px_rgba(0,0,0,0.06)]">
+        <nav className="relative flex items-center gap-4 rounded-[84px] bg-white py-1.5 pl-[26px] pr-1.5 shadow-[0_2px_20px_rgba(0,0,0,0.06)] xl:gap-9">
+          {/* The two external partner links are the first things to go at the
+              narrow end of lg (1024px) — with everything else, the nav needs
+              ~970px and there's only ~740px to give it there, overflowing the
+              page horizontally. They come back once xl (1280px) has the room. */}
           <a
             href="https://intelligenoverseas.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2"
+            className="hidden items-center gap-2 xl:flex"
           >
             <div className="relative h-6 w-[102px]">
               <Image
@@ -64,7 +68,7 @@ export function Header() {
             href="https://growmedlink.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2"
+            className="hidden items-center gap-2 xl:flex"
           >
             <GrowMedLinkLogo />
             <span className="flex size-6 items-center justify-center rounded bg-[#2a9d8f]">
