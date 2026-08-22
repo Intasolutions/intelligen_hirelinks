@@ -19,7 +19,13 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 lg:sticky lg:border-b lg:border-white lg:bg-gradient-to-r lg:from-white lg:to-white/0 lg:to-[53%]">
+    // `fixed`, not `absolute`, at mobile — `absolute` was positioned relative
+    // to the page's own flow, so it scrolled away with the content above it,
+    // meaning the nav was only reachable by scrolling back to the top. Both
+    // are out of document flow the same way (no reflow of Hero/AboutHero's
+    // own -mt-[90px] compensation below, which only applies at lg: anyway),
+    // but `fixed` stays pinned to the viewport regardless of scroll position.
+    <header className="fixed inset-x-0 top-0 z-50 lg:sticky lg:border-b lg:border-white lg:bg-gradient-to-r lg:from-white lg:to-white/0 lg:to-[53%]">
       <div className="relative bg-transparent lg:hidden">
         <MobileNav />
       </div>
@@ -45,16 +51,12 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="relative flex items-center gap-4 rounded-[84px] bg-white py-1.5 pl-[26px] pr-1.5 shadow-[0_2px_20px_rgba(0,0,0,0.06)] xl:gap-9">
-          {/* The two external partner links are the first things to go at the
-              narrow end of lg (1024px) — with everything else, the nav needs
-              ~970px and there's only ~740px to give it there, overflowing the
-              page horizontally. They come back once xl (1280px) has the room. */}
+        <nav className="relative flex flex-wrap items-center justify-end gap-x-4 gap-y-2 rounded-[28px] bg-white py-1.5 pl-[26px] pr-1.5 shadow-[0_2px_20px_rgba(0,0,0,0.06)] xl:flex-nowrap xl:gap-x-9 xl:rounded-[84px]">
           <a
             href="https://intelligenoverseas.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-2 xl:flex"
+            className="hidden items-center gap-2 lg:flex"
           >
             <div className="relative h-6 w-[102px]">
               <Image
@@ -73,7 +75,7 @@ export function Header() {
             href="https://growmedlink.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-2 xl:flex"
+            className="hidden items-center gap-2 lg:flex"
           >
             <GrowMedLinkLogo />
             <span className="flex size-6 items-center justify-center rounded bg-[#2a9d8f]">

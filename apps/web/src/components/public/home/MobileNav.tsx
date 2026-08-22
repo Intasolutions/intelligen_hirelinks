@@ -2,13 +2,14 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { PillButton } from '../PillButton';
 import { GrowMedLinkLogo } from './GrowMedLinkLogo';
 
 const NAV_LINKS = [
   { label: 'HOME', href: '/' },
-  { label: 'ABOUT', href: '#about' },
+  { label: 'ABOUT', href: '/about' },
   { label: 'SERVICES', href: '#services' },
   { label: 'Programs', href: '#programs' },
   { label: 'BLOG', href: '/blog' },
@@ -29,6 +30,7 @@ function ArrowUpRight() {
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="relative px-3 py-3 lg:hidden">
@@ -76,7 +78,10 @@ export function MobileNav() {
               }`}
             >
               {link.label}
-              {link.label === 'HOME' && (
+              {/* Only real routes (starting with "/") can ever be the
+                  "current" page — hash anchors (e.g. "#services") target a
+                  section on the homepage, not a route of their own. */}
+              {link.href.startsWith('/') && pathname === link.href && (
                 <span className="absolute bottom-3 left-0 h-1 w-6 rounded-full bg-[#2a9d8f]" />
               )}
             </a>
