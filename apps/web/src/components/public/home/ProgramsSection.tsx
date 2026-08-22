@@ -148,7 +148,7 @@ function ProgramCardEl({ program, index }: { program: ProgramCard; index: number
   const { Icon, Watermark } = program;
   return (
     <motion.div
-      className="group absolute left-1/2 top-0 aspect-[313.66/336.31] w-[42%] overflow-hidden rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.18)] lg:w-[23%]"
+      className="group absolute left-1/2 top-0 aspect-[313.66/336.31] w-[23%] overflow-hidden rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.18)]"
       style={{ backgroundColor: program.bg, zIndex: index }}
       initial={{
         rotate: program.stackRotate,
@@ -272,19 +272,28 @@ export function ProgramsSection() {
           </FadeInWhenVisible>
         </div>
 
-        {/* Mobile: plain vertical stack of full-width cards, each fading/sliding
-            up into view as it's scrolled to — its own simple layout instead of
-            a squeezed-down version of the desktop fan effect. */}
-        <div className="mt-10 flex flex-col gap-5 sm:hidden">
+        {/* Mobile AND tablet: plain vertical stack of full-width cards, each
+            fading/sliding up into view as it's scrolled to. The fan effect
+            below is traced from Figma at desktop card proportions (313px
+            cards spread across a ~1360px-wide stage); its offsets are
+            percentages of the card's own width, which stays roughly the same
+            absolute size at the sm/tablet breakpoint too (cards there are a
+            larger % of a narrower container) — so the same spread that fits
+            comfortably in a 1360px-wide desktop stage overshoots badly in a
+            ~700-900px tablet one, clipping the outermost cards off-screen.
+            Simplest robust fix: give tablet the same straightforward stack
+            phones get, and reserve the fan for where it was actually
+            designed to fit. */}
+        <div className="mt-10 flex flex-col gap-5 lg:hidden">
           {PROGRAMS.map((program, i) => (
             <ProgramCardMobile key={i} program={program} index={i} />
           ))}
         </div>
 
-        {/* Tablet/desktop: each card is absolutely centered and animates
+        {/* Desktop only: each card is absolutely centered and animates
             between a resting "stacked pile" pose and a fanned-out, staggered-
             height spread as it scrolls in/out of view. */}
-        <div className="relative mt-16 hidden sm:block sm:h-[400px] lg:mt-20 lg:h-[420px]">
+        <div className="relative mt-20 hidden lg:block lg:h-[420px]">
           {PROGRAMS.map((program, i) => (
             <ProgramCardEl key={i} program={program} index={i} />
           ))}

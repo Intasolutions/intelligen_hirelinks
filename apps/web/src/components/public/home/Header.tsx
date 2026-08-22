@@ -1,18 +1,23 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { PillButton } from '../PillButton';
 import { GrowMedLinkLogo } from './GrowMedLinkLogo';
 import { MobileNav } from './MobileNav';
 
 const NAV_LINKS = [
   { label: 'HOME', href: '/' },
-  { label: 'ABOUT', href: '#about' },
+  { label: 'ABOUT', href: '/about' },
   { label: 'SERVICES', href: '#services' },
   { label: 'Programs', href: '#programs' },
   { label: 'BLOG', href: '/blog' },
 ];
 
 export function Header() {
+  const pathname = usePathname();
+
   return (
     <header className="absolute inset-x-0 top-0 z-50 lg:sticky lg:border-b lg:border-white lg:bg-gradient-to-r lg:from-white lg:to-white/0 lg:to-[53%]">
       <div className="relative bg-transparent lg:hidden">
@@ -76,20 +81,26 @@ export function Header() {
             </span>
           </a>
 
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={`relative whitespace-nowrap text-sm uppercase tracking-[0.14px] text-black ${
-                link.label === 'HOME' ? 'font-light' : 'font-medium'
-              }`}
-            >
-              {link.label}
-              {link.label === 'HOME' && (
-                <span className="absolute bottom-[-14px] left-0 h-1.5 w-full rounded-t-[10px] bg-[#2a9d8f]" />
-              )}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            // Anchor links (e.g. "#services") target a section on the
+            // homepage, not a route of their own — only real page routes
+            // (starting with "/") can ever be the "current" page.
+            const isActive = link.href.startsWith('/') && pathname === link.href;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`relative whitespace-nowrap text-sm uppercase tracking-[0.14px] text-black ${
+                  isActive ? 'font-light' : 'font-medium'
+                }`}
+              >
+                {link.label}
+                {isActive && (
+                  <span className="absolute bottom-[-14px] left-0 h-1.5 w-full rounded-t-[10px] bg-[#2a9d8f]" />
+                )}
+              </a>
+            );
+          })}
 
           <PillButton href="#contact" arrow={false}>
             Contact

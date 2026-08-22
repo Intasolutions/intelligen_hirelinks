@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { usePageReady } from './PageReadyContext';
 
 interface ScaledStageProps {
@@ -38,10 +38,7 @@ export function ScaledStage({ width, height, children, className = '' }: ScaledS
     const updateScale = () => {
       const containerWidth = container.offsetWidth;
       setScale(Math.min(1, containerWidth / width));
-      setReady((wasReady) => {
-        if (!wasReady) pageReady?.registerReady(stageId);
-        return true;
-      });
+      setReady(true);
     };
 
     updateScale();
@@ -50,6 +47,16 @@ export function ScaledStage({ width, height, children, className = '' }: ScaledS
     return () => observer.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width]);
+
+  // Reported from its own effect, not inline inside the layout effect above:
+  // calling `pageReady.registerReady` (a setState on the ancestor
+  // PageReadyProvider) synchronously from within this component's own layout
+  // effect landed while React was still flushing layout effects elsewhere in
+  // the tree, which triggers "Cannot update a component while rendering a
+  // different component". A plain effect runs after that flush completes.
+  useEffect(() => {
+    if (ready) pageReady?.registerReady(stageId);
+  }, [ready, pageReady, stageId]);
 
   return (
     <div
