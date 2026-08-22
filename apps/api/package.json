@@ -7,7 +7,9 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed:admin": "tsx src/scripts/seed.ts",
+    "seed:placed-students": "tsx src/scripts/seed-placed-students.ts"
   },
   "dependencies": {
     "@hirelinks/contracts": "workspace:*",

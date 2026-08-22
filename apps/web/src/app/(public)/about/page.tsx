@@ -2,6 +2,9 @@ import { Metadata } from 'next';
 import { AboutHero } from '../../../components/public/about/AboutHero';
 import { AboutIntroSection } from '../../../components/public/about/AboutIntroSection';
 import { CertificationsSection } from '../../../components/public/about/CertificationsSection';
+import { CoreValuesSection } from '../../../components/public/about/CoreValuesSection';
+import { FaqSection } from '../../../components/public/about/FaqSection';
+import { FeaturedStudentsSection } from '../../../components/public/about/FeaturedStudentsSection';
 import { MissionVisionSection } from '../../../components/public/about/MissionVisionSection';
 
 export const metadata: Metadata = {
@@ -16,6 +19,9 @@ export default function AboutPage() {
       <MissionVisionSection />
       <AboutIntroSection />
       <CertificationsSection />
+      <CoreValuesSection />
+      <FeaturedStudentsSection />
+      <FaqSection />
     </div>
   );
 }

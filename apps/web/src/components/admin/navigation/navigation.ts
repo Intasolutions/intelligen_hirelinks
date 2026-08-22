@@ -39,6 +39,12 @@ export const adminNavigation: NavigationSection[] = [
         disabled: false,
       },
       {
+        label: 'Placed Students',
+        href: '/admin/placed-students',
+        icon: Users,
+        disabled: false,
+      },
+      {
         label: 'Programs',
         href: '/admin/programs',
         icon: Briefcase,

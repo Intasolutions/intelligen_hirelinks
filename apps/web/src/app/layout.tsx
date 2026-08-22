@@ -1,4 +1,5 @@
 import './globals.css';
+import 'flag-icons/css/flag-icons.min.css';
 
 export const metadata = {
   title: 'Intelligen Hirelinks',

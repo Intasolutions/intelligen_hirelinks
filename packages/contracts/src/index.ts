@@ -6,3 +6,4 @@ export * from './blogs.schema';
 export * from './reviews.schema';
 export * from './pages.schema';
 export * from './contacts.schema';
+export * from './placed-students.schema';
