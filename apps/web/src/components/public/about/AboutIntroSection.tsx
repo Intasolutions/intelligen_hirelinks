@@ -48,7 +48,7 @@ export function AboutIntroSection() {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.1} className="mt-8 lg:mt-10">
-              <PillButton href="#services" variant="white" borderColor="#e5e5e5">
+              <PillButton href="/services" variant="white" borderColor="#e5e5e5">
                 Explore Services
               </PillButton>
             </FadeInWhenVisible>

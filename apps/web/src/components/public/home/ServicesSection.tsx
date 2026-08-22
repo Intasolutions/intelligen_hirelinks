@@ -186,7 +186,7 @@ export function ServicesSection() {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible delay={0.15} className="shrink-0">
-            <PillButton href="#services" variant="white" borderColor="#2a9d8f">
+            <PillButton href="/services" variant="white" borderColor="#2a9d8f">
               Explore Services
             </PillButton>
           </FadeInWhenVisible>

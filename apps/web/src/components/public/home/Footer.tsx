@@ -8,11 +8,11 @@ import { PillButton } from '../PillButton';
 
 const QUICK_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/#about' },
-  { label: 'Services', href: '/#services' },
-  { label: 'Programs', href: '/#programs' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Programs', href: '/programs' },
   { label: 'Blogs', href: '/blog' },
-  { label: 'Contact Us', href: '/#contact' },
+  { label: 'Contact Us', href: '/contact' },
 ];
 
 function IconCircle({ children, ...rest }: SVGProps<SVGSVGElement>) {

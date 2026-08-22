@@ -98,6 +98,18 @@ export function FeaturedStudentsCarousel({ students }: { students: PlacedStudent
     return () => mq.removeEventListener('change', update);
   }, []);
 
+  // documentElement.clientWidth excludes the scrollbar gutter, unlike
+  // `100vw`/w-screen — see the full-bleed row below for why that matters.
+  // Starts as '100vw' so SSR/first paint isn't blank while this measures.
+  const [viewportWidth, setViewportWidth] = useState<string | number>('100vw');
+
+  useEffect(() => {
+    const update = () => setViewportWidth(document.documentElement.clientWidth);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   useEffect(() => {
     if (students.length < 2) return;
     const id = setInterval(() => {
@@ -142,16 +154,20 @@ export function FeaturedStudentsCarousel({ students }: { students: PlacedStudent
 
       {/* Full viewport-width bleed, breaking out of both the section's own
           px-4/sm:px-6/lg:px-10 padding and the max-w-[1360px] container
-          above/below it — the relative/left-1/2/-translate-x-1/2/w-screen
-          combo re-centers a full-viewport-width element regardless of any
-          scrollbar-induced offset from the (non-full-bleed) content around
-          it. No padding/gap on the row itself and justify-between so the
-          two half photos sit flush against the viewport's own edges.
-          overflow-x-hidden only (not overflow-hidden) so raised/enlarged
-          photos never get vertically clipped; pt-[4vw] on the row reserves
-          headroom for the raised photos' own negative translate-y so they
-          don't get cut off at the top. */}
-      <div className="relative left-1/2 mt-6 w-screen -translate-x-1/2 overflow-x-hidden pt-[4vw] sm:mt-14 sm:pt-10 lg:pt-14">
+          above/below it. `100vw` (the old `w-screen`) is 1% of the INITIAL
+          CONTAINING BLOCK width, which includes the scrollbar gutter — on
+          any desktop page with a vertical scrollbar (this one, being taller
+          than the viewport), that's wider than the actually-visible page
+          area by exactly the scrollbar's width, so `left-1/2
+          -translate-x-1/2 w-screen` was overshooting the right edge and
+          forcing a horizontal scrollbar into existence just to reach it.
+          There's no CSS unit that excludes the scrollbar reliably across
+          browsers, so `vw` is measured in JS via document.documentElement's
+          actual clientWidth (which does exclude it) instead. */}
+      <div
+        className="relative mt-6 -translate-x-1/2 overflow-x-hidden pt-[4vw] sm:mt-14 sm:pt-10 lg:pt-14"
+        style={{ left: '50%', width: viewportWidth }}
+      >
         {/* Fixed height (matching the active photo's own rendered height —
             the tallest possible child) instead of letting the row's height
             follow whichever photo is currently tallest. Without this, the
