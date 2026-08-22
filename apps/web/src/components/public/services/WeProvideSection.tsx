@@ -50,8 +50,8 @@ export function WeProvideSection() {
           />
 
           <div className="flex flex-col gap-8 lg:flex-1 lg:justify-between lg:gap-6">
-            <div className="flex flex-row items-center gap-4 sm:gap-6 lg:items-start lg:justify-between lg:gap-10">
-              <FadeInWhenVisible delay={0.1} className="max-w-md flex-1 font-sans text-sm leading-relaxed text-black sm:text-base lg:text-lg">
+            <div className="flex flex-row items-center gap-4 sm:gap-6 lg:items-start lg:justify-start lg:gap-10">
+              <FadeInWhenVisible delay={0.1} className="max-w-md flex-1 font-sans text-sm leading-relaxed text-black sm:text-base lg:max-w-xl lg:flex-none lg:text-lg">
                 {PARAGRAPH}
               </FadeInWhenVisible>
 
@@ -62,13 +62,13 @@ export function WeProvideSection() {
               />
             </div>
 
-            <div className="flex flex-row-reverse items-center gap-4 sm:gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+            <div className="flex flex-row-reverse items-center gap-4 sm:gap-6 lg:flex-row lg:items-end lg:justify-start lg:gap-10">
               <Photo
                 src="/images/services/we-provide-photo-square.png"
                 className="aspect-[284/387] w-28 shrink-0 sm:w-40 lg:h-[387px] lg:w-[284px]"
                 delay={0.2}
               />
-              <div className="flex flex-1 flex-col items-start gap-6 lg:max-w-md">
+              <div className="flex flex-1 flex-col items-start gap-6 lg:max-w-xl lg:flex-none">
                 <FadeInWhenVisible delay={0.25} className="font-sans text-sm leading-relaxed text-black sm:text-base lg:text-lg">
                   {PARAGRAPH}
                 </FadeInWhenVisible>
