@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ServicesService } from '../../../../services/services.service';
 import { ServiceBenefitsSection } from '../../../../components/public/services/detail/ServiceBenefitsSection';
+import { ServiceDetailFaqSection } from '../../../../components/public/services/detail/ServiceDetailFaqSection';
 import { ServiceDetailHero } from '../../../../components/public/services/detail/ServiceDetailHero';
 import { ServiceProcessSection } from '../../../../components/public/services/detail/ServiceProcessSection';
 import { ServiceReviewsSection } from '../../../../components/public/services/detail/ServiceReviewsSection';
@@ -64,6 +65,8 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
       />
 
       <ServiceReviewsSection description={service.reviewSectionDescription} />
+
+      <ServiceDetailFaqSection />
     </div>
   );
 }

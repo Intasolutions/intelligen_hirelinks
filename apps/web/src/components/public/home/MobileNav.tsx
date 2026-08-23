@@ -20,6 +20,15 @@ const PARTNER_LINKS = [
   { id: 'growmedlink', label: 'GrowMedLink', href: 'https://growmedlink.com' },
 ];
 
+// "/" only matches the homepage itself; every other route link also
+// highlights on its own subpages (e.g. "/services" stays active on
+// "/services/placement-support"), since exact-match alone would drop the
+// highlight the moment a visitor is on any detail page under that section.
+function isNavLinkActive(href: string, pathname: string) {
+  if (!href.startsWith('/')) return false;
+  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+}
+
 function ArrowUpRight() {
   return (
     <span className="flex size-6 shrink-0 items-center justify-center rounded bg-[#2a9d8f]">
@@ -78,10 +87,7 @@ export function MobileNav() {
               }`}
             >
               {link.label}
-              {/* Only real routes (starting with "/") can ever be the
-                  "current" page — hash anchors (e.g. "#services") target a
-                  section on the homepage, not a route of their own. */}
-              {link.href.startsWith('/') && pathname === link.href && (
+              {isNavLinkActive(link.href, pathname) && (
                 <span className="absolute bottom-3 left-0 h-1 w-6 rounded-full bg-[#2a9d8f]" />
               )}
             </a>

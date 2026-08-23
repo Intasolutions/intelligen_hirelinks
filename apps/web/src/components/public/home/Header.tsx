@@ -15,6 +15,15 @@ const NAV_LINKS = [
   { label: 'BLOG', href: '/blog' },
 ];
 
+// "/" only matches the homepage itself; every other route link also
+// highlights on its own subpages (e.g. "/services" stays active on
+// "/services/placement-support"), since exact-match alone would drop the
+// highlight the moment a visitor is on any detail page under that section.
+function isNavLinkActive(href: string, pathname: string) {
+  if (!href.startsWith('/')) return false;
+  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function Header() {
   const pathname = usePathname();
 
@@ -84,10 +93,7 @@ export function Header() {
           </a>
 
           {NAV_LINKS.map((link) => {
-            // Anchor links (e.g. "#services") target a section on the
-            // homepage, not a route of their own — only real page routes
-            // (starting with "/") can ever be the "current" page.
-            const isActive = link.href.startsWith('/') && pathname === link.href;
+            const isActive = isNavLinkActive(link.href, pathname);
             return (
               <a
                 key={link.label}

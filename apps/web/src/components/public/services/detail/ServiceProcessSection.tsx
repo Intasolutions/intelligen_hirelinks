@@ -14,13 +14,10 @@ export interface ServiceStep {
 function StepIcon({ name, isActive }: { name?: string; isActive: boolean }) {
   const Icon = (name && (LucideIcons as any)[name]) || LucideIcons.Compass;
   return (
-    <span
-      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border sm:h-10 sm:w-10 ${
-        isActive ? 'border-white text-white' : 'border-black text-black'
-      }`}
-    >
-      <Icon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" strokeWidth={1.75} />
-    </span>
+    <Icon
+      className={`h-7 w-7 transition-transform duration-500 ease-out group-hover:scale-110 sm:h-8 sm:w-8 ${isActive ? 'text-white' : 'text-black'}`}
+      strokeWidth={1.75}
+    />
   );
 }
 
@@ -35,8 +32,8 @@ function StepCard({ step, isActive, onActivate }: { step: ServiceStep; isActive:
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') onActivate();
       }}
-      className={`relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl p-6 outline-none transition-colors duration-500 ${
-        isActive ? 'bg-gradient-to-b from-[#0D796C] to-[#2A9D8F] text-white' : 'bg-[#f5f5f5] text-black'
+      className={`group relative flex h-full min-h-[300px] cursor-pointer flex-col justify-end overflow-hidden rounded-2xl p-6 outline-none transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-xl sm:min-h-[340px] ${
+        isActive ? 'bg-gradient-to-b from-[#2A9D8F] to-[#0D796C] text-white' : 'bg-[#f5f5f5] text-black'
       }`}
     >
       {/* Same decorative squiggle CoreValuesSection uses on its teal card,
@@ -47,7 +44,7 @@ function StepCard({ step, isActive, onActivate }: { step: ServiceStep; isActive:
           aria-hidden
           viewBox="0 0 463 235"
           preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-0 h-full w-full"
+          className="pointer-events-none absolute inset-0 h-full w-full transition-opacity duration-500"
           style={{ filter: 'blur(1.5px)' }}
           fill="none"
         >
@@ -61,18 +58,25 @@ function StepCard({ step, isActive, onActivate }: { step: ServiceStep; isActive:
         </svg>
       )}
 
-      <div className="relative">
-        <StepIcon name={step.icon} isActive={isActive} />
+      {/* Icon pinned to the top of the card; everything else (description,
+          divider, title) anchors to the bottom via the card's own
+          justify-end, so short descriptions don't leave the icon stranded
+          far above a big empty gap — the content block just sits low and
+          grows upward as needed. */}
+      <StepIcon name={step.icon} isActive={isActive} />
+
+      <div className="relative mt-auto">
         {step.description && (
-          <p className={`mt-6 text-sm leading-relaxed sm:mt-8 ${isActive ? 'text-white' : 'text-black/60'}`}>
+          <p className={`text-sm leading-relaxed transition-colors duration-500 ${isActive ? 'text-white' : 'text-black/60'}`}>
             {step.description}
           </p>
         )}
-      </div>
-
-      <div className="relative mt-6 sm:mt-8">
-        <div className={`h-px w-full ${isActive ? 'bg-white/25' : 'bg-black/10'}`} />
-        <p className={`mt-3 font-display-rounded text-sm font-bold sm:text-base ${isActive ? 'text-white' : 'text-black'}`}>
+        <div className={`mt-6 h-px w-full transition-colors duration-500 sm:mt-8 ${isActive ? 'bg-white/25' : 'bg-black/10'}`} />
+        <p
+          className={`mt-3 font-display-rounded text-sm font-bold transition-colors duration-500 sm:text-base ${
+            isActive ? 'text-white' : 'text-black'
+          }`}
+        >
           {step.title}
         </p>
       </div>
