@@ -188,7 +188,7 @@ function ProgramCardEl({ program, index }: { program: ProgramCard; index: number
         style={{ bottom: '52%' }}
       >
         <span className="pointer-events-auto inline-block">
-          <PillButton href="#programs" bgColor={program.pillBg} textColor={program.pillText}>
+          <PillButton href="/programs" bgColor={program.pillBg} textColor={program.pillText}>
             View More!
           </PillButton>
         </span>
@@ -232,7 +232,7 @@ function ProgramCardMobile({ program, index }: { program: ProgramCard; index: nu
         <div className="h-9 w-9">
           <Icon />
         </div>
-        <PillButton href="#programs" bgColor={program.pillBg} textColor={program.pillText}>
+        <PillButton href="/programs" bgColor={program.pillBg} textColor={program.pillText}>
           View More!
         </PillButton>
       </div>
@@ -266,7 +266,7 @@ export function ProgramsSection() {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible delay={0.15} className="shrink-0">
-            <PillButton href="#programs" variant="solid">
+            <PillButton href="/programs" variant="solid">
               View More!
             </PillButton>
           </FadeInWhenVisible>
