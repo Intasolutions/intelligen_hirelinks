@@ -97,7 +97,7 @@ function ServiceRow({
         className={`grid transition-all duration-500 ease-out ${isActive ? 'mt-1 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <PillButton href="/services" variant="solid" bgColor="#000000" textColor="#ffffff">
+          <PillButton href={`/services/${service.slug}`} variant="solid" bgColor="#000000" textColor="#ffffff">
             View Details
           </PillButton>
         </div>

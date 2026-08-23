@@ -120,7 +120,17 @@ function NavButton({ direction, onClick }: { direction: 'prev' | 'next'; onClick
   );
 }
 
-export function TestimonialsCarousel({ testimonials }: { testimonials: Testimonial[] }) {
+const DEFAULT_DESCRIPTION =
+  'T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse';
+
+export function TestimonialsCarousel({
+  testimonials,
+  description = DEFAULT_DESCRIPTION,
+}: {
+  testimonials: Testimonial[];
+  /** Overrides the intro paragraph under the heading — defaults to the homepage's copy. */
+  description?: string;
+}) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -150,7 +160,7 @@ export function TestimonialsCarousel({ testimonials }: { testimonials: Testimoni
         </FadeInWhenVisible>
 
         <FadeInWhenVisible delay={0.1} className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-black sm:mt-6 lg:mt-8 lg:text-lg">
-          T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse
+          {description}
         </FadeInWhenVisible>
 
         {/* Main content: 3 equal columns — quote+rating, photo, reviewer info.
