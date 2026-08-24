@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { ProgramsHero } from '../../../components/public/programs/ProgramsHero';
 import { ProgramsIntro } from '../../../components/public/programs/ProgramsIntro';
 import { ProgramsIntroduceSection } from '../../../components/public/programs/ProgramsIntroduceSection';
+import { ProgramsListSection } from '../../../components/public/programs/ProgramsListSection';
 
 export const metadata: Metadata = {
   title: 'Programs | Intelligen Hirelinks',
@@ -14,6 +15,7 @@ export default function ProgramsPage() {
       <ProgramsHero />
       <ProgramsIntro />
       <ProgramsIntroduceSection />
+      <ProgramsListSection />
     </div>
-  );
+  )
 }
