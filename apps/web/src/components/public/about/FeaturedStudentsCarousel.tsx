@@ -139,7 +139,9 @@ export function FeaturedStudentsCarousel({ students }: { students: PlacedStudent
     <section className="w-full bg-white py-8 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-[1360px] px-4 sm:px-6 lg:px-10">
         <FadeInWhenVisible className="flex items-center gap-2">
-          <span className="font-sans text-lg font-bold text-[#2a9d8f] sm:text-xl">//</span>
+          <div className="relative h-[18px] w-5 shrink-0 lg:h-[30px] lg:w-[34px]">
+            <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
+          </div>
           <p className="font-display-rounded text-xl font-bold leading-tight text-black sm:text-2xl md:text-3xl lg:whitespace-nowrap lg:text-[42px]">
             <span className="text-black">Meet our Fabulous Students</span>{' '}
             <span className="text-[#2a9d8f]">Who Placed Well</span>

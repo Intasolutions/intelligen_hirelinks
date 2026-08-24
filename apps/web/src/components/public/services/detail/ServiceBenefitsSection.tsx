@@ -39,7 +39,9 @@ export function ServiceBenefitsSection({
     <section className="w-full overflow-x-hidden bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-[1360px]">
         <FadeInWhenVisible className="flex items-center gap-2">
-          <span className="font-sans text-lg font-bold text-[#2a9d8f] sm:text-xl">//</span>
+          <div className="relative h-[18px] w-5 shrink-0 lg:h-[30px] lg:w-[34px]">
+            <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
+          </div>
           <p className="font-display-rounded text-2xl font-bold leading-tight sm:text-3xl lg:text-[42px]">
             {lead && <span className="text-black">{lead} </span>}
             <span className="text-[#2a9d8f]">{accent}</span>

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { FadeInWhenVisible } from './FadeInWhenVisible';
 
@@ -94,7 +95,9 @@ export function FaqAccordion({ heading, headingAccent, items, defaultOpenIndex =
     <section className={`w-full bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 ${className}`}>
       <div className="mx-auto max-w-[1360px]">
         <FadeInWhenVisible className="flex items-center justify-center gap-2 text-center">
-          <span className="font-sans text-lg font-bold text-[#2a9d8f] sm:text-xl">//</span>
+          <div className="relative h-[18px] w-5 shrink-0 lg:h-[30px] lg:w-[34px]">
+            <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
+          </div>
           <p className="font-display-rounded text-xl font-bold leading-tight text-black sm:text-2xl md:text-3xl lg:whitespace-nowrap lg:text-[42px]">
             {lead && <span className="text-black">{lead} </span>}
             <span className="text-[#2a9d8f]">{accent}</span>

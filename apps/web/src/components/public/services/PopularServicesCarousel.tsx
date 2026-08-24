@@ -153,7 +153,9 @@ export function PopularServicesCarousel({ services }: { services: PopularService
     <section className="w-full overflow-x-hidden bg-white py-8 sm:py-12 lg:py-16">
       <div className="mx-auto max-w-[1360px] px-4 sm:px-6 lg:px-10">
         <FadeInWhenVisible className="flex items-center justify-center gap-2 text-center">
-          <span className="font-sans text-lg font-bold text-[#2a9d8f] sm:text-xl">//</span>
+          <div className="relative h-[18px] w-5 shrink-0 lg:h-[30px] lg:w-[34px]">
+            <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
+          </div>
           <p className="font-display-rounded text-2xl font-bold leading-tight text-black sm:text-3xl lg:text-[42px]">
             <span className="text-black">Our Popular</span> <span className="text-[#2a9d8f]">Services</span>
           </p>

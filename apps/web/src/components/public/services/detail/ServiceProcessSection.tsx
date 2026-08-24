@@ -1,6 +1,7 @@
 'use client';
 
 import * as LucideIcons from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 import { FadeInWhenVisible } from '../../FadeInWhenVisible';
 
@@ -97,7 +98,9 @@ export function ServiceProcessSection({ description, steps }: { description?: st
     <section className="w-full bg-white px-4 py-10 sm:px-6 sm:py-14 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-[1360px]">
         <FadeInWhenVisible className="flex items-center justify-center gap-2 text-center">
-          <span className="font-sans text-lg font-bold text-[#2a9d8f] sm:text-xl">//</span>
+          <div className="relative h-[18px] w-5 shrink-0 lg:h-[30px] lg:w-[34px]">
+            <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
+          </div>
           <p className="font-display-rounded text-2xl font-bold leading-tight text-black sm:text-3xl lg:text-[42px]">
             <span className="text-black">Our</span> <span className="text-[#2a9d8f]">Processes</span>
           </p>
