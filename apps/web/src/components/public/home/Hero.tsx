@@ -76,7 +76,7 @@ export function Hero() {
         </div>
 
         <div className="absolute left-[60px] top-[649px] z-20 hidden w-[513px] lg:block">
-          <PillButton href="#contact" variant="white">
+          <PillButton href="/contact" variant="white">
             Talk to Expert
           </PillButton>
 
@@ -97,7 +97,7 @@ export function Hero() {
             tristique placerat consectetur molestie est ornare. Suspendisse
           </p>
 
-          <PillButton href="#contact" variant="solid" borderColor="#ffffff" className="mt-8">
+          <PillButton href="/contact" variant="solid" borderColor="#ffffff" className="mt-8">
             Register Now!
           </PillButton>
         </div>
@@ -118,11 +118,11 @@ export function Hero() {
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <PillButton href="#contact" variant="white">
+          <PillButton href="/contact" variant="white">
             Talk to Expert
           </PillButton>
 
-          <PillButton href="#contact" variant="solid" borderColor="#ffffff">
+          <PillButton href="/contact" variant="solid" borderColor="#ffffff">
             Register Now!
           </PillButton>
         </div>

@@ -5,10 +5,12 @@ export interface IContact extends Document {
   phoneNumber: string;
   whatsappNumber?: string;
   email: string;
-  nationality: string;
-  place: string;
+  nationality?: string;
+  place?: string;
   qualifications: string[];
   experience: string[];
+  serviceInterested?: string;
+  message?: string;
   status: 'PENDING' | 'IN_PROGRESS' | 'RESOLVED';
   source: 'REGISTRATION' | 'CONTACT';
   createdAt: Date;
@@ -20,10 +22,12 @@ const ContactSchema = new Schema<IContact>({
   phoneNumber: { type: String, required: true },
   whatsappNumber: { type: String },
   email: { type: String, required: true },
-  nationality: { type: String, required: true },
-  place: { type: String, required: true },
+  nationality: { type: String },
+  place: { type: String },
   qualifications: [{ type: String }],
   experience: [{ type: String }],
+  serviceInterested: { type: String },
+  message: { type: String },
   status: { type: String, enum: ['PENDING', 'IN_PROGRESS', 'RESOLVED'], default: 'PENDING' },
   source: { type: String, enum: ['REGISTRATION', 'CONTACT'], default: 'REGISTRATION' },
 }, { timestamps: true });

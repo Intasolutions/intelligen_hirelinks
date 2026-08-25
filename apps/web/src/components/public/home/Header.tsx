@@ -110,7 +110,7 @@ export function Header() {
             );
           })}
 
-          <PillButton href="#contact" arrow={false}>
+          <PillButton href="/contact" arrow={false}>
             Contact
           </PillButton>
         </nav>

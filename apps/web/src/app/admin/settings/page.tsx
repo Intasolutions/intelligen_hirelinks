@@ -142,6 +142,18 @@ export default function SettingsPage() {
                 <Input {...register('businessHours')} placeholder="Mon-Fri, 9am - 5pm EST" />
                 {errors.businessHours && <p className="mt-1 text-xs text-red-600">{errors.businessHours?.message}</p>}
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">City</label>
+                  <Input {...register('city')} placeholder="e.g. Bangalore" />
+                  {errors.city && <p className="mt-1 text-xs text-red-600">{errors.city?.message}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Country Code</label>
+                  <Input {...register('countryCode')} placeholder="e.g. in (ISO 3166-1 alpha-2, used for the flag icon)" maxLength={2} />
+                  {errors.countryCode && <p className="mt-1 text-xs text-red-600">{errors.countryCode?.message}</p>}
+                </div>
+              </div>
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-sm font-medium text-gray-300">Office Addresses</label>

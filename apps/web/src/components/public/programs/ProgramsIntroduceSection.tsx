@@ -114,7 +114,7 @@ export function ProgramsIntroduceSection() {
                 paragraph. */}
             <div className="mt-10 flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between lg:mt-0">
               <FadeInWhenVisible delay={0.15}>
-                <PillButton href="#contact" variant="solid" bgColor="#000000" textColor="#ffffff">
+                <PillButton href="/contact" variant="solid" bgColor="#000000" textColor="#ffffff">
                   Contact Now!
                 </PillButton>
               </FadeInWhenVisible>

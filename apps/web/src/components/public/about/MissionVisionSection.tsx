@@ -169,7 +169,7 @@ export function MissionVisionSection() {
             {INTRO}
           </FadeInWhenVisible>
           <FadeInWhenVisible delay={0.1} className="shrink-0">
-            <PillButton href="#contact" bgColor="#111111" textColor="#ffffff">
+            <PillButton href="/contact" bgColor="#111111" textColor="#ffffff">
               Contact Now!
             </PillButton>
           </FadeInWhenVisible>

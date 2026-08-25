@@ -66,7 +66,7 @@ export function MobileNav() {
           <Image src="/images/home/hirelinks-logo.png" alt="Hirelinks" fill className="object-contain" priority />
         </Link>
 
-        <PillButton href="#contact" arrow={false} className="shrink-0 text-xs">
+        <PillButton href="/contact" arrow={false} className="shrink-0 text-xs">
           Contact
         </PillButton>
       </div>

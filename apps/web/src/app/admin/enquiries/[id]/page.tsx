@@ -5,7 +5,7 @@ import { ContactsService } from '../../../../services/contacts.service';
 import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { Button } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
-import { ArrowLeft, User, Phone, Mail, Globe, MapPin, Briefcase, GraduationCap, Clock, CheckCircle } from 'lucide-react';
+import { ArrowLeft, User, Phone, Mail, Globe, MapPin, Briefcase, GraduationCap, Clock, CheckCircle, MessageSquare, Tag } from 'lucide-react';
 import Link from 'next/link';
 
 export default function EnquiryDetailsPage({ params }: { params: { id: string } }) {
@@ -107,52 +107,83 @@ export default function EnquiryDetailsPage({ params }: { params: { id: string } 
                 </label>
                 <div className="text-white font-medium">{enquiry.whatsappNumber || 'N/A'}</div>
               </div>
-              <div>
-                <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-2">
-                  <Globe className="h-3 w-3 mr-1" /> Nationality
-                </label>
-                <div className="text-white font-medium">{enquiry.nationality}</div>
-              </div>
-              <div>
-                <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-2">
-                  <MapPin className="h-3 w-3 mr-1" /> Place
-                </label>
-                <div className="text-white font-medium">{enquiry.place}</div>
-              </div>
+              {enquiry.nationality && (
+                <div>
+                  <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-2">
+                    <Globe className="h-3 w-3 mr-1" /> Nationality
+                  </label>
+                  <div className="text-white font-medium">{enquiry.nationality}</div>
+                </div>
+              )}
+              {enquiry.place && (
+                <div>
+                  <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-2">
+                    <MapPin className="h-3 w-3 mr-1" /> Place
+                  </label>
+                  <div className="text-white font-medium">{enquiry.place}</div>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="bg-admin-bg border border-admin-card rounded-xl p-6">
-            <h2 className="text-lg font-medium text-white mb-6 border-b border-admin-card pb-4">Professional Background</h2>
-            
-            <div className="space-y-6">
-              <div>
-                <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-3">
-                  <GraduationCap className="h-4 w-4 mr-1" /> Qualifications
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {enquiry.qualifications?.length > 0 ? enquiry.qualifications.map((q: string) => (
-                    <span key={q} className="bg-admin-card border border-[#333] text-gray-300 px-3 py-1.5 rounded-md text-sm">
-                      {q}
-                    </span>
-                  )) : <span className="text-gray-400">None provided</span>}
+          {enquiry.source === 'REGISTRATION' && (
+            <div className="bg-admin-bg border border-admin-card rounded-xl p-6">
+              <h2 className="text-lg font-medium text-white mb-6 border-b border-admin-card pb-4">Professional Background</h2>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-3">
+                    <GraduationCap className="h-4 w-4 mr-1" /> Qualifications
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {enquiry.qualifications?.length > 0 ? enquiry.qualifications.map((q: string) => (
+                      <span key={q} className="bg-admin-card border border-[#333] text-gray-300 px-3 py-1.5 rounded-md text-sm">
+                        {q}
+                      </span>
+                    )) : <span className="text-gray-400">None provided</span>}
+                  </div>
                 </div>
-              </div>
-              
-              <div>
-                <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-3">
-                  <Briefcase className="h-4 w-4 mr-1" /> Experience
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {enquiry.experience?.length > 0 ? enquiry.experience.map((e: string) => (
-                    <span key={e} className="bg-admin-card border border-[#333] text-gray-300 px-3 py-1.5 rounded-md text-sm">
-                      {e}
-                    </span>
-                  )) : <span className="text-gray-400">None provided</span>}
+
+                <div>
+                  <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-3">
+                    <Briefcase className="h-4 w-4 mr-1" /> Experience
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {enquiry.experience?.length > 0 ? enquiry.experience.map((e: string) => (
+                      <span key={e} className="bg-admin-card border border-[#333] text-gray-300 px-3 py-1.5 rounded-md text-sm">
+                        {e}
+                      </span>
+                    )) : <span className="text-gray-400">None provided</span>}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {enquiry.source === 'CONTACT' && (enquiry.serviceInterested || enquiry.message) && (
+            <div className="bg-admin-bg border border-admin-card rounded-xl p-6">
+              <h2 className="text-lg font-medium text-white mb-6 border-b border-admin-card pb-4">Enquiry Details</h2>
+
+              <div className="space-y-6">
+                {enquiry.serviceInterested && (
+                  <div>
+                    <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-2">
+                      <Tag className="h-3 w-3 mr-1" /> Service Interested In
+                    </label>
+                    <div className="text-white font-medium">{enquiry.serviceInterested}</div>
+                  </div>
+                )}
+                {enquiry.message && (
+                  <div>
+                    <label className="flex items-center text-xs text-gray-400 uppercase tracking-wider mb-2">
+                      <MessageSquare className="h-3 w-3 mr-1" /> Message
+                    </label>
+                    <div className="text-white font-medium whitespace-pre-line">{enquiry.message}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Sidebar Status */}
