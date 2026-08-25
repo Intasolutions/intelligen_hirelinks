@@ -30,6 +30,15 @@ export default function SettingsPage() {
 
   const { register, control, handleSubmit, reset, formState: { errors, isSubmitting, isDirty } } = form;
 
+  // The four image pickers below live outside react-hook-form (they hold a
+  // raw File, not a form field), so choosing an image never touches the
+  // form's own isDirty flag — Save stayed disabled even after picking a
+  // new logo/favicon/OG image because nothing else had changed. Tracking
+  // whether any file was chosen separately, and OR-ing it into the
+  // disabled check below, is what actually reflects "there's something
+  // pending to save."
+  const hasPendingImage = Boolean(logoFile || darkLogoFile || faviconFile || ogImageFile);
+
   const { fields: addressFields, append: appendAddress, remove: removeAddress } = useFieldArray({
     control,
     name: 'addresses'
@@ -64,6 +73,10 @@ export default function SettingsPage() {
       if (res.success) {
         toast.success('Settings updated successfully');
         reset(data); // reset dirty state
+        setLogoFile(null);
+        setDarkLogoFile(null);
+        setFaviconFile(null);
+        setOgImageFile(null);
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update settings');
       }
@@ -85,7 +98,7 @@ export default function SettingsPage() {
       title="Global Settings" 
       description="Manage all platform-wide configurations, branding, and defaults."
       actions={
-        <Button onClick={handleSubmit(onSubmit)} disabled={!isDirty || isSubmitting}>
+        <Button onClick={handleSubmit(onSubmit)} disabled={(!isDirty && !hasPendingImage) || isSubmitting}>
           {isSubmitting ? 'Saving...' : 'Save Changes'}
         </Button>
       }

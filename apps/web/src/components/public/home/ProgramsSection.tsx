@@ -115,6 +115,7 @@ function RingsWatermark() {
 
 interface ProgramCard {
   title: string;
+  slug: string;
   bg: string;
   textColor: string;
   Icon: () => JSX.Element;
@@ -132,17 +133,21 @@ interface ProgramCard {
   fanYPct: number;
 }
 
-// Traced from Figma fanned-out layout (each card 313.66x336.31):
-//  card1 x=68.97  y=291.01 rot=8.06deg
-//  card2 x=398.16 y=344.82 rot=-6.86deg
-//  card3 x=718.90 y=312.84 rot=5.6deg
-//  card4 x=1020.48 y=269.82 rot=-6.44deg
-const PROGRAMS: ProgramCard[] = [
-  { title: 'International Nurse Pre-Enrolment Program', bg: '#2a9d8f', textColor: '#ffffff', Icon: BurstIcon, Watermark: BurstWatermark, pillBg: '#ffffff', pillText: '#2a9d8f', stackRotate: -8, stackY: 6, fanRotate: 8.06, fanXPct: -153.88, fanYPct: -4.05 },
-  { title: 'International Placement Program', bg: '#e9e9ea', textColor: '#111111', Icon: FlowerIcon, Watermark: FlowerWatermark, pillBg: '#161616', pillText: '#ffffff', stackRotate: 4, stackY: 3, fanRotate: -6.86, fanXPct: -48.93, fanYPct: 11.95 },
-  { title: 'International Student Counselling Program', bg: '#0c78b8', textColor: '#ffffff', Icon: SparkIcon, Watermark: SparkWatermark, pillBg: '#ffffff', pillText: '#0c78b8', stackRotate: -3, stackY: 2, fanRotate: 5.6, fanXPct: 53.33, fanYPct: 2.44 },
-  { title: 'International Student Counselling Program', bg: '#161616', textColor: '#ffffff', Icon: RingsIcon, Watermark: RingsWatermark, pillBg: '#ffffff', pillText: '#161616', stackRotate: 2, stackY: 0, fanRotate: -6.44, fanXPct: 149.48, fanYPct: -10.35 },
+// Fixed visual styling (color/icon/pose) for up to 4 featured slots — traced
+// from Figma's fanned-out layout (each card 313.66x336.31). The real program
+// title/slug for each slot comes from the API at render time; only the
+// decorative shell here is hardcoded.
+const SLOT_STYLES = [
+  { bg: '#2a9d8f', textColor: '#ffffff', Icon: BurstIcon, Watermark: BurstWatermark, pillBg: '#ffffff', pillText: '#2a9d8f', stackRotate: -8, stackY: 6, fanRotate: 8.06, fanXPct: -153.88, fanYPct: -4.05 },
+  { bg: '#e9e9ea', textColor: '#111111', Icon: FlowerIcon, Watermark: FlowerWatermark, pillBg: '#161616', pillText: '#ffffff', stackRotate: 4, stackY: 3, fanRotate: -6.86, fanXPct: -48.93, fanYPct: 11.95 },
+  { bg: '#0c78b8', textColor: '#ffffff', Icon: SparkIcon, Watermark: SparkWatermark, pillBg: '#ffffff', pillText: '#0c78b8', stackRotate: -3, stackY: 2, fanRotate: 5.6, fanXPct: 53.33, fanYPct: 2.44 },
+  { bg: '#161616', textColor: '#ffffff', Icon: RingsIcon, Watermark: RingsWatermark, pillBg: '#ffffff', pillText: '#161616', stackRotate: 2, stackY: 0, fanRotate: -6.44, fanXPct: 149.48, fanYPct: -10.35 },
 ];
+
+export interface FeaturedProgram {
+  title: string;
+  slug: string;
+}
 
 function ProgramCardEl({ program, index }: { program: ProgramCard; index: number }) {
   const { Icon, Watermark } = program;
@@ -188,7 +193,7 @@ function ProgramCardEl({ program, index }: { program: ProgramCard; index: number
         style={{ bottom: '52%' }}
       >
         <span className="pointer-events-auto inline-block">
-          <PillButton href="/programs" bgColor={program.pillBg} textColor={program.pillText}>
+          <PillButton href={`/programs/${program.slug}`} bgColor={program.pillBg} textColor={program.pillText}>
             View More!
           </PillButton>
         </span>
@@ -232,7 +237,7 @@ function ProgramCardMobile({ program, index }: { program: ProgramCard; index: nu
         <div className="h-9 w-9">
           <Icon />
         </div>
-        <PillButton href="/programs" bgColor={program.pillBg} textColor={program.pillText}>
+        <PillButton href={`/programs/${program.slug}`} bgColor={program.pillBg} textColor={program.pillText}>
           View More!
         </PillButton>
       </div>
@@ -247,7 +252,13 @@ function ProgramCardMobile({ program, index }: { program: ProgramCard; index: nu
   );
 }
 
-export function ProgramsSection() {
+export function ProgramsSection({ programs }: { programs: FeaturedProgram[] }) {
+  const cards: ProgramCard[] = programs
+    .slice(0, 4)
+    .map((p, i) => ({ ...SLOT_STYLES[i % SLOT_STYLES.length], title: p.title, slug: p.slug }));
+
+  if (cards.length === 0) return null;
+
   return (
     <section className="relative w-full overflow-x-hidden bg-white px-4 py-16 lg:px-10 lg:py-24">
       <div className="mx-auto max-w-[1360px]">
@@ -285,8 +296,8 @@ export function ProgramsSection() {
             phones get, and reserve the fan for where it was actually
             designed to fit. */}
         <div className="mt-10 flex flex-col gap-5 lg:hidden">
-          {PROGRAMS.map((program, i) => (
-            <ProgramCardMobile key={i} program={program} index={i} />
+          {cards.map((program, i) => (
+            <ProgramCardMobile key={program.slug} program={program} index={i} />
           ))}
         </div>
 
@@ -294,8 +305,8 @@ export function ProgramsSection() {
             between a resting "stacked pile" pose and a fanned-out, staggered-
             height spread as it scrolls in/out of view. */}
         <div className="relative mt-20 hidden lg:block lg:h-[420px]">
-          {PROGRAMS.map((program, i) => (
-            <ProgramCardEl key={i} program={program} index={i} />
+          {cards.map((program, i) => (
+            <ProgramCardEl key={program.slug} program={program} index={i} />
           ))}
         </div>
       </div>

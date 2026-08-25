@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
+import { ServicesService } from '../../../services/services.service';
 
 const LOREM = 'T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit.';
 
@@ -88,18 +89,32 @@ function LanguageIcon() {
 
 interface Service {
   title: string;
+  slug: string;
   description: string;
   icon: React.ComponentType;
   featured?: boolean;
 }
 
-const SERVICES: Service[] = [
-  { title: 'Placement Support', description: LOREM, icon: PlacementIcon },
-  { title: 'Documentation Support & Data Flow', description: LOREM, icon: DocumentationIcon, featured: true },
-  { title: 'Global Nursing Licensing Exam Preparation', description: LOREM, icon: LicensingIcon },
-  { title: 'Interview Training', description: LOREM, icon: InterviewIcon },
-  { title: 'Language Training', description: LOREM, icon: LanguageIcon },
-];
+// Icons cycle in this fixed order regardless of which real services come
+// back from the API — there's no icon field on the Service model, so we
+// just need five consistent glyphs across the five featured slots.
+const ICONS = [PlacementIcon, DocumentationIcon, LicensingIcon, InterviewIcon, LanguageIcon];
+
+async function getFeaturedServices(): Promise<Service[]> {
+  try {
+    const res = await ServicesService.getPublicServices();
+    const services = (res.data ?? []) as any[];
+    return services.slice(0, 5).map((s, i) => ({
+      title: s.title,
+      slug: s.slug,
+      description: s.shortDescription || '',
+      icon: ICONS[i % ICONS.length],
+      featured: i === 1,
+    }));
+  } catch {
+    return [];
+  }
+}
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
   const Icon = service.icon;
@@ -110,6 +125,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         delay={0.15 + index * 0.08}
         className="relative flex h-full min-h-[260px] flex-col justify-end overflow-hidden bg-black p-6 text-white transition-transform duration-500 hover:-translate-y-1 sm:min-h-[300px] sm:p-8 lg:min-h-[340px] lg:p-10"
       >
+        <a href={`/services/${service.slug}`} className="absolute inset-0 z-10" aria-label={service.title} />
         <Image
           src="/images/home/services-featured-bg.png"
           alt=""
@@ -134,18 +150,19 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
   return (
     <FadeInWhenVisible
       delay={0.15 + index * 0.08}
-      className="flex h-full min-h-[220px] flex-col justify-center p-6 transition-transform duration-500 hover:-translate-y-1 sm:min-h-[260px] sm:p-8 lg:min-h-[300px] lg:p-10"
+      className="relative flex h-full min-h-[220px] flex-col justify-center p-6 transition-transform duration-500 hover:-translate-y-1 sm:min-h-[260px] sm:p-8 lg:min-h-[300px] lg:p-10"
     >
-      <span className="inline-block text-black [&_svg]:h-8 [&_svg]:w-8 sm:[&_svg]:h-10 sm:[&_svg]:w-10">
+      <a href={`/services/${service.slug}`} className="absolute inset-0" aria-label={service.title} />
+      <span className="pointer-events-none inline-block text-black [&_svg]:h-8 [&_svg]:w-8 sm:[&_svg]:h-10 sm:[&_svg]:w-10">
         <Icon />
       </span>
       <h3
-        className="mt-8 whitespace-pre-line bg-gradient-to-r from-[#2a9d8f] to-[#0077b6] bg-clip-text font-display-rounded font-light leading-tight text-transparent sm:mt-12"
+        className="pointer-events-none mt-8 whitespace-pre-line bg-gradient-to-r from-[#2a9d8f] to-[#0077b6] bg-clip-text font-display-rounded font-light leading-tight text-transparent sm:mt-12"
         style={{ fontSize: 'clamp(22px, 4vw, 32px)' }}
       >
         {service.title}
       </h3>
-      <p className="mt-3 max-w-md text-sm leading-relaxed text-black/70 sm:mt-4 lg:text-base">
+      <p className="pointer-events-none mt-3 max-w-md text-sm leading-relaxed text-black/70 sm:mt-4 lg:text-base">
         {service.description}
       </p>
     </FadeInWhenVisible>
@@ -156,7 +173,10 @@ const NOTCH_WIDTH = 976;
 const NOTCH_HEIGHT = 38;
 const STAGE_WIDTH = 1440;
 
-export function ServicesSection() {
+export async function ServicesSection() {
+  const services = await getFeaturedServices();
+  if (services.length === 0) return null;
+
   return (
     <section className="relative w-full overflow-hidden bg-[#f7f7f8] pb-12 pt-12 lg:pb-20 lg:pt-16">
       {/* Notch wedge cut into the top-center edge, matching PartnersSection */}
@@ -199,19 +219,23 @@ export function ServicesSection() {
       <div className="mt-10 w-full bg-white lg:mt-14">
         {/* Row 1: three equal columns */}
         <div className="grid grid-cols-1 divide-y divide-[#e5e5e5] border-y border-[#e5e5e5] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-          <ServiceCard service={SERVICES[0]} index={0} />
-          <ServiceCard service={SERVICES[1]} index={1} />
-          <ServiceCard service={SERVICES[2]} index={2} />
+          {services.slice(0, 3).map((service, i) => (
+            <ServiceCard key={service.slug} service={service} index={i} />
+          ))}
         </div>
         {/* Row 2: 1/3 + 2/3 split */}
-        <div className="grid grid-cols-1 divide-y divide-[#e5e5e5] border-b border-[#e5e5e5] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-          <div>
-            <ServiceCard service={SERVICES[3]} index={3} />
+        {services.length > 3 && (
+          <div className="grid grid-cols-1 divide-y divide-[#e5e5e5] border-b border-[#e5e5e5] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+            <div>
+              <ServiceCard service={services[3]} index={3} />
+            </div>
+            {services[4] && (
+              <div className="lg:col-span-2">
+                <ServiceCard service={services[4]} index={4} />
+              </div>
+            )}
           </div>
-          <div className="lg:col-span-2">
-            <ServiceCard service={SERVICES[4]} index={4} />
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );
