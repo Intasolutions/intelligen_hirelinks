@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { ContactHero } from '../../../components/public/contact/ContactHero';
 import { ContactForm } from '../../../components/public/contact/ContactForm';
+import { ContactFaqSection } from '../../../components/public/contact/ContactFaqSection';
 
 export const metadata: Metadata = {
   title: 'Contact Us | Intelligen Hirelinks',
@@ -12,6 +13,7 @@ export default function ContactPage() {
     <div>
       <ContactHero />
       <ContactForm />
+      <ContactFaqSection />
     </div>
   );
 }

@@ -25,7 +25,7 @@ const AVAILABLE_FLAG_CODES = new Set(['au', 'br', 'in', 'us']);
 
 function IconPill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f2f2f2] text-black sm:h-10 sm:w-10">
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#2a9d8f] bg-white text-[#2a9d8f] sm:h-10 sm:w-10">
       {children}
     </span>
   );
@@ -127,7 +127,7 @@ export async function ContactHero() {
             )}
           </div>
 
-          <div className="relative mt-8 aspect-[16/10] w-full overflow-hidden rounded-2xl bg-[#f2f2f2] sm:mt-10">
+          <div className="relative mt-8 aspect-[16/10] w-full max-w-sm overflow-hidden rounded-2xl bg-[#f2f2f2] sm:mt-10">
             {/* Placeholder office/skyscraper photo — swap for a real office
                 photo by saving it to public/images/contact/contact-hero-photo.jpg
                 and pointing src there. */}

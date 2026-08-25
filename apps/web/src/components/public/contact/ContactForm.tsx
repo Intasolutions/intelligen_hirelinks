@@ -89,8 +89,8 @@ export function ContactForm() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-black">Full Name</label>
+            <div className="group">
+              <label className="mb-1 block text-sm font-medium text-black transition-colors group-focus-within:text-[#2a9d8f]">Full Name</label>
               <input
                 type="text"
                 {...register('fullName')}
@@ -102,8 +102,8 @@ export function ContactForm() {
               {errors.fullName && <p className="mt-1 text-xs text-red-500">{errors.fullName.message}</p>}
             </div>
 
-            <div>
-              <label className="mb-1 block text-sm font-medium text-black">Phone Number</label>
+            <div className="group">
+              <label className="mb-1 block text-sm font-medium text-black transition-colors group-focus-within:text-[#2a9d8f]">Phone Number</label>
               <input
                 type="tel"
                 {...register('phoneNumber')}
@@ -115,8 +115,8 @@ export function ContactForm() {
               {errors.phoneNumber && <p className="mt-1 text-xs text-red-500">{errors.phoneNumber.message}</p>}
             </div>
 
-            <div>
-              <label className="mb-1 block text-sm font-medium text-black">Email</label>
+            <div className="group">
+              <label className="mb-1 block text-sm font-medium text-black transition-colors group-focus-within:text-[#2a9d8f]">Email</label>
               <input
                 type="email"
                 {...register('email')}
@@ -128,8 +128,8 @@ export function ContactForm() {
               {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
             </div>
 
-            <div>
-              <label className="mb-1 block text-sm font-medium text-black">Service Interested In</label>
+            <div className="group">
+              <label className="mb-1 block text-sm font-medium text-black transition-colors group-focus-within:text-[#2a9d8f]">Service Interested In</label>
               <select
                 {...register('serviceInterested')}
                 defaultValue=""
@@ -143,8 +143,8 @@ export function ContactForm() {
             </div>
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium text-black">Message</label>
+          <div className="group">
+            <label className="mb-1 block text-sm font-medium text-black transition-colors group-focus-within:text-[#2a9d8f]">Message</label>
             <textarea
               {...register('message')}
               rows={6}
