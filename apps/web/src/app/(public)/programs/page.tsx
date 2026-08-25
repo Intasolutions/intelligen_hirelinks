@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { ProgramsFaqSection } from '../../../components/public/programs/ProgramsFaqSection';
 import { ProgramsHero } from '../../../components/public/programs/ProgramsHero';
 import { ProgramsIntro } from '../../../components/public/programs/ProgramsIntro';
 import { ProgramsIntroduceSection } from '../../../components/public/programs/ProgramsIntroduceSection';
@@ -16,6 +17,7 @@ export default function ProgramsPage() {
       <ProgramsIntro />
       <ProgramsIntroduceSection />
       <ProgramsListSection />
+      <ProgramsFaqSection />
     </div>
-  )
+  );
 }
