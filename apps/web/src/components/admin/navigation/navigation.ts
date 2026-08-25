@@ -67,6 +67,12 @@ export const adminNavigation: NavigationSection[] = [
         href: '/admin/pages',
         icon: FileText,
         disabled: false,
+      },
+      {
+        label: 'Partners & Certifications',
+        href: '/admin/partners',
+        icon: ImageIcon,
+        disabled: false,
       }
     ]
   },

@@ -1,24 +1,17 @@
 import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { LogoMarquee, type MarqueeLogo } from '../LogoMarquee';
+import { PartnerLogosService } from '../../../services/partner-logos.service';
 
-// Placeholder logos reusing existing brand assets until the real
-// certification/affiliation logos (Layers, Sisyphus, Circooles, Catalog,
-// Quotient) are exported from Figma — swap src once those files land in
-// public/images/about/. LogoMarquee renders every logo object-contain at the
-// same height, so no per-logo width/height/display-size data is needed here.
-const CERTIFICATION_LOGOS: MarqueeLogo[] = [
-  { name: 'Hirelinks', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen', src: '/images/home/intelligen-logo.png' },
-  { name: 'GrowMedLink', src: '/images/home/growmedlink-logo.png' },
-  { name: 'Hirelinks 2', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen 2', src: '/images/home/intelligen-logo.png' },
-  { name: 'Hirelinks', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen', src: '/images/home/intelligen-logo.png' },
-  { name: 'GrowMedLink', src: '/images/home/growmedlink-logo.png' },
-  { name: 'Hirelinks 2', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen 2', src: '/images/home/intelligen-logo.png' },
-];
+async function getCertificationLogos(): Promise<MarqueeLogo[]> {
+  try {
+    const res = await PartnerLogosService.getPublicPartnerLogos('CERTIFICATION');
+    const logos = (res.data ?? []) as any[];
+    return logos.filter((l) => l.logo?.url).map((l) => ({ name: l.name, src: l.logo.url }));
+  } catch {
+    return [];
+  }
+}
 
 // Card is 1360x369 in Figma (node 147:10516), 6px corner radius, radial
 // gradient fill. The top-center notch is a separate white wedge shape
@@ -31,7 +24,10 @@ const NOTCH_HEIGHT = 38;
 
 // Exact copy of PartnersSection (homepage) — same card/notch/marquee, only
 // the heading text and logo set differ.
-export function CertificationsSection() {
+export async function CertificationsSection() {
+  const certificationLogos = await getCertificationLogos();
+  if (certificationLogos.length === 0) return null;
+
   return (
     <section className="relative w-full bg-white px-4 pb-6 pt-4 lg:px-10 lg:pb-8 lg:pt-8">
       <div
@@ -103,7 +99,7 @@ export function CertificationsSection() {
               ADJUST MOBILE GAP BETWEEN LOGOS: gap below (pixels). */}
           <FadeInWhenVisible delay={0.15} className="relative mt-6 w-full lg:hidden">
             <LogoMarquee
-              logos={CERTIFICATION_LOGOS}
+              logos={certificationLogos}
               duration={14}
               logoHeight={40}
               gap={25}
@@ -119,7 +115,7 @@ export function CertificationsSection() {
           {/* Desktop carousel. ADJUST DESKTOP GAP BETWEEN LOGOS: gap below (pixels). */}
           <FadeInWhenVisible delay={0.15} className="relative mt-14 hidden w-full lg:block">
             <LogoMarquee
-              logos={CERTIFICATION_LOGOS}
+              logos={certificationLogos}
               duration={6}
               logoHeight={60}
               gap={64}

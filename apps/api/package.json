@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "seed:admin": "tsx src/scripts/seed.ts",
     "seed:placed-students": "tsx src/scripts/seed-placed-students.ts",
-    "seed:popular-services": "tsx src/scripts/seed-popular-services.ts"
+    "seed:popular-services": "tsx src/scripts/seed-popular-services.ts",
+    "seed:partner-logos": "tsx src/scripts/seed-partner-logos.ts"
   },
   "dependencies": {
     "@hirelinks/contracts": "workspace:*",

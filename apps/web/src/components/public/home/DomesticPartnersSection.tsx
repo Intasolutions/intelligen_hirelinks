@@ -1,19 +1,22 @@
 import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { LogoMarquee, type MarqueeLogo } from '../LogoMarquee';
+import { PartnerLogosService } from '../../../services/partner-logos.service';
 
-// Real hospital-brand logos — drop the exported files into public/images/home/
-// with these exact names, or update the src paths below to match whatever
-// filenames you use.
-const DOMESTIC_PARTNER_LOGOS: MarqueeLogo[] = [
-  { name: 'BMH', src: '/images/home/domestic-partner-bmh.png' },
-  { name: 'Aster', src: '/images/home/domestic-partner-aster.png' },
-  { name: 'VPS Lakeshore', src: '/images/home/domestic-partner-lakeshore.png' },
-  { name: 'KIMS Hospitals', src: '/images/home/domestic-partner-kims.png' },
-  { name: 'Apollo Hospitals', src: '/images/home/domestic-partner-apollo.png' },
-];
+async function getDomesticPartnerLogos(): Promise<MarqueeLogo[]> {
+  try {
+    const res = await PartnerLogosService.getPublicPartnerLogos('DOMESTIC');
+    const logos = (res.data ?? []) as any[];
+    return logos.filter((l) => l.logo?.url).map((l) => ({ name: l.name, src: l.logo.url }));
+  } catch {
+    return [];
+  }
+}
 
-export function DomesticPartnersSection() {
+export async function DomesticPartnersSection() {
+  const domesticPartnerLogos = await getDomesticPartnerLogos();
+  if (domesticPartnerLogos.length === 0) return null;
+
   return (
     <section className="relative w-full bg-white px-4 pb-16 pt-8 lg:px-10 lg:pb-24 lg:pt-14">
       <div className="mx-auto max-w-[1360px]">
@@ -44,7 +47,7 @@ export function DomesticPartnersSection() {
         {/* Mobile/tablet carousel — same sizing knobs as PartnersSection's mobile carousel. */}
         <FadeInWhenVisible delay={0.15} className="relative mt-10 w-full lg:hidden">
           <LogoMarquee
-            logos={DOMESTIC_PARTNER_LOGOS}
+            logos={domesticPartnerLogos}
             duration={14}
             logoHeight={40}
             gap={25}
@@ -60,7 +63,7 @@ export function DomesticPartnersSection() {
         {/* Desktop carousel — same sizing/speed as PartnersSection's desktop carousel. */}
         <FadeInWhenVisible delay={0.15} className="relative mt-14 hidden w-full lg:block">
           <LogoMarquee
-            logos={DOMESTIC_PARTNER_LOGOS}
+            logos={domesticPartnerLogos}
             duration={6}
             logoHeight={60}
             gap={64}

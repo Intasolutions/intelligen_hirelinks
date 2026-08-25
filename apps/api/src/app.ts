@@ -21,6 +21,7 @@ import { pageRoutes } from './modules/pages';
 import { dashboardRoutes } from './modules/dashboard/dashboard.routes';
 import { contactRoutes } from './modules/contacts/contact.routes';
 import { placedStudentRoutes } from './modules/placed-students';
+import { partnerLogoRoutes } from './modules/partner-logos';
 
 const app: Express = express();
 
@@ -80,6 +81,7 @@ app.use('/api/v1/pages', pageRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/contacts', contactRoutes);
 app.use('/api/v1/placed-students', placedStudentRoutes);
+app.use('/api/v1/partner-logos', partnerLogoRoutes);
 app.use('/api/v1', router);
 
 // Handle 404

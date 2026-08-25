@@ -1,24 +1,17 @@
 import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { LogoMarquee, type MarqueeLogo } from '../LogoMarquee';
+import { PartnerLogosService } from '../../../services/partner-logos.service';
 
-// Placeholder logos reusing existing brand assets until the real partner
-// logos (Layers, Sisyphus, Circooles, Catalog, Quotient) are exported from
-// Figma — swap src once those files land in public/images/home/. LogoMarquee
-// renders every logo object-contain at the same height, so no per-logo
-// width/height/display-size data is needed here.
-const PARTNER_LOGOS: MarqueeLogo[] = [
-  { name: 'Hirelinks', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen', src: '/images/home/intelligen-logo.png' },
-  { name: 'GrowMedLink', src: '/images/home/growmedlink-logo.png' },
-  { name: 'Hirelinks 2', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen 2', src: '/images/home/intelligen-logo.png' },
-  { name: 'Hirelinks', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen', src: '/images/home/intelligen-logo.png' },
-  { name: 'GrowMedLink', src: '/images/home/growmedlink-logo.png' },
-  { name: 'Hirelinks 2', src: '/images/home/hirelinks-logo.png' },
-  { name: 'Intelligen 2', src: '/images/home/intelligen-logo.png' },
-];
+async function getInternationalPartnerLogos(): Promise<MarqueeLogo[]> {
+  try {
+    const res = await PartnerLogosService.getPublicPartnerLogos('INTERNATIONAL');
+    const logos = (res.data ?? []) as any[];
+    return logos.filter((l) => l.logo?.url).map((l) => ({ name: l.name, src: l.logo.url }));
+  } catch {
+    return [];
+  }
+}
 
 // Card is 1360x369 in Figma (node 147:10516), 6px corner radius, radial
 // gradient fill. The top-center notch is a separate white wedge shape
@@ -29,7 +22,10 @@ const CARD_HEIGHT = 369;
 const NOTCH_WIDTH = 976;
 const NOTCH_HEIGHT = 38;
 
-export function PartnersSection() {
+export async function PartnersSection() {
+  const partnerLogos = await getInternationalPartnerLogos();
+  if (partnerLogos.length === 0) return null;
+
   return (
     <section className="relative w-full bg-white px-4 pb-6 pt-4 lg:px-10 lg:pb-8 lg:pt-20">
       <div
@@ -90,7 +86,7 @@ export function PartnersSection() {
               ADJUST MOBILE GAP BETWEEN LOGOS: gap below (pixels). */}
           <FadeInWhenVisible delay={0.15} className="relative mt-6 w-full lg:hidden">
             <LogoMarquee
-              logos={PARTNER_LOGOS}
+              logos={partnerLogos}
               duration={14}
               logoHeight={40}
               gap={25}
@@ -106,7 +102,7 @@ export function PartnersSection() {
           {/* Desktop carousel. ADJUST DESKTOP GAP BETWEEN LOGOS: gap below (pixels). */}
           <FadeInWhenVisible delay={0.15} className="relative mt-14 hidden w-full lg:block">
             <LogoMarquee
-              logos={PARTNER_LOGOS}
+              logos={partnerLogos}
               duration={6}
               logoHeight={60}
               gap={64}
