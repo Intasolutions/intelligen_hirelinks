@@ -16,9 +16,15 @@ export const verifyToken = (token: string): JwtPayload => {
   return jwt.verify(token, env.JWT_SECRET) as JwtPayload;
 };
 
+// Frontend (Vercel) and backend (DO) live on different domains in
+// production, so the auth cookie must be sent cross-site — that requires
+// SameSite=None, which browsers only honor when Secure is also set (hence
+// both are tied to NODE_ENV rather than sameSite being a fixed 'lax').
+// In dev, frontend and backend share the effective site (localhost), so
+// 'lax' + non-secure keeps local HTTP development working without HTTPS.
 export const cookieOptions = {
   httpOnly: true,
   secure: env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  sameSite: (env.NODE_ENV === 'production' ? 'none' : 'lax') as 'none' | 'lax',
   maxAge: 24 * 60 * 60 * 1000 // 1 day in ms
 };

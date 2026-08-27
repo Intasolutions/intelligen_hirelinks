@@ -27,12 +27,24 @@ const app: Express = express();
 
 // Security Middlewares
 app.use(helmet());
-app.use(cors({ 
+
+// FRONTEND_URL supports a comma-separated list so both the production
+// domain and localhost (for developing against a deployed API) can be
+// allowed at once. `credentials: true` cookies cannot be paired with a
+// wildcard origin per the CORS spec, so each allowed origin must be
+// checked explicitly and echoed back rather than reflecting every origin.
+const allowedOrigins = env.FRONTEND_URL.split(',').map((url) => url.trim());
+app.use(cors({
   origin: (origin, callback) => {
-    // Allow any origin during development
-    callback(null, true);
-  }, 
-  credentials: true 
+    // Same-origin/non-browser requests (curl, server-to-server, health
+    // checks) send no Origin header at all — allow those through.
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    }
+  },
+  credentials: true
 }));
 app.use(hpp());
 
