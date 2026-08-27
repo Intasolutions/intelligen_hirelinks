@@ -62,7 +62,7 @@ export function Header() {
 
         <nav className="relative flex flex-wrap items-center justify-end gap-x-4 gap-y-2 rounded-[28px] bg-white py-1.5 pl-[26px] pr-1.5 shadow-[0_2px_20px_rgba(0,0,0,0.06)] xl:flex-nowrap xl:gap-x-9 xl:rounded-[84px]">
           <a
-            href="https://intelligenoverseas.com"
+            href="https://intelligenimmigration.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden items-center gap-2 lg:flex"
