@@ -1,8 +1,9 @@
+import { Suspense } from 'react';
 import { BlogsService } from '../../../services/blogs.service';
 import { BlogGrid, type BlogListItem } from './BlogGrid';
 import { BlogSearchBar } from './BlogSearchBar';
 
-export async function BlogListSection() {
+async function BlogGridData() {
   let blogs: BlogListItem[] = [];
 
   try {
@@ -14,14 +15,28 @@ export async function BlogListSection() {
     blogs = [];
   }
 
+  return <BlogGrid blogs={blogs} />;
+}
+
+// BlogSearchBar uses useSearchParams(), which requires a Suspense boundary
+// visible directly in a page's synchronous render tree to be correctly
+// detected as a CSR bailout by Next's static export analysis — nesting it
+// inside an async server component (as the previous single-component
+// version did) isn't reliably picked up, so the boundary lives in this
+// plain (non-async) component instead.
+export function BlogListSection() {
   return (
     <section className="w-full overflow-x-hidden bg-white px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-20">
       <div className="mx-auto max-w-[1360px]">
         <div className="mx-auto max-w-2xl">
-          <BlogSearchBar />
+          <Suspense fallback={null}>
+            <BlogSearchBar />
+          </Suspense>
         </div>
 
-        <BlogGrid blogs={blogs} />
+        <Suspense fallback={null}>
+          <BlogGridData />
+        </Suspense>
       </div>
     </section>
   );

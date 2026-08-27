@@ -5,6 +5,7 @@ export interface DashboardStats {
   programs: number;
   blogs: number;
   reviews: number;
+  enquiries: number;
 }
 
 export interface RecentContent {

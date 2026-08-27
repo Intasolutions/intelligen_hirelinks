@@ -22,6 +22,8 @@ export default function EditServicePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [primaryImageFile, setPrimaryImageFile] = useState<File | null>(null);
   const [secondaryImageFile, setSecondaryImageFile] = useState<File | null>(null);
+  const [existingPrimaryImage, setExistingPrimaryImage] = useState<string | null>(null);
+  const [existingSecondaryImage, setExistingSecondaryImage] = useState<string | null>(null);
 
   const form = useForm<ServiceInput>({
     resolver: zodResolver(serviceSchema),
@@ -48,6 +50,8 @@ export default function EditServicePage() {
         const res = await ServicesService.getServiceById(id);
         if (res.success && res.data) {
           reset(res.data);
+          setExistingPrimaryImage(res.data.primaryImage?.url || null);
+          setExistingSecondaryImage(res.data.secondaryImage?.url || null);
         } else {
           toast.error('Failed to load service');
         }
@@ -135,7 +139,7 @@ export default function EditServicePage() {
 
               <div className="grid grid-cols-2 gap-6 pt-4 border-t border-admin-card">
                 <div>
-                  <ImageUploadPreview label="Primary Image (Replace)" initialImageUrl={form.getValues("primaryImage")?.url} onImageChange={setPrimaryImageFile} />
+                  <ImageUploadPreview label="Primary Image (Replace)" initialImageUrl={existingPrimaryImage} onImageChange={setPrimaryImageFile} />
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-300 mb-1">Primary Image Alt Text</label>
                     <Input {...register('primaryImageAlt')} placeholder="Describe the image..." />
@@ -143,7 +147,7 @@ export default function EditServicePage() {
                   </div>
                 </div>
                 <div>
-                  <ImageUploadPreview label="Secondary Image (Replace)" initialImageUrl={form.getValues("secondaryImage")?.url} onImageChange={setSecondaryImageFile} />
+                  <ImageUploadPreview label="Secondary Image (Replace)" initialImageUrl={existingSecondaryImage} onImageChange={setSecondaryImageFile} />
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-300 mb-1">Secondary Image Alt Text</label>
                     <Input {...register('secondaryImageAlt')} placeholder="Describe the image..." />

@@ -3,7 +3,7 @@ import { X, Upload } from 'lucide-react';
 
 interface ImageUploadPreviewProps {
   label: string;
-  initialImageUrl?: string;
+  initialImageUrl?: string | null;
   onImageChange: (file: File | null) => void;
   className?: string;
 }

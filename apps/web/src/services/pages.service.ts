@@ -29,7 +29,6 @@ export const PagesService = {
     const res = await fetch(`${baseUrl}/pages/${slug}`, {
       method: 'PUT',
       credentials: 'include',
-      credentials: 'include',
       body: formData,
     });
     
