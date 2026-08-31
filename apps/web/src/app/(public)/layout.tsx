@@ -1,6 +1,8 @@
 import { SettingsService } from '../../services/settings.service';
 import { Header } from '../../components/public/home/Header';
 import { Footer } from '../../components/public/home/Footer';
+import { WhatsAppButton } from '../../components/public/WhatsAppButton';
+import { WhatsAppMessageProvider } from '../../components/public/WhatsAppMessageContext';
 import { fhLecturis, fhLecturisRounded, helveticaNeue, leagueGothic } from '../../fonts';
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
@@ -18,14 +20,18 @@ export default async function PublicLayout({ children }: { children: React.React
     <div
       className={`relative flex min-h-screen flex-col bg-white font-sans ${helveticaNeue.variable} ${fhLecturis.variable} ${fhLecturisRounded.variable} ${leagueGothic.variable}`}
     >
-      <Header />
+      <WhatsAppMessageProvider>
+        <Header />
 
-      {/* Main Content */}
-      <main className="flex-1">
-        {children}
-      </main>
+        {/* Main Content */}
+        <main className="flex-1">
+          {children}
+        </main>
 
-      <Footer settings={settings} />
+        <Footer settings={settings} />
+
+        <WhatsAppButton number={settings?.companyWhatsapp} />
+      </WhatsAppMessageProvider>
     </div>
   );
 }

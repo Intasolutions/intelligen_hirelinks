@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ProgramsService } from '../../../../services/programs.service';
+import { SetWhatsAppMessage } from '../../../../components/public/WhatsAppMessageContext';
 import { ProgramDetailFaqSection } from '../../../../components/public/programs/detail/ProgramDetailFaqSection';
 // Reused verbatim from the service detail page — same data shape (Program
 // and Service models are identical), so the components themselves need no
@@ -51,6 +52,8 @@ export default async function ProgramDetailPage({ params }: { params: { slug: st
 
   return (
     <div>
+      <SetWhatsAppMessage message={`Hi! I'm interested in the "${program.title}" program and would like more details.`} />
+
       <ServiceDetailHero
         title={program.title}
         description={program.shortDescription}

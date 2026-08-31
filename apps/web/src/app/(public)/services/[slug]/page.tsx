@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ServicesService } from '../../../../services/services.service';
+import { SetWhatsAppMessage } from '../../../../components/public/WhatsAppMessageContext';
 import { ServiceBenefitsSection } from '../../../../components/public/services/detail/ServiceBenefitsSection';
 import { ServiceDetailFaqSection } from '../../../../components/public/services/detail/ServiceDetailFaqSection';
 import { ServiceDetailHero } from '../../../../components/public/services/detail/ServiceDetailHero';
@@ -48,6 +49,8 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
 
   return (
     <div>
+      <SetWhatsAppMessage message={`Hi! I'm interested in your "${service.title}" service and would like to know more.`} />
+
       <ServiceDetailHero
         title={service.title}
         description={service.shortDescription}

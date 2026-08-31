@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import DOMPurify from 'isomorphic-dompurify';
 import { BlogsService } from '../../../../services/blogs.service';
+import { SetWhatsAppMessage } from '../../../../components/public/WhatsAppMessageContext';
 import { BlogDetailHero } from '../../../../components/public/blog/detail/BlogDetailHero';
 import { NewsSection } from '../../../../components/public/home/NewsSection';
 
@@ -48,6 +49,8 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
 
   return (
     <div>
+      <SetWhatsAppMessage message={`Hi! I read your blog post "${blog.title}" and wanted to get in touch.`} />
+
       <BlogDetailHero
         title={blog.title}
         subTitle={blog.subTitle || blog.excerpt}
