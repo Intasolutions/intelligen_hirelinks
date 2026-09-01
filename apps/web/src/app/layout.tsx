@@ -6,25 +6,29 @@ import { SettingsService } from '../services/settings.service';
 // Favicon/OG image come from the admin-managed Settings record rather than
 // a static file, since the client uploads these via Admin > Settings >
 // Branding — generateMetadata (not a static export) is what lets Next.js
-// fetch that value at request/build time and put it into <head>.
+// fetch that value at request/build time and put it into <head>. Falls back
+// to the bundled logo whenever settings can't be reached or nothing has
+// been uploaded yet, so the tab icon is never blank.
+const FALLBACK_FAVICON = '/images/home/hirelinks-logo.png';
+
 export async function generateMetadata(): Promise<Metadata> {
-  let favicon: string | undefined;
+  let favicon: string = FALLBACK_FAVICON;
   let ogImage: string | undefined;
 
   try {
     const res = await SettingsService.getSettings();
     if (res.success && res.data) {
-      favicon = res.data.favicon || undefined;
+      favicon = res.data.favicon || FALLBACK_FAVICON;
       ogImage = res.data.defaultOgImage || undefined;
     }
   } catch {
-    // Fall back to Next.js defaults if settings can't be reached.
+    // Fall back to the bundled logo if settings can't be reached.
   }
 
   return {
     title: 'Intelligen Hirelinks',
     description: 'Content Management Platform',
-    icons: favicon ? { icon: favicon, shortcut: favicon, apple: favicon } : undefined,
+    icons: { icon: favicon, shortcut: favicon, apple: favicon },
     openGraph: ogImage ? { images: [ogImage] } : undefined,
   };
 }

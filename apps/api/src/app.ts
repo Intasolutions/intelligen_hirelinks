@@ -26,7 +26,14 @@ import { partnerLogoRoutes } from './modules/partner-logos';
 const app: Express = express();
 
 // Security Middlewares
-app.use(helmet());
+// Frontend and API are on different domains by design (see cookieOptions in
+// shared/jwt.ts) — helmet's default Cross-Origin-Resource-Policy:
+// 'same-origin' blocks exactly that legitimate cross-origin use, so it's
+// relaxed to 'cross-origin' here. The cors() middleware below still
+// enforces which origins are actually allowed.
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 
 // FRONTEND_URL supports a comma-separated list so both the production
 // domain and localhost (for developing against a deployed API) can be
