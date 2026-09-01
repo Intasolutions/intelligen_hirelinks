@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import DOMPurify from 'isomorphic-dompurify';
+import { getApiBaseUrl } from '../../../lib/api-client';
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions | Intelligen Hirelinks',
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 async function getTermsAndConditions() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+  const baseUrl = getApiBaseUrl();
   try {
     const res = await fetch(`${baseUrl}/pages/terms-conditions`, { next: { revalidate: 60 } });
     if (!res.ok) return null;

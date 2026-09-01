@@ -5,11 +5,25 @@ export interface StandardResponse<T> {
   meta?: any;
 }
 
+// NEXT_PUBLIC_API_URL is relative (e.g. "/api/v1") in production so the
+// browser's request stays same-origin and next.config.mjs's rewrite can
+// proxy it — same-origin is what keeps the auth cookie first-party (see
+// the rewrites() comment in next.config.mjs). A relative URL only resolves
+// against "the current page" though, which Node's server-side fetch has no
+// notion of, so server-side callers (RSCs, layouts, route handlers) must
+// use this to reach the real API origin directly instead.
+export const getApiBaseUrl = (): string => {
+  if (typeof window === 'undefined' && process.env.API_PROXY_TARGET) {
+    return `${process.env.API_PROXY_TARGET}/api/v1`;
+  }
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+};
+
 export const apiClient = async <T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<StandardResponse<T>> => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+  const baseUrl = getApiBaseUrl();
 
   let cookieHeader = '';
 
