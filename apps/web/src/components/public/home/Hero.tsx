@@ -82,19 +82,18 @@ export function Hero() {
 
           <h1
             className="mt-6 w-[513px] font-medium normal text-gray-900"
-            style={{ fontSize: 68, lineHeight: '110%' }}
+            style={{ fontSize: 48, lineHeight: '115%' }}
           >
-            Lorem Ipsum
-            <br />
-            Dolor <span className="font-bold text-[#2a9d8f]">Sit Amit</span>
+            <span className="font-bold text-[#2a9d8f]">Connecting Nurses </span>
+            With the Right Opportunities
           </h1>
 
           <p
             className="mt-6 w-[613px] font-sans font-medium text-black"
             style={{ fontSize: 17 }}
           >
-            T Purus in in fames sit ac vitae. Curabitur scelerisque nunc mauris blandit. Donec
-            tristique placerat consectetur molestie est ornare. Suspendisse
+            Intelligen Hirelinks is an integrated nursing recruitment platform connecting nurses with the
+            right career opportunities — domestic and international.
           </p>
 
           <PillButton href="/contact" variant="solid" borderColor="#ffffff" className="mt-8">
@@ -107,14 +106,13 @@ export function Hero() {
           real readable sizes instead of scaled down with the photo/map. */}
       <div className="px-5 pb-10 pt-6 lg:hidden">
         <h1 className="text-4xl font-medium leading-[1.1] text-gray-900 sm:text-5xl">
-          Lorem Ipsum
-          <br />
-          Dolor <span className="font-bold text-[#2a9d8f]">Sit Amit</span>
+          <span className="font-bold text-[#2a9d8f]">Connecting Nurses </span>
+          With the Right Opportunities
         </h1>
 
         <p className="mt-4 font-sans text-base font-medium leading-relaxed text-black">
-          T Purus in in fames sit ac vitae. Curabitur scelerisque nunc mauris blandit. Donec
-          tristique placerat consectetur molestie est ornare. Suspendisse
+          Intelligen Hirelinks is an integrated nursing recruitment platform connecting nurses with the
+          right career opportunities — domestic and international.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">

@@ -3,9 +3,9 @@ import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
 const SIDE_PARAGRAPH =
-  'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse Aliquet Semper Quam Volut';
+  'Our programmes provide nurses with trusted placement support, career guidance, skill development, and opportunities for domestic and international careers. We simplify every step, helping nurses achieve professional growth, secure rewarding opportunities, and build a successful future with confidence.';
 
-const CARD_QUOTE = 'Lorem ipsum dolor sit amet consectetur.';
+const CARD_QUOTE = 'Stories Behind Our Success';
 
 export function AboutIntroSection() {
   return (
@@ -32,7 +32,7 @@ export function AboutIntroSection() {
                 className="font-sans font-normal leading-[1.28] text-black"
                 style={{ fontSize: 'clamp(30px, 4.7cqw, 56px)' }}
               >
-                Lorem ipsum dolor sit amet consectetur.{' '}
+                Explore our Services connecting nurses{' '}
                 {/* Same pill-photo treatment as StatsSection's PillPhoto on
                     the homepage — same image, same inline-block/rounded-full/
                     object-cover/vertical-align:middle pattern — sized to its
@@ -43,7 +43,7 @@ export function AboutIntroSection() {
                 >
                   <Image src="/images/home/stats-pill-photo.png" alt="" fill className="object-cover" />
                 </span>{' '}
-                quisque nunc tellus massa sit amet.
+                with trusted placements, career guidance, and global opportunities.
               </p>
             </FadeInWhenVisible>
 

@@ -3,14 +3,13 @@ import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
 const INTRO =
-  'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse Aliquet Semper Quam Volutpat Bibendum Est Mattis. Sed Neque Etiam Morbi A Amet Lacus Phasellus Ipsum Nec.';
-
-const BODY = INTRO;
+  'At Intelligen Hirelinks, our mission is to empower nurses with trusted career opportunities, professional guidance, and seamless placement support. We envision a future where every nurse can access the right opportunities, build a successful career, and confidently pursue domestic and international pathways with clarity and purpose.';
 
 interface Row {
   number: string;
   heading: string;
   headingColor: string;
+  body: string;
   /** Which side the wide photo sits on — the row mirrors around this. */
   wideSide: 'left' | 'right';
   widePhoto: string;
@@ -28,6 +27,7 @@ const ROWS: Row[] = [
     number: '01',
     heading: 'Our Mission',
     headingColor: '#111111',
+    body: 'At Intelligen Hirelinks, our mission is to empower nurses through trusted placement support, career opportunities, professional guidance, and global pathways. We aim to build a strong nursing community, connect talent with the right employers, simplify every step, and create a brighter future for nurses and healthcare professionals.',
     wideSide: 'left',
     widePhoto: '/images/about/mission-photo-left.png',
     wideAspect: 2312 / 1148,
@@ -38,6 +38,7 @@ const ROWS: Row[] = [
     number: '02',
     heading: 'Our Vision',
     headingColor: '#2a9d8f',
+    body: 'Our vision is to become a trusted global platform for nurses, connecting skilled professionals with meaningful careers, leading healthcare opportunities, and supportive communities. We strive to create a future where every nurse can grow, succeed, and build a rewarding career with confidence.',
     wideSide: 'right',
     widePhoto: '/images/about/vision-photo-right.png',
     wideAspect: 2312 / 1148,
@@ -105,7 +106,7 @@ function MissionVisionRow({ row }: { row: Row }) {
       <p className="font-sans font-thin uppercase leading-tight" style={{ color: row.headingColor, fontSize: HEADING_SIZE }}>
         {row.heading}
       </p>
-      <p className="mt-1 font-sans text-sm leading-relaxed text-[#5c5c5c] lg:text-base">{BODY}</p>
+      <p className="mt-1 font-sans text-sm leading-relaxed text-[#5c5c5c] lg:text-base">{row.body}</p>
     </div>
   );
 

@@ -2,9 +2,11 @@ import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 
 const INTRO =
-  'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse Aliquet Semper Quam Volutpat Bibendum Est Mattis. Sed Neque Etiam Morbi A Amet Lacus Phasellus Ipsum Nec.Lorem Ipsum Dolor Sit Amet Consectetur.';
+  'Our core values guide every programme and placement we deliver. We believe in integrity, trust, transparency, excellence, compassion, and commitment, ensuring every nurse receives genuine guidance, equal opportunities, and reliable support throughout their career journey. We build lasting relationships with nurses, employers, and communities while creating meaningful opportunities for professional growth, success, and a brighter future.';
 
-const CARD_BODY = 'Lorem ipsum dolor sit amet consectetur. Purus in in fames sit ac vitae. Curabitur scelerisque nunc mauris';
+const WIDE_CARD_BODY = 'We provide honest, transparent, and reliable guidance throughout every nurse’s career and placement journey.';
+const SMALL_CARD_BODY_TEAL = 'We connect nurses with domestic and international opportunities that support professional growth and a successful future.';
+const SMALL_CARD_BODY_BLUE = 'We put nurses first, offering personalized guidance and continuous support to help them achieve their career goals.';
 
 // Simple line-style icon, placeholder for the wide card until its real SVG
 // is provided (same treatment the other two cards had before real assets
@@ -22,6 +24,7 @@ function CameraIcon(props: React.SVGProps<SVGSVGElement>) {
 
 interface ValueCard {
   heading: string;
+  body: string;
   // Either an inline stroke-icon component (placeholders still pending real
   // assets) or a path to a real icon file exported from Figma.
   Icon?: (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
@@ -29,10 +32,10 @@ interface ValueCard {
   variant: 'light' | 'teal' | 'blue';
 }
 
-const WIDE_CARD: ValueCard = { heading: 'Heading 1', Icon: CameraIcon, variant: 'light' };
+const WIDE_CARD: ValueCard = { heading: 'Trust & Integrity', body: WIDE_CARD_BODY, Icon: CameraIcon, variant: 'light' };
 const SMALL_CARDS: ValueCard[] = [
-  { heading: 'Heading 3', iconSrc: '/images/about/core-value-icon-3.svg', variant: 'teal' },
-  { heading: 'Heading 2', iconSrc: '/images/about/core-value-icon-4.svg', variant: 'blue' },
+  { heading: 'Growth & Opportunity', body: SMALL_CARD_BODY_TEAL, iconSrc: '/images/about/core-value-icon-3.svg', variant: 'teal' },
+  { heading: 'Nurse-Centered Support', body: SMALL_CARD_BODY_BLUE, iconSrc: '/images/about/core-value-icon-4.svg', variant: 'blue' },
 ];
 
 // Card fill per variant. "light" values are exact, straight from the Figma
@@ -97,7 +100,7 @@ function Card({ card, className = '' }: { card: ValueCard; className?: string })
         ) : null}
       </div>
 
-      <p className={`relative mt-10 max-w-xs font-sans text-sm leading-relaxed sm:mt-16 ${style.body}`}>{CARD_BODY}</p>
+      <p className={`relative mt-10 max-w-xs font-sans text-sm leading-relaxed sm:mt-16 ${style.body}`}>{card.body}</p>
     </div>
   );
 }
@@ -147,7 +150,7 @@ export function CoreValuesSection() {
               </p>
               {/* 21px gap between heading and paragraph, per the Figma auto-layout panel. */}
               <p className="mt-[21px] max-w-md font-sans text-sm leading-relaxed text-[#5c5c5c] lg:text-base">
-                {CARD_BODY}
+                {INTRO}
               </p>
             </FadeInWhenVisible>
           </div>

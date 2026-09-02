@@ -70,7 +70,7 @@ export default async function ProgramDetailPage({ params }: { params: { slug: st
         secondaryImageAlt={program.secondaryImageAlt}
       />
 
-      <ServiceReviewsSection description={program.reviewSectionDescription} />
+      <ServiceReviewsSection type="PROGRAM" slug={params.slug} description={program.reviewSectionDescription} />
 
       <ProgramDetailFaqSection />
     </div>

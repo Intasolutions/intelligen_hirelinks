@@ -3,9 +3,9 @@ import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
 const PARAGRAPH =
-  'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse Aliquet Semper Quam Volutpat Bibendum Est Mattis. Sed Neque Etiam Morbi A Amet Lacus Phasellus Ipsum Nec.';
+  'Our programmes provide nurses with structured pathways for career growth, professional development, recruitment, and placement. We offer dedicated support for domestic and international opportunities, including career guidance, profile assessment, documentation, credential assistance, interview preparation, recruitment coordination, licensing pathways, and relocation guidance. Each programme is designed to simplify the journey from preparation to successful placement.';
 
-const CARD_TEXT = 'Lorem Ipsum Dolor Sit Amet Consectetur.';
+const CARD_TEXT = 'Nurses Today, Successful Careers Tomorrow.';
 
 function Heading() {
   return (

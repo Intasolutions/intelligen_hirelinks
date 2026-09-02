@@ -70,7 +70,7 @@ export function StatsSection() {
             style={{ fontSize: 42 }}
             delay={0.05}
           >
-            Lorem Ipsum <span className="text-[#2a9d8f]">Dolor Sit Amit</span>
+            Your Nursing Career &amp; <span className="text-[#2a9d8f]">Recruitment Partner</span>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible
@@ -85,11 +85,11 @@ export function StatsSection() {
             style={{ fontSize: 38, lineHeight: 1.18 }}
             delay={0.2}
           >
-            Lorem ipsum dolor sit amet consectetur.
+            Supporting nurses and healthcare employers
             <PillPhoto style={{ height: '0.7em', width: 'calc(0.7em * 80 / 27)' }} />
+            with career guidance, recruitment, placement, licensing, and international opportunities
             <span className="text-black/25">
-              quisque nunc tellus massa sit amet. Volutpat condimentum mattis sollicitudin
-              ultricies nisl est tellus.
+              - all through one coordinated platform.
             </span>
           </FadeInWhenVisible>
 
@@ -121,7 +121,7 @@ export function StatsSection() {
             <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
           </div>
           <p className="font-display-rounded text-2xl font-bold text-black sm:text-3xl">
-            Lorem Ipsum <span className="text-[#2a9d8f]">Dolor Sit Amit</span>
+            Your Nursing Career &amp; <span className="text-[#2a9d8f]">Recruitment Partner</span>
           </p>
         </FadeInWhenVisible>
 
@@ -131,11 +131,11 @@ export function StatsSection() {
 
         <FadeInWhenVisible delay={0.2}>
           <p className="mt-8 font-sans text-lg font-normal leading-snug text-black">
-            Lorem ipsum dolor sit amet consectetur.
+            Supporting nurses and healthcare employers
             <PillPhoto style={{ height: '1.1em', width: 'calc(1.1em * 80 / 27)' }} />
+            with career guidance, recruitment, placement, licensing, and international opportunities
             <span className="text-black/25">
-              quisque nunc tellus massa sit amet. Volutpat condimentum mattis sollicitudin
-              ultricies nisl est tellus.
+              - all through one coordinated platform.
             </span>
           </p>
         </FadeInWhenVisible>

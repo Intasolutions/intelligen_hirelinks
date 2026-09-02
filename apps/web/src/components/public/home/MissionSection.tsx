@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 
-const LEAD_IN = 'Lorem Ipsum Dolor Sit Amet Consectetur.';
+const LEAD_IN = 'Our mission is to connect skilled nurses with trusted career opportunities.';
 const REST =
-  'Quisque Nunc Tellus Massa Sit Amet. Volutpat Condimentum Mattis Sollicitudin Ultricies Nisl Est Tellus';
+  'We simplify placement, recruitment, and career support, helping every nurse move forward with confidence, clarity, and the right opportunity.';
 
 const WORDMARK = 'HIRELINKS';
 const WORDMARK_FONT: React.CSSProperties = {

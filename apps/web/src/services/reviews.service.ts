@@ -27,6 +27,14 @@ export const ReviewsService = {
     return apiClient<any[]>('/reviews/public/featured', { method: 'GET' });
   },
 
+  getReviewsByServiceSlug: async (slug: string) => {
+    return apiClient<any[]>(`/reviews/public/service/${slug}`, { method: 'GET' });
+  },
+
+  getReviewsByProgramSlug: async (slug: string) => {
+    return apiClient<any[]>(`/reviews/public/program/${slug}`, { method: 'GET' });
+  },
+
   getReviewById: async (id: string) => {
     return apiClient<any>(`/reviews/${id}`, { method: 'GET' });
   },

@@ -1,5 +1,5 @@
 const INTRO =
-  'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse Aliquet Semper Quam Volutpat Bibendum Est Mattis. Sed Neque Etiam Morbi A Amet Lacus Phasellus Ipsum Nec.';
+  'Our programmes are designed to support nurses with complete career and placement solutions. From professional development and career guidance to recruitment, documentation, and domestic and international opportunities, we provide structured support at every stage. Our goal is to connect nurses with the right opportunities and help them build successful, rewarding careers with confidence.';
 
 // No FadeInWhenVisible here — this paragraph sits directly under the hero
 // and is part of the page's initial view, so it should render visible

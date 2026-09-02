@@ -127,7 +127,7 @@ export function Footer({ settings }: { settings: SettingsInput | null }) {
             </Link>
 
             <p className="mt-5 max-w-md font-sans text-sm leading-relaxed text-[#6b6b6b]">
-              T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse
+              Intelligen Hirelinks connects nurses with trusted career opportunities and placement support.
             </p>
 
             <div className="mt-6">

@@ -3,7 +3,7 @@ import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 import { ServicesService } from '../../../services/services.service';
 
-const LOREM = 'T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit.';
+const LOREM = 'Complete Nursing Career, Recruitment, Placement & Global Support Services';
 
 // Real icon SVGs, supplied directly — colors baked in (white fill / black
 // mask outline) so these render as-is regardless of surrounding text color.

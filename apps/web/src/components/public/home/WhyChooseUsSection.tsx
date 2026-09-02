@@ -2,10 +2,10 @@ import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 
 const PARAGRAPH_1 =
-  'Lorem ipsum dolor sit amet consectetur. At quisque nunc tellus massa sit amet. Volutpat condimentum mattis sollicitudin ultricies nisl est tellus.Lorem ipsum dolor sit amet consectetur. At quisque nunc tellus massa sit amet. Volutpat condimentum mattis sollicitudin ultricies nisl est tellus.';
+  'Choose Intelligen Hirelinks for a complete and coordinated nursing career journey. We bring career guidance, recruitment, placement, licensing, documentation, visa, immigration, PR, and relocation support together in one platform. With personalized guidance and dedicated support, we help nurses confidently move from career planning to successful employment - both domestically and internationally.';
 
 const PARAGRAPH_2 =
-  'Lorem ipsum dolor sit amet consectetur. At quisque nunc tellus massa sit amet. Volutpat condimentum mattis sollicitudin ultricies nisl est tellus.Lorem ipsum dolor sit amet consectetur. At quisque nunc tellus massa sit amet. Volutpat condimentum mattis sollicitudin ultricies nisl est tellus.';
+  'At Intelligen Hirelinks, we are committed to making every nurse’s career journey simple, transparent, and successful. From the first step of career planning to recruitment and final placement, our team provides personalized support for domestic and international opportunities.';
 
 // Same K-shaped mask used in StatsSection, reused here as a faint bottom-right
 // brand watermark on the solid blue field.
@@ -40,7 +40,7 @@ export function WhyChooseUsSection() {
         <div className="w-full max-w-2xl text-justify lg:ml-[40%] lg:max-w-[720px]">
           <FadeInWhenVisible>
             <h2 className="text-left font-display-rounded text-4xl font-light leading-tight text-white sm:text-5xl lg:text-[64px]">
-              Why Choose Us?
+              Why Nurses Choose Us
             </h2>
           </FadeInWhenVisible>
 

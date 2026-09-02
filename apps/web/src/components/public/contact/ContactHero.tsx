@@ -19,7 +19,7 @@ async function getContactSettings(): Promise<ContactSettings | null> {
   }
 }
 
-const LOREM = 'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit.';
+const LOREM = 'Have questions about our programmes or placement services? Contact Intelligen Hirelinks today. Our team is ready to guide you toward the right nursing career opportunities.';
 
 const AVAILABLE_FLAG_CODES = new Set(['au', 'br', 'in', 'us']);
 

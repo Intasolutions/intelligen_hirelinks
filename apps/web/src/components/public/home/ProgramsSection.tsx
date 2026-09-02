@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
-const LOREM = 'T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse';
+const LOREM = 'At Intelligen Hirelinks, we are introducing a comprehensive range of nursing career and recruitment programs designed to support nurses at every stage of their professional journey.';
 
 // Each card's icon glyph, traced from Figma: a small crisp icon (top-left)
 // plus the same shape blown up and faded as a bottom-right watermark.

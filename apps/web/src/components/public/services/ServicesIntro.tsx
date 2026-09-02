@@ -1,5 +1,5 @@
 const INTRO =
-  'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse Aliquet Semper Quam Volutpat Bibendum Est Mattis. Sed Neque Etiam Morbi A Amet Lacus Phasellus Ipsum Nec.';
+  'At Intelligen Hirelinks, we provide trusted career and placement services designed to support nurses at every stage. From professional guidance and recruitment to domestic and international placements, our dedicated team helps nurses discover opportunities, navigate every process, and build successful careers with confidence, clarity, and lasting support.';
 
 // No FadeInWhenVisible here — this paragraph sits directly under the hero
 // and is part of the page's initial view, so it should render visible

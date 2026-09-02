@@ -19,7 +19,7 @@ const AUTOPLAY_INTERVAL_MS = 6000;
 // Fixed site byline — posts don't carry a per-author name today (the user
 // model has no display-name field), so every card shares one, matching the
 // reference's "Name | Date" meta line without inventing per-post identities.
-const BYLINE = 'HireLinks Team';
+const BYLINE = 'Updates';
 
 // Every card — active or peeking — renders at this one width per breakpoint:
 // generous on phones (where a 50/50 split would leave too little room for
@@ -88,7 +88,7 @@ function NewsCard({
                 headline on a narrow card, so only the arrow badge shows. */}
             <span className="hidden shrink-0 sm:inline-flex">
               <PillButton href={`/blog/${post.slug}`} bgColor="#000000" textColor="#ffffff">
-                Read Story
+                Read More
               </PillButton>
             </span>
             <span className="shrink-0 sm:hidden">
@@ -103,7 +103,7 @@ function NewsCard({
           <span aria-hidden className="shrink-0">
             <span className="hidden sm:inline-flex">
               <PillButton href="#" interactive={false} bgColor="#e5e5e5" textColor="#e5e5e5">
-                Read Story
+                Read More
               </PillButton>
             </span>
             <span className="sm:hidden">
@@ -330,12 +330,12 @@ export function NewsCarousel({ posts }: { posts: NewsPost[] }) {
             <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
           </div>
           <p className="font-display-rounded text-xl font-bold leading-tight text-black sm:text-2xl md:text-3xl lg:whitespace-nowrap lg:text-[42px]">
-            <span className="text-black">Latest</span> <span className="text-[#2a9d8f]">News</span>
+            <span className="text-black">Latest</span> <span className="text-[#2a9d8f]">Updates</span>
           </p>
         </FadeInWhenVisible>
 
         <FadeInWhenVisible delay={0.1} className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-black sm:mt-6 lg:mt-8 lg:text-lg">
-          T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse
+          Stay informed with the latest opportunities, nursing programmes, placement updates, recruitment news, and important announcements from Intelligen Hirelinks. Discover new pathways and career opportunities for nurses.
         </FadeInWhenVisible>
       </div>
 

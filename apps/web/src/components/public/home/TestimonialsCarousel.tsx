@@ -121,7 +121,7 @@ function NavButton({ direction, onClick }: { direction: 'prev' | 'next'; onClick
 }
 
 const DEFAULT_DESCRIPTION =
-  'T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse';
+  'At Intelligen Hirelinks, we connect nurses with trusted career opportunities and support them throughout their journey. Hear from nurses who trusted us to take the next step in their careers.';
 
 export function TestimonialsCarousel({
   testimonials,
@@ -154,8 +154,8 @@ export function TestimonialsCarousel({
             <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
           </div>
           <p className="font-display-rounded text-xl font-bold leading-tight text-black sm:text-2xl md:text-3xl lg:whitespace-nowrap lg:text-[42px]">
-            <span className="text-black">Trusted by Millions of Users</span>{' '}
-            <span className="text-[#2a9d8f]">Globally</span>
+            <span className="text-black">What Our</span>{' '}
+            <span className="text-[#2a9d8f]">Candidates Say</span>
           </p>
         </FadeInWhenVisible>
 

@@ -18,7 +18,7 @@ export interface PlacedStudent {
 const AUTOPLAY_INTERVAL_MS = 5000;
 
 const INTRO =
-  'T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse';
+  'Discover inspiring journeys of nurses who achieved their career goals through trusted guidance, placement support, and opportunities with Intelligen Hirelinks.';
 
 function StudentPhoto({
   student,
@@ -143,7 +143,7 @@ export function FeaturedStudentsCarousel({ students }: { students: PlacedStudent
             <Image src="/images/home/stats-slash-icon.svg" alt="" fill className="object-contain" />
           </div>
           <p className="font-display-rounded text-xl font-bold leading-tight text-black sm:text-2xl md:text-3xl lg:whitespace-nowrap lg:text-[42px]">
-            <span className="text-black">Meet our Fabulous Students</span>{' '}
+            <span className="text-black">Meet Our Successful Nurses</span>{' '}
             <span className="text-[#2a9d8f]">Who Placed Well</span>
           </p>
         </FadeInWhenVisible>

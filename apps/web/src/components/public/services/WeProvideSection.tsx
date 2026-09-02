@@ -3,7 +3,7 @@ import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
 const PARAGRAPH =
-  'Lorem Ipsum Dolor Sit Amet Consectetur. Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse Aliquet Semper Quam Volutpat Bibendum Est Mattis. Sed Neque Etiam Morbi A Amet Lacus Phasellus Ipsum Nec.';
+  'We provide comprehensive career and placement support for nurses, helping skilled professionals connect with trusted healthcare opportunities. Our services include personalized career guidance, recruitment support, professional development programmes, documentation assistance, and domestic and international placements. With dedicated support at every stage, we help nurses make informed career decisions, navigate the placement process smoothly, and move confidently toward long-term professional growth and success.';
 
 function Photo({ src, className, delay = 0 }: { src: string; className: string; delay?: number }) {
   return (

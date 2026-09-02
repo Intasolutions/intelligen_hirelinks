@@ -67,7 +67,7 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
         secondaryImageAlt={service.secondaryImageAlt}
       />
 
-      <ServiceReviewsSection description={service.reviewSectionDescription} />
+      <ServiceReviewsSection type="SERVICE" slug={params.slug} description={service.reviewSectionDescription} />
 
       <ServiceDetailFaqSection />
     </div>

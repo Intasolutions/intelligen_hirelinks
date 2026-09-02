@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
-const INTRO = 'T Purus In In Fames Sit Ac Vitae. Curabitur Scelerisque Nunc Mauris Blandit. Donec Tristique Placerat Consectetur Molestie Est Ornare. Suspendisse';
+const INTRO = 'Intelligen Hirelinks is a dedicated nursing career, recruitment, and placement platform built to connect nurses with the right opportunities in India and around the world.';
 
 // Small B&W strip images below the heading — drop the exported files into
 // public/images/home/ with these exact names, or update the paths to match.
@@ -35,9 +35,9 @@ export function AboutUsSection() {
             delay={0.15}
             className="mt-8 max-w-xl font-sans text-xl leading-snug lg:mt-10 lg:text-[32px]"
           >
-            <span className="font-medium text-black">Lorem ipsum dolor sit amet consectetur. </span>
+            <span className="font-medium text-black">We provide end-to-end support throughout the nursing career journey. </span>
             <span className="font-normal text-[#b9b9b9]">
-              At quisque nunc tellus massa sit amet. Volutpat condimentum mattis sollicitudin ultricies nisl est tellus.
+              From career counselling and profile assessment to documentation, credential evaluation, licensing, exam preparation, interviews, recruitment, placement, visa, immigration, PR pathways, and relocation support.
             </span>
           </FadeInWhenVisible>
 
