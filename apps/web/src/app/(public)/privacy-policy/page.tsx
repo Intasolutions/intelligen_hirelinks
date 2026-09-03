@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import DOMPurify from 'isomorphic-dompurify';
 import { getApiBaseUrl } from '../../../lib/api-client';
+import { sanitizePageHtml } from '../../../lib/sanitize-page-html';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Intelligen Hirelinks',
@@ -38,7 +38,7 @@ export default async function PrivacyPolicyPage() {
   }
 
   // Sanitize the HTML before rendering
-  const safeHtml = DOMPurify.sanitize(page.content || '');
+  const safeHtml = sanitizePageHtml(page.content || '');
 
   return (
     <div className="min-h-screen pt-32 pb-20 bg-white">
