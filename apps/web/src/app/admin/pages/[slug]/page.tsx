@@ -10,7 +10,7 @@ import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { TiptapEditor } from '../../../../components/admin/editor/TiptapEditor';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
-import { X, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
 
@@ -21,7 +21,7 @@ export default function EditPagePage() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [removeImage, setRemoveImage] = useState(false);
   const [existingImage, setExistingImage] = useState<string | null>(null);
@@ -65,7 +65,7 @@ export default function EditPagePage() {
         image: imageFile || undefined,
         removeImage
       };
-      
+
       const res = await PagesService.updatePage(slug, payload);
       if (res.success) {
         toast.success('Page updated successfully');
@@ -89,13 +89,15 @@ export default function EditPagePage() {
   }
 
   return (
-    <AdminPage 
+    <AdminPage
       title={`Edit Page: ${slug === 'privacy-policy' ? 'Privacy Policy' : 'Terms & Conditions'}`}
       description="Manage the content for this legal page."
       actions={
         <div className="flex items-center gap-3">
           <Link href="/admin/pages">
-            <Button variant="outline"><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
+            <Button variant="outline" className="bg-[#252525] border-admin-card text-white hover:bg-admin-card">
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back
+            </Button>
           </Link>
           <Button onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : 'Save Changes'}
@@ -104,25 +106,26 @@ export default function EditPagePage() {
       }
     >
       <div className="p-6">
-        <form id="page-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-5xl">
-          
-          <div className="bg-white p-6 rounded-md border border-admin-card">
-            <h3 className="text-lg font-medium text-white mb-4">Page Details</h3>
-            
-            <div className="mb-6">
+        <form id="page-form" onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+
+          {/* Page Details */}
+          <div className="space-y-6 max-w-3xl">
+            <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">Page Details</h2>
+
+            <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Page Title *</label>
               <Input {...register('title')} placeholder="e.g. Privacy Policy" />
               {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
             </div>
 
-            <div className="mb-6">
+            <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">URL Slug (Optional)</label>
               <Input {...register('slug')} placeholder="Leave blank to auto-generate from title" />
               {errors.slug && <p className="mt-1 text-sm text-red-600">{errors.slug.message}</p>}
             </div>
 
-            <div className="border-t border-admin-card pt-4">
-              <ImageUploadPreview 
+            <div className="pt-4 border-t border-admin-card">
+              <ImageUploadPreview
                 label="Optional Cover Image"
                 initialImageUrl={existingImage}
                 onImageChange={(file) => {
@@ -138,44 +141,50 @@ export default function EditPagePage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-md border border-admin-card">
-            <label className="block text-sm font-medium text-gray-300 mb-2">Detailed Content *</label>
-            <p className="text-xs text-gray-400 mb-4">There is no character limit. Write your complete legal document below.</p>
-            {errors.content && <p className="mb-2 text-sm text-red-600">{errors.content.message}</p>}
-            
+          {/* Content */}
+          <div className="space-y-4 max-w-3xl">
+            <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">Detailed Content *</h2>
+            <p className="text-xs text-gray-400">There is no character limit. Write your complete legal document below.</p>
+            {errors.content && <p className="text-sm text-red-600">{errors.content.message}</p>}
+
             <Controller
               name="content"
               control={control}
               render={({ field }) => (
-                <TiptapEditor 
-                  content={field.value} 
-                  onChange={field.onChange} 
+                <TiptapEditor
+                  content={field.value}
+                  onChange={field.onChange}
                 />
               )}
             />
           </div>
 
           {/* SEO Settings */}
-          <div className="bg-white p-6 rounded-md border border-admin-card space-y-4">
-            <h3 className="text-lg font-medium text-white mb-4 border-b border-admin-card pb-2">SEO Settings</h3>
+          <div className="space-y-6 max-w-3xl">
+            <h2 className="text-lg font-semibold text-white border-b border-admin-card pb-2">SEO Settings</h2>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Meta Title</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Meta Title</label>
               <Input {...register('seo.metaTitle')} />
               {errors.seo?.metaTitle && <p className="mt-1 text-xs text-red-600">{errors.seo?.metaTitle?.message}</p>}
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Meta Description</label>
-              <textarea 
-                {...register('seo.metaDescription')} 
+              <label className="block text-sm font-medium text-gray-300 mb-1">Meta Description</label>
+              <textarea
+                {...register('seo.metaDescription')}
                 rows={2}
                 className="w-full rounded-md border border-admin-card bg-admin-bg p-2 text-sm text-white focus:border-admin-accent focus:outline-none focus:ring-1 focus:ring-admin-accent"
               />
-                {errors.seo?.metaDescription && <p className="mt-1 text-xs text-red-600">{errors.seo?.metaDescription?.message}</p>}
+              {errors.seo?.metaDescription && <p className="mt-1 text-xs text-red-600">{errors.seo?.metaDescription?.message}</p>}
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Keywords</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Keywords</label>
               <Input {...register('seo.keywords')} placeholder="comma, separated" />
               {errors.seo?.keywords && <p className="mt-1 text-xs text-red-600">{errors.seo?.keywords?.message}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Canonical URL</label>
+              <Input {...register('seo.canonicalUrl')} placeholder="https://yourdomain.com/page" />
+              {errors.seo?.canonicalUrl && <p className="mt-1 text-xs text-red-600">{errors.seo?.canonicalUrl?.message}</p>}
             </div>
           </div>
 
