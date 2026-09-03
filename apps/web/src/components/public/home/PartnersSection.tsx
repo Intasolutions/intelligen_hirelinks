@@ -88,7 +88,7 @@ export async function PartnersSection() {
             <LogoMarquee
               logos={partnerLogos}
               direction="right"
-              speed={30}
+              speed={40}
               logoHeight={40}
               gap={25}
               style={{
@@ -105,7 +105,7 @@ export async function PartnersSection() {
             <LogoMarquee
               logos={partnerLogos}
               direction="right"
-              speed={40}
+              speed={55}
               logoHeight={60}
               gap={64}
               style={{
