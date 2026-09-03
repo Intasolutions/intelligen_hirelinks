@@ -49,6 +49,11 @@ export const apiClient = async <T>(
   try {
     const res = await fetch(`${baseUrl}${endpoint}`, {
       credentials: 'include',
+      // Next's fetch() Data Cache can still cache individual requests even
+      // inside a route marked force-dynamic unless told explicitly not to —
+      // admin edits (new partner logos, updated content, etc.) need to show
+      // up on the very next request, not a stale cached one.
+      cache: 'no-store',
       ...options,
       headers: {
         'Content-Type': 'application/json',
