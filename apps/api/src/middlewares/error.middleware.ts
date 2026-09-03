@@ -22,7 +22,17 @@ export const globalErrorHandler = (
     details = err.details;
   } else if (err instanceof ZodError) {
     statusCode = 400;
-    message = 'Validation Error';
+    // Turn Zod's issue list into one readable sentence (e.g. "Title is
+    // required; Expected object, received string") instead of the bare
+    // label "Validation Error" — every caller that shows res.error.message
+    // directly in a toast (which is most of them) gets the real reason for
+    // free, with no per-form changes needed.
+    message = err.issues
+      .map((issue) => {
+        const field = issue.path.join('.');
+        return field ? `${field}: ${issue.message}` : issue.message;
+      })
+      .join('; ');
     details = err.format();
   } else if (err instanceof multer.MulterError) {
     statusCode = 400;
