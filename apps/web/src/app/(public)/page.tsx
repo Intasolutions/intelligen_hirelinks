@@ -13,6 +13,12 @@ import { LoadingScreen } from '../../components/public/LoadingScreen';
 import { PageReadyProvider } from '../../components/public/PageReadyContext';
 import { ProgramsService } from '../../services/programs.service';
 
+// This page pulls services/programs/reviews/partner logos/settings straight
+// from the database — forcing it dynamic means every request re-fetches
+// fresh data instead of serving a build-time snapshot, so admin edits show
+// up on the next page refresh rather than only after the next deploy.
+export const dynamic = 'force-dynamic';
+
 async function getFeaturedPrograms(): Promise<FeaturedProgram[]> {
   try {
     const res = await ProgramsService.getPublicPrograms();

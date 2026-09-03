@@ -48,7 +48,8 @@ export async function DomesticPartnersSection() {
         <FadeInWhenVisible delay={0.15} className="relative mt-10 w-full lg:hidden">
           <LogoMarquee
             logos={domesticPartnerLogos}
-            duration={14}
+            direction="left"
+            speed={30}
             logoHeight={40}
             gap={25}
             style={{
@@ -64,7 +65,8 @@ export async function DomesticPartnersSection() {
         <FadeInWhenVisible delay={0.15} className="relative mt-14 hidden w-full lg:block">
           <LogoMarquee
             logos={domesticPartnerLogos}
-            duration={6}
+            direction="left"
+            speed={40}
             logoHeight={60}
             gap={64}
             style={{

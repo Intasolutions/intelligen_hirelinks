@@ -2,9 +2,8 @@ import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
-const PARAGRAPH =
-  'We provide comprehensive career and placement support for nurses, helping skilled professionals connect with trusted healthcare opportunities. Our services include personalized career guidance, recruitment support, professional development programmes, documentation assistance, and domestic and international placements. With dedicated support at every stage, we help nurses make informed career decisions, navigate the placement process smoothly, and move confidently toward long-term professional growth and success.';
-
+const PARAGRAPH1 ='We provide comprehensive career and placement support designed to connect nurses with trusted healthcare opportunities worldwide. From personalized career guidance and professional development programmes to recruitment support, documentation assistance, and domestic and international placements, we make every step of the journey clear, simple, and stress-free.'
+const PARAGRAPH2 ='With dedicated support at every stage, we help nurses identify the right opportunities, make informed career decisions, and navigate the placement process with confidence. Our commitment goes beyond placement—we aim to support every nurse in building a successful, stable, and rewarding career with long-term professional growth.'
 function Photo({ src, className, delay = 0 }: { src: string; className: string; delay?: number }) {
   return (
     <FadeInWhenVisible delay={delay} className={`relative shrink-0 overflow-hidden rounded-[14px] bg-[#ececec] ${className}`}>
@@ -54,7 +53,7 @@ export function WeProvideSection() {
           <div className="flex flex-col gap-8 lg:flex-1 lg:gap-10">
             <div className="flex flex-row items-center gap-4 sm:gap-6 lg:items-start lg:justify-start lg:gap-10">
               <FadeInWhenVisible delay={0.1} className="min-w-0 max-w-md flex-1 font-sans text-sm leading-relaxed text-black sm:text-base lg:max-w-xl lg:flex-none lg:text-lg">
-                {PARAGRAPH}
+                {PARAGRAPH1}
               </FadeInWhenVisible>
 
               <Photo
@@ -72,7 +71,7 @@ export function WeProvideSection() {
               />
               <div className="flex min-w-0 flex-1 flex-col items-start gap-6 lg:max-w-xl lg:flex-none">
                 <FadeInWhenVisible delay={0.25} className="font-sans text-sm leading-relaxed text-black sm:text-base lg:text-lg">
-                  {PARAGRAPH}
+                  {PARAGRAPH2}
                 </FadeInWhenVisible>
                 <FadeInWhenVisible delay={0.3} className="hidden lg:block">
                   <PillButton href="/services" variant="white" borderColor="#2a9d8f">

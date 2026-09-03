@@ -81,13 +81,14 @@ export async function PartnersSection() {
 
           {/* Mobile/tablet carousel — smaller + slower + tighter gap than desktop.
               ADJUST MOBILE LOGO SIZE: logoHeight below.
-              ADJUST MOBILE CAROUSEL SPEED: duration below (seconds per sweep —
-              higher = slower).
+              ADJUST MOBILE CAROUSEL SPEED: speed below (px/sec —
+              higher = faster).
               ADJUST MOBILE GAP BETWEEN LOGOS: gap below (pixels). */}
           <FadeInWhenVisible delay={0.15} className="relative mt-6 w-full lg:hidden">
             <LogoMarquee
               logos={partnerLogos}
-              duration={14}
+              direction="right"
+              speed={30}
               logoHeight={40}
               gap={25}
               style={{
@@ -103,7 +104,8 @@ export async function PartnersSection() {
           <FadeInWhenVisible delay={0.15} className="relative mt-14 hidden w-full lg:block">
             <LogoMarquee
               logos={partnerLogos}
-              duration={6}
+              direction="right"
+              speed={40}
               logoHeight={60}
               gap={64}
               style={{
