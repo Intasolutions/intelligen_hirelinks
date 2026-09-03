@@ -7,7 +7,7 @@ export const reviewSchema = z.object({
   linkedItem: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid ID'), // MongoDB ObjectId string
   reviewComment: z.string().min(1, 'Review comment is required'),
   moderationStatus: z.enum(['APPROVED', 'REJECTED']),
-  featureOnHomepage: z.coerce.boolean(),
+  featureOnHomepage: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
   displayOrder: z.coerce.number().default(999),
   status: z.enum(['ACTIVE', 'INACTIVE']).default('ACTIVE'),
   
