@@ -17,6 +17,12 @@ export const PagesService = {
       if (value !== undefined && value !== null) {
         if (key === 'image' && value instanceof File) {
           formData.append('image', value);
+        } else if (typeof value === 'object') {
+          // e.g. `seo` — FormData only holds strings/Files, and a plain
+          // .toString() on an object produces the useless "[object Object]"
+          // rather than its actual data, which the backend's jsonParseString
+          // preprocessor can't parse back into an object.
+          formData.append(key, JSON.stringify(value));
         } else {
           formData.append(key, value.toString());
         }

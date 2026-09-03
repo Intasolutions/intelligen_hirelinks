@@ -7,8 +7,8 @@ export class PageController {
     try {
       const data = await PageEngine.getPage(req.params.slug);
       res.status(200).json({ success: true, data });
-    } catch (error: any) {
-      res.status(400).json({ success: false, message: error.message });
+    } catch (error) {
+      next(error);
     }
   }
 
@@ -19,8 +19,8 @@ export class PageController {
 
       const data = await PageEngine.updatePage(req.params.slug, validatedData, adminId, req.file);
       res.status(200).json({ success: true, data });
-    } catch (error: any) {
-      res.status(400).json({ success: false, message: error.message });
+    } catch (error) {
+      next(error);
     }
   }
 }
