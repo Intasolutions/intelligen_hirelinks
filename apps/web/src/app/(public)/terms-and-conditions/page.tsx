@@ -7,10 +7,17 @@ export const metadata: Metadata = {
   description: 'Terms and Conditions for Intelligen Hirelinks platform.',
 };
 
+// Was on ISR (revalidate: 60), but Vercel appears to have permanently
+// cached a stale/broken static fallback for this route that survived
+// multiple clean redeploys — force-dynamic removes any static-generation
+// ambiguity by always rendering fresh server-side, matching every other
+// public page in this app.
+export const dynamic = 'force-dynamic';
+
 async function getTermsAndConditions() {
   const baseUrl = getApiBaseUrl();
   try {
-    const res = await fetch(`${baseUrl}/pages/terms-conditions`, { next: { revalidate: 60 } });
+    const res = await fetch(`${baseUrl}/pages/terms-conditions`, { cache: 'no-store' });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data;
