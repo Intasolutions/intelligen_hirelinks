@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PillButton } from '../PillButton';
 import { GrowMedLinkLogo } from './GrowMedLinkLogo';
+import { ServicesService } from '../../../services/services.service';
+import { ProgramsService } from '../../../services/programs.service';
 
 const NAV_LINKS = [
   { label: 'HOME', href: '/' },
@@ -14,6 +16,21 @@ const NAV_LINKS = [
   { label: 'Programs', href: '/programs' },
   { label: 'BLOG', href: '/blog' },
 ];
+
+interface SectionItem {
+  title: string;
+  slug: string;
+}
+
+async function fetchFeaturedServices(): Promise<SectionItem[]> {
+  const res = await ServicesService.getPublicServices();
+  return ((res.data ?? []) as any[]).slice(0, 5).map((s) => ({ title: s.title, slug: s.slug }));
+}
+
+async function fetchFeaturedPrograms(): Promise<SectionItem[]> {
+  const res = await ProgramsService.getPublicPrograms();
+  return ((res.data ?? []) as any[]).slice(0, 5).map((p) => ({ title: p.title, slug: p.slug }));
+}
 
 const PARTNER_LINKS = [
   { id: 'intelligen', label: 'Intelligen', href: 'https://intelligenoverseas.com', logo: '/images/home/intelligen-logo.png', logoWidth: 110 },
@@ -39,7 +56,28 @@ function ArrowUpRight() {
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [sectionItems, setSectionItems] = useState<Record<string, SectionItem[]>>({});
   const pathname = usePathname();
+
+  const isOnServices = pathname.startsWith('/services');
+  const isOnPrograms = pathname.startsWith('/programs');
+
+  useEffect(() => {
+    if (isOnServices && !sectionItems.services) {
+      fetchFeaturedServices()
+        .then((items) => setSectionItems((prev) => ({ ...prev, services: items })))
+        .catch(() => setSectionItems((prev) => ({ ...prev, services: [] })));
+    }
+    if (isOnPrograms && !sectionItems.programs) {
+      fetchFeaturedPrograms()
+        .then((items) => setSectionItems((prev) => ({ ...prev, programs: items })))
+        .catch(() => setSectionItems((prev) => ({ ...prev, programs: [] })));
+    }
+    // sectionItems is intentionally excluded — each key only needs to be
+    // fetched once per mount, re-running on every items update would loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOnServices, isOnPrograms]);
 
   return (
     <div className="relative px-3 py-3 lg:hidden">
@@ -77,21 +115,88 @@ export function MobileNav() {
         }`}
       >
         <nav className="flex flex-col px-4 pb-2 pt-3">
-          {NAV_LINKS.map((link, i) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className={`relative py-3.5 text-sm font-medium uppercase tracking-[0.14px] text-black transition-colors active:text-[#2a9d8f] ${
-                i !== 0 ? 'border-t border-gray-100' : ''
-              }`}
-            >
-              {link.label}
-              {isNavLinkActive(link.href, pathname) && (
-                <span className="absolute bottom-3 left-0 h-1 w-6 rounded-full bg-[#2a9d8f]" />
-              )}
-            </a>
-          ))}
+          {NAV_LINKS.map((link, i) => {
+            const sectionKey = link.href === '/services' ? 'services' : link.href === '/programs' ? 'programs' : null;
+            const isSectionActive = sectionKey === 'services' ? isOnServices : sectionKey === 'programs' ? isOnPrograms : false;
+            const borderClass = i !== 0 ? 'border-t border-gray-100' : '';
+
+            // Only when already inside that section does the row become an
+            // expandable accordion — elsewhere it's the same plain link.
+            if (sectionKey && isSectionActive) {
+              const isExpanded = expandedSection === sectionKey;
+              const items = sectionItems[sectionKey];
+              return (
+                <div key={link.label} className={borderClass}>
+                  <button
+                    type="button"
+                    onClick={() => setExpandedSection(isExpanded ? null : sectionKey)}
+                    aria-expanded={isExpanded}
+                    className="relative flex w-full items-center justify-between py-3.5 text-sm font-medium uppercase tracking-[0.14px] text-black"
+                  >
+                    {link.label}
+                    <svg
+                      width="10" height="10" viewBox="0 0 10 10" fill="none"
+                      className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                    >
+                      <path d="M1.5 3.5 5 7l3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="absolute bottom-3 left-0 h-1 w-6 rounded-full bg-[#2a9d8f]" />
+                  </button>
+
+                  <div className={`overflow-hidden transition-all duration-300 ease-out ${isExpanded ? 'max-h-96 pb-2' : 'max-h-0'}`}>
+                    {items === undefined ? (
+                      <div className="space-y-1.5 pl-1">
+                        {Array.from({ length: 3 }).map((_, j) => (
+                          <div key={j} className="h-8 animate-pulse rounded-lg bg-gray-100" />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-0.5 pl-1">
+                        {items.map((item) => {
+                          const isCurrent = pathname === `${link.href}/${item.slug}`;
+                          return (
+                            <a
+                              key={item.slug}
+                              href={`${link.href}/${item.slug}`}
+                              onClick={() => setOpen(false)}
+                              className={`flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm normal-case tracking-normal transition-colors active:bg-gray-100 ${
+                                isCurrent ? 'font-semibold text-black' : 'font-normal text-[#3a403e]'
+                              }`}
+                            >
+                              {item.title}
+                              {isCurrent && <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#2a9d8f]" />}
+                            </a>
+                          );
+                        })}
+                        <a
+                          href={link.href}
+                          onClick={() => setOpen(false)}
+                          className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-xs font-semibold normal-case tracking-normal text-[#2a9d8f]"
+                        >
+                          View all {link.label.toLowerCase()}
+                          <span aria-hidden>→</span>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className={`relative py-3.5 text-sm font-medium uppercase tracking-[0.14px] text-black transition-colors active:text-[#2a9d8f] ${borderClass}`}
+              >
+                {link.label}
+                {isNavLinkActive(link.href, pathname) && (
+                  <span className="absolute bottom-3 left-0 h-1 w-6 rounded-full bg-[#2a9d8f]" />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="border-t border-gray-100 bg-gray-50/60 px-4 py-3">

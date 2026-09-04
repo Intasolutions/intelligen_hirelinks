@@ -6,6 +6,9 @@ import { usePathname } from 'next/navigation';
 import { PillButton } from '../PillButton';
 import { GrowMedLinkLogo } from './GrowMedLinkLogo';
 import { MobileNav } from './MobileNav';
+import { NavDropdown } from './NavDropdown';
+import { ServicesService } from '../../../services/services.service';
+import { ProgramsService } from '../../../services/programs.service';
 
 const NAV_LINKS = [
   { label: 'HOME', href: '/' },
@@ -14,6 +17,16 @@ const NAV_LINKS = [
   { label: 'Programs', href: '/programs' },
   { label: 'BLOG', href: '/blog' },
 ];
+
+async function fetchFeaturedServices() {
+  const res = await ServicesService.getPublicServices();
+  return ((res.data ?? []) as any[]).map((s) => ({ title: s.title, slug: s.slug }));
+}
+
+async function fetchFeaturedPrograms() {
+  const res = await ProgramsService.getPublicPrograms();
+  return ((res.data ?? []) as any[]).map((p) => ({ title: p.title, slug: p.slug }));
+}
 
 // "/" only matches the homepage itself; every other route link also
 // highlights on its own subpages (e.g. "/services" stays active on
@@ -94,6 +107,17 @@ export function Header() {
 
           {NAV_LINKS.map((link) => {
             const isActive = isNavLinkActive(link.href, pathname);
+
+            // Only on a route already inside that section does the nav
+            // item become a dropdown (featured 5 + view all) — everywhere
+            // else it's the same plain link as before.
+            if (link.href === '/services' && isActive) {
+              return <NavDropdown key={link.label} label={link.label} basePath="/services" fetchItems={fetchFeaturedServices} />;
+            }
+            if (link.href === '/programs' && isActive) {
+              return <NavDropdown key={link.label} label={link.label} basePath="/programs" fetchItems={fetchFeaturedPrograms} />;
+            }
+
             return (
               <a
                 key={link.label}
