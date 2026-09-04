@@ -21,9 +21,23 @@ export const settingsSchema = z.object({
     jsonParseString,
     z.array(z.object({
       address: z.string().min(1, 'Address is required').max(500),
-      isPrimary: z.boolean().default(false)
+      isPrimary: z.boolean().default(false),
+      city: z.string().max(100).optional().nullable(),
+      // ISO 3166-1 alpha-2 code, lowercase (e.g. "in" for India) — resolved
+      // to a flag via the flag-icons package (fi fi-{countryCode}).
+      countryCode: z.preprocess(
+        (val) => (val === '' || val === undefined || val === null ? undefined : val),
+        z
+          .string()
+          .regex(/^[a-zA-Z]{2}$/, 'Country code must be exactly 2 letters (ISO 3166-1 alpha-2, e.g. "in" for India)')
+          .toLowerCase()
+          .optional()
+      ),
     }))
   ).optional().default([]),
+  // Site-wide fallback (e.g. for ContactHero's single "our office" line) —
+  // each entry in `addresses` above carries its own city/countryCode for
+  // the footer, since offices can be in different countries.
   city: z.string().max(100).optional().nullable(),
   // ISO 3166-1 alpha-2 code, lowercase (e.g. "in" for India) — used to resolve the flag icon path.
   countryCode: z.preprocess(

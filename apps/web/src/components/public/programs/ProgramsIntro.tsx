@@ -1,5 +1,5 @@
 const INTRO =
-  'Our programmes are designed to support nurses with complete career and placement solutions. From professional development and career guidance to recruitment, documentation, and domestic and international opportunities, we provide structured support at every stage. Our goal is to connect nurses with the right opportunities and help them build successful, rewarding careers with confidence.';
+  'At HigherLinks, we believe every nursing career deserves the right direction, support, and opportunity. Our programmes are designed to guide nurses through every stage of their professional journey-from career planning and skill development to recruitment, documentation, and placement. With personalised guidance and a clear understanding of each nurse’s goals, we make the path towards a successful career more structured and accessible.';
 
 // No FadeInWhenVisible here — this paragraph sits directly under the hero
 // and is part of the page's initial view, so it should render visible

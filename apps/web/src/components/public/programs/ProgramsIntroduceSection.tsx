@@ -3,7 +3,7 @@ import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
 const PARAGRAPH =
-  'Our programmes provide nurses with structured pathways for career growth, professional development, recruitment, and placement. We offer dedicated support for domestic and international opportunities, including career guidance, profile assessment, documentation, credential assistance, interview preparation, recruitment coordination, licensing pathways, and relocation guidance. Each programme is designed to simplify the journey from preparation to successful placement.';
+  'We go beyond simply connecting nurses with opportunities. HigherLinks builds meaningful connections between skilled nurses and the right career pathways, supporting them with continuous guidance and professional assistance along the way. Our aim is to create a trusted bridge between talent and opportunity, helping nurses take confident steps towards a brighter and more rewarding future.';
 
 const CARD_TEXT = 'Nurses Today, Successful Careers Tomorrow.';
 

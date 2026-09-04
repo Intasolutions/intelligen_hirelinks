@@ -157,23 +157,34 @@ export default function SettingsPage() {
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-sm font-medium text-gray-300">Office Addresses</label>
-                  <Button type="button" variant="outline" size="sm" onClick={() => appendAddress({ address: '', isPrimary: false })}>
+                  <Button type="button" variant="outline" size="sm" onClick={() => appendAddress({ address: '', isPrimary: false, city: '', countryCode: '' })}>
                     <Plus className="h-4 w-4 mr-1" /> Add Address
                   </Button>
                 </div>
-                
+
                 <div className="space-y-3">
                   {addressFields.map((field, index) => (
                     <div key={field.id} className="flex items-start gap-3 bg-[#1D1D1D] p-3 rounded-md border border-admin-card">
                       <div className="flex-1 space-y-3">
-                        <textarea 
+                        <textarea
                           {...register(`addresses.${index}.address`)}
                           rows={2}
                           className="w-full rounded-md border border-admin-card bg-admin-bg p-2 text-sm text-white focus:border-admin-accent focus:outline-none focus:ring-1 focus:ring-admin-accent"
                           placeholder="Full address..."
                         />
                         {errors.addresses?.[index]?.address && <p className="text-xs text-red-600">{errors.addresses[index]?.address?.message}</p>}
-                        
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Input {...register(`addresses.${index}.city`)} placeholder="City, e.g. Bangalore" />
+                            {errors.addresses?.[index]?.city && <p className="mt-1 text-xs text-red-600">{errors.addresses[index]?.city?.message}</p>}
+                          </div>
+                          <div>
+                            <Input {...register(`addresses.${index}.countryCode`)} placeholder="Country code, e.g. in" maxLength={2} />
+                            {errors.addresses?.[index]?.countryCode && <p className="mt-1 text-xs text-red-600">{errors.addresses[index]?.countryCode?.message}</p>}
+                          </div>
+                        </div>
+
                         <label className="flex items-center gap-2">
                           <input type="checkbox" {...register(`addresses.${index}.isPrimary`)} />
                           {errors.addresses?.[index]?.isPrimary && <p className="mt-1 text-xs text-red-600">{errors.addresses?.[index]?.isPrimary?.message}</p>}

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 import { ServicesService } from '../../../services/services.service';
+import { ServiceCard, type Service } from './ServiceCard';
 
 const LOREM = 'Complete Nursing Career, Recruitment, Placement & Global Support Services';
 
@@ -87,14 +88,6 @@ function LanguageIcon() {
   );
 }
 
-interface Service {
-  title: string;
-  slug: string;
-  description: string;
-  icon: React.ComponentType;
-  featured?: boolean;
-}
-
 // Icons cycle in this fixed order regardless of which real services come
 // back from the API — there's no icon field on the Service model, so we
 // just need five consistent glyphs across the five featured slots.
@@ -104,69 +97,18 @@ async function getFeaturedServices(): Promise<Service[]> {
   try {
     const res = await ServicesService.getPublicServices();
     const services = (res.data ?? []) as any[];
-    return services.slice(0, 5).map((s, i) => ({
-      title: s.title,
-      slug: s.slug,
-      description: s.shortDescription || '',
-      icon: ICONS[i % ICONS.length],
-      featured: i === 1,
-    }));
+    return services.slice(0, 5).map((s, i) => {
+      const Icon = ICONS[i % ICONS.length];
+      return {
+        title: s.title,
+        slug: s.slug,
+        description: s.shortDescription || '',
+        icon: <Icon />,
+      };
+    });
   } catch {
     return [];
   }
-}
-
-function ServiceCard({ service, index }: { service: Service; index: number }) {
-  const Icon = service.icon;
-
-  if (service.featured) {
-    return (
-      <FadeInWhenVisible
-        delay={0.15 + index * 0.08}
-        className="relative flex h-full min-h-[260px] flex-col justify-end overflow-hidden bg-black p-6 text-white transition-transform duration-500 hover:-translate-y-1 sm:min-h-[300px] sm:p-8 lg:min-h-[340px] lg:p-10"
-      >
-        <a href={`/services/${service.slug}`} className="absolute inset-0 z-10" aria-label={service.title} />
-        <Image
-          src="/images/home/services-featured-bg.png"
-          alt=""
-          fill
-          className="pointer-events-none select-none object-cover opacity-90"
-        />
-        <div className="relative">
-          <span className="inline-block text-white [&_svg]:h-8 [&_svg]:w-8 sm:[&_svg]:h-10 sm:[&_svg]:w-10">
-            <Icon />
-          </span>
-          <h3 className="mt-8 font-display-rounded text-xl font-bold leading-tight text-white sm:mt-12 sm:text-2xl lg:text-[28px]">
-            {service.title}
-          </h3>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85 sm:mt-4 lg:text-base">
-            {service.description}
-          </p>
-        </div>
-      </FadeInWhenVisible>
-    );
-  }
-
-  return (
-    <FadeInWhenVisible
-      delay={0.15 + index * 0.08}
-      className="relative flex h-full min-h-[220px] flex-col justify-center p-6 transition-transform duration-500 hover:-translate-y-1 sm:min-h-[260px] sm:p-8 lg:min-h-[300px] lg:p-10"
-    >
-      <a href={`/services/${service.slug}`} className="absolute inset-0" aria-label={service.title} />
-      <span className="pointer-events-none inline-block text-black [&_svg]:h-8 [&_svg]:w-8 sm:[&_svg]:h-10 sm:[&_svg]:w-10">
-        <Icon />
-      </span>
-      <h3
-        className="pointer-events-none mt-8 whitespace-pre-line bg-gradient-to-r from-[#2a9d8f] to-[#0077b6] bg-clip-text font-display-rounded font-light leading-tight text-transparent sm:mt-12"
-        style={{ fontSize: 'clamp(22px, 4vw, 32px)' }}
-      >
-        {service.title}
-      </h3>
-      <p className="pointer-events-none mt-3 max-w-md text-sm leading-relaxed text-black/70 sm:mt-4 lg:text-base">
-        {service.description}
-      </p>
-    </FadeInWhenVisible>
-  );
 }
 
 const NOTCH_WIDTH = 976;

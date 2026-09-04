@@ -13,6 +13,7 @@ import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { X } from 'lucide-react';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
+import { CROP_TARGETS } from '../../../../lib/crop-targets';
 
 export default function EditReviewPage() {
   const router = useRouter();
@@ -172,13 +173,14 @@ export default function EditReviewPage() {
               </div>
 
               <div className="pt-4 border-t border-admin-card">
-                <ImageUploadPreview 
+                <ImageUploadPreview
                   label="Customer Photo"
                   initialImageUrl={existingImage}
                   onImageChange={(file) => {
                     setImageFile(file);
                     setRemoveImage(!file && !!existingImage);
                   }}
+                  cropTarget={CROP_TARGETS.customerPhoto}
                 />
               </div>
             </div>

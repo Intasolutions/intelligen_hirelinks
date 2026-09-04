@@ -5,7 +5,7 @@ export interface ISettings extends Document {
   companyEmail: string;
   companyPhone?: string;
   companyWhatsapp?: string;
-  addresses?: { address: string; isPrimary: boolean }[];
+  addresses?: { address: string; isPrimary: boolean; city?: string; countryCode?: string }[];
   city?: string;
   /** ISO 3166-1 alpha-2 code, lowercase — resolves to /images/flags/{countryCode}.svg. */
   countryCode?: string;
@@ -43,7 +43,9 @@ const SettingsSchema = new Schema<ISettings>(
     companyWhatsapp: { type: String },
     addresses: [{
       address: { type: String, required: true },
-      isPrimary: { type: Boolean, default: false }
+      isPrimary: { type: Boolean, default: false },
+      city: { type: String },
+      countryCode: { type: String, lowercase: true }
     }],
     city: { type: String },
     countryCode: { type: String, lowercase: true },

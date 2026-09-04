@@ -10,6 +10,7 @@ import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
+import { CROP_TARGETS } from '../../../../lib/crop-targets';
 
 export default function EditPlacedStudentPage() {
   const params = useParams();
@@ -128,6 +129,7 @@ export default function EditPlacedStudentPage() {
                   setImageFile(file);
                   setRemoveImage(!file && !!existingImage);
                 }}
+                cropTarget={CROP_TARGETS.studentPhoto}
               />
             </div>
           </div>

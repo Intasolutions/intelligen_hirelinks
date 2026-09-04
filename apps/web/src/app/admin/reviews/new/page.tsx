@@ -12,6 +12,7 @@ import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
+import { CROP_TARGETS } from '../../../../lib/crop-targets';
 
 export default function NewReviewPage() {
   const router = useRouter();
@@ -132,9 +133,10 @@ export default function NewReviewPage() {
               </div>
 
               <div className="pt-4 border-t border-admin-card">
-                <ImageUploadPreview 
+                <ImageUploadPreview
                   label="Customer Photo"
                   onImageChange={setImageFile}
+                  cropTarget={CROP_TARGETS.customerPhoto}
                 />
               </div>
             </div>

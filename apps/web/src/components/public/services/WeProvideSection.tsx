@@ -3,7 +3,7 @@ import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
 const PARAGRAPH1 ='We provide comprehensive career and placement support designed to connect nurses with trusted healthcare opportunities worldwide. From personalized career guidance and professional development programmes to recruitment support, documentation assistance, and domestic and international placements, we make every step of the journey clear, simple, and stress-free.'
-const PARAGRAPH2 ='With dedicated support at every stage, we help nurses identify the right opportunities, make informed career decisions, and navigate the placement process with confidence. Our commitment goes beyond placement—we aim to support every nurse in building a successful, stable, and rewarding career with long-term professional growth.'
+const PARAGRAPH2 ='With dedicated support at every stage, we help nurses identify the right opportunities, make informed career decisions, and navigate the placement process with confidence. Our commitment goes beyond placement-we aim to support every nurse in building a successful, stable, and rewarding career with long-term professional growth.'
 function Photo({ src, className, delay = 0 }: { src: string; className: string; delay?: number }) {
   return (
     <FadeInWhenVisible delay={delay} className={`relative shrink-0 overflow-hidden rounded-[14px] bg-[#ececec] ${className}`}>

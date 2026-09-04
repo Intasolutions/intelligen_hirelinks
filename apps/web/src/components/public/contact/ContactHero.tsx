@@ -21,8 +21,6 @@ async function getContactSettings(): Promise<ContactSettings | null> {
 
 const LOREM = 'Have questions about our programmes or placement services? Contact Intelligen Hirelinks today. Our team is ready to guide you toward the right nursing career opportunities.';
 
-const AVAILABLE_FLAG_CODES = new Set(['au', 'br', 'in', 'us']);
-
 function IconPill({ children }: { children: React.ReactNode }) {
   return (
     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#2a9d8f] bg-white text-[#2a9d8f] sm:h-10 sm:w-10">
@@ -109,11 +107,7 @@ export async function ContactHero() {
                   </IconPill>
                   {settings?.city && (
                     <span className="flex items-center gap-1.5 font-sans text-base font-semibold text-[#2a67cc] sm:text-lg">
-                      {flagCode && AVAILABLE_FLAG_CODES.has(flagCode) && (
-                        <span className="relative h-4 w-4 shrink-0 overflow-hidden rounded-full">
-                          <Image src={`/images/flags/${flagCode}.svg`} alt="" fill className="object-cover" />
-                        </span>
-                      )}
+                      {flagCode && <span className={`fi fi-${flagCode} rounded-sm`} />}
                       {settings.city}
                     </span>
                   )}

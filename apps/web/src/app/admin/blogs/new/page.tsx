@@ -12,6 +12,7 @@ import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { X, Plus } from 'lucide-react';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
+import { CROP_TARGETS } from '../../../../lib/crop-targets';
 
 export default function NewBlogPage() {
   const router = useRouter();
@@ -140,7 +141,7 @@ export default function NewBlogPage() {
               </div>
 
               <div className="pt-4 border-t border-admin-card">
-                <ImageUploadPreview label="Blog Image" onImageChange={setImageFile} />
+                <ImageUploadPreview label="Blog Image" onImageChange={setImageFile} cropTarget={CROP_TARGETS.blogImage} />
                 <div className="mt-4">
                   <label className="block text-sm font-medium text-gray-300 mb-1">Image Alt Text</label>
                   <Input {...register('coverImageAlt')} placeholder="Describe the image for SEO..." />

@@ -170,6 +170,19 @@ export function Footer({ settings }: { settings: SettingsInput | null }) {
                     </Link>
                   </li>
                 ))}
+                {/* Moved here from the bottom copyright bar — the fixed
+                    WhatsApp button (bottom-right) sat on top of that row on
+                    mobile and made Privacy Policy unclickable underneath it. */}
+                <li>
+                  <Link href="/terms-and-conditions" className="font-sans text-sm text-[#3a3a3a] transition-colors hover:text-[#2a9d8f]">
+                    Terms &amp; Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy-policy" className="font-sans text-sm text-[#3a3a3a] transition-colors hover:text-[#2a9d8f]">
+                    Privacy Policy
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -178,6 +191,12 @@ export function Footer({ settings }: { settings: SettingsInput | null }) {
                 <div>
                   <div className="flex items-center gap-2">
                     <LocationPinIcon />
+                    {activeAddress.city && (
+                      <span className="flex items-center gap-1.5 font-sans text-sm text-[#6b6b6b]">
+                        {activeAddress.countryCode && <span className={`fi fi-${activeAddress.countryCode.toLowerCase()} rounded-sm`} />}
+                        {activeAddress.city}
+                      </span>
+                    )}
                     {addresses.length > 1 && (
                       <div className="ml-auto flex items-center gap-1.5">
                         <ChevronButton direction="prev" onClick={() => goToAddress(addressIndex - 1)} />
@@ -242,18 +261,10 @@ export function Footer({ settings }: { settings: SettingsInput | null }) {
           </div>
         </div>
 
-        <div className="relative flex flex-col items-center gap-3 border-t border-[#eee] px-5 py-4 text-center sm:flex-row sm:justify-between sm:px-6 sm:text-left lg:px-8">
+        <div className="relative flex items-center justify-center border-t border-[#eee] px-5 py-4 text-center sm:px-6 lg:px-8">
           <p className="font-sans text-xs text-[#9a9a9a]">
             © {year} {companyName}. All Rights Reserved
           </p>
-          <div className="flex items-center gap-5">
-            <Link href="/terms-and-conditions" className="font-sans text-xs text-[#3a3a3a] transition-colors hover:text-[#2a9d8f]">
-              Terms &amp; Conditions
-            </Link>
-            <Link href="/privacy-policy" className="font-sans text-xs text-[#3a3a3a] transition-colors hover:text-[#2a9d8f]">
-              Privacy Policy
-            </Link>
-          </div>
         </div>
       </footer>
     </div>

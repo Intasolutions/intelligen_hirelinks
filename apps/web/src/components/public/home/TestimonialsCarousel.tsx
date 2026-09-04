@@ -12,14 +12,9 @@ export interface Testimonial {
   rating: number;
   reviewComment: string;
   country?: string;
-  /** ISO 3166-1 alpha-2 code, lowercase — resolves to /images/flags/{countryCode}.svg. */
+  /** ISO 3166-1 alpha-2 code, lowercase — resolved via the flag-icons package (fi fi-{countryCode}). */
   countryCode?: string;
 }
-
-// Only these codes actually have a flag SVG in public/images/flags/ today —
-// anything else (e.g. a phone dialing code entered by mistake) is skipped
-// instead of rendering a broken image icon.
-const AVAILABLE_FLAG_CODES = new Set(['in', 'br', 'au', 'us']);
 
 const AUTOPLAY_INTERVAL_MS = 6000;
 
@@ -275,11 +270,7 @@ export function TestimonialsCarousel({
                     <p className="font-sans text-sm font-semibold text-black sm:text-base">{active.customerName}</p>
                     {active.country && (
                       <p className="mt-0.5 flex items-center gap-1.5 font-sans text-xs text-[#818181] sm:text-sm">
-                        {active.countryCode && AVAILABLE_FLAG_CODES.has(active.countryCode.toLowerCase()) && (
-                          <span className="relative h-4 w-4 shrink-0 overflow-hidden rounded-full">
-                            <Image src={`/images/flags/${active.countryCode.toLowerCase()}.svg`} alt="" fill className="object-cover" />
-                          </span>
-                        )}
+                        {active.countryCode && <span className={`fi fi-${active.countryCode.toLowerCase()} rounded-sm`} />}
                         {active.country}
                       </p>
                     )}

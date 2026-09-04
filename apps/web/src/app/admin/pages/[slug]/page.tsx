@@ -13,6 +13,7 @@ import { toast, Toaster } from 'sonner';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
+import { CROP_TARGETS } from '../../../../lib/crop-targets';
 
 export default function EditPagePage() {
   const router = useRouter();
@@ -132,6 +133,7 @@ export default function EditPagePage() {
                   setImageFile(file);
                   setRemoveImage(!file && !!existingImage);
                 }}
+                cropTarget={CROP_TARGETS.pageCoverImage}
               />
               <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-300 mb-1">Image Alt Text</label>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload } from 'lucide-react';
+import { X, Upload, Crop as CropIcon } from 'lucide-react';
+import { ImageCropDialog, type CropTarget } from './ImageCropDialog';
 
 // Must match the multer limit in apps/api/src/shared/upload.middleware.ts —
 // rejecting an oversized file here saves the round trip to the server just
@@ -12,18 +13,38 @@ interface ImageUploadPreviewProps {
   initialImageUrl?: string | null;
   onImageChange: (file: File | null) => void;
   className?: string;
+  /**
+   * When set, a picked file opens the crop dialog before it reaches
+   * onImageChange — the file that ultimately gets passed on is the cropped
+   * result, sized to target.outputWidth/outputHeight. Omit to keep a field
+   * uncropped (e.g. Partner Logo, which needs its native padding intact).
+   */
+  cropTarget?: CropTarget;
 }
 
-export function ImageUploadPreview({ label, initialImageUrl, onImageChange, className = '' }: ImageUploadPreviewProps) {
+export function ImageUploadPreview({ label, initialImageUrl, onImageChange, className = '', cropTarget }: ImageUploadPreviewProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(initialImageUrl || null);
   const [isDragActive, setIsDragActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingCropSrc, setPendingCropSrc] = useState<string | null>(null);
+  const [pendingFileName, setPendingFileName] = useState<string>('image.jpg');
 
   useEffect(() => {
     if (initialImageUrl) {
       setPreviewUrl(initialImageUrl);
     }
   }, [initialImageUrl]);
+
+  const applyFile = (file: File | null) => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      onImageChange(file);
+    } else {
+      setPreviewUrl(null);
+      onImageChange(null);
+    }
+  };
 
   const handleFile = (file: File | null) => {
     if (file) {
@@ -36,25 +57,59 @@ export function ImageUploadPreview({ label, initialImageUrl, onImageChange, clas
         return;
       }
       setError(null);
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-      onImageChange(file);
+      if (cropTarget) {
+        setPendingFileName(file.name);
+        setPendingCropSrc(URL.createObjectURL(file));
+        return;
+      }
+      applyFile(file);
     } else {
       setError(null);
-      setPreviewUrl(null);
-      onImageChange(null);
+      applyFile(null);
+    }
+  };
+
+  const handleReplace = () => {
+    if (cropTarget && previewUrl) {
+      setPendingFileName('image.jpg');
+      setPendingCropSrc(previewUrl);
     }
   };
 
   return (
     <div className={className}>
-      <label className="block text-sm font-medium text-gray-300 mb-2">{label}</label>
-      
+      <div className="mb-2 flex items-center justify-between">
+        <label className="block text-sm font-medium text-gray-300">{label}</label>
+        {cropTarget && <span className="text-xs text-gray-500">{cropTarget.label}px</span>}
+      </div>
+
+      {pendingCropSrc && cropTarget && (
+        <ImageCropDialog
+          imageSrc={pendingCropSrc}
+          fileName={pendingFileName}
+          target={cropTarget}
+          onCancel={() => setPendingCropSrc(null)}
+          onConfirm={(file) => {
+            setPendingCropSrc(null);
+            applyFile(file);
+          }}
+        />
+      )}
+
       {previewUrl ? (
         <div className="relative w-full max-w-sm aspect-video rounded-lg overflow-hidden border border-admin-card group bg-[#12181d]">
           <img src={previewUrl} alt="Preview" className="w-full h-full object-contain" />
-          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <button 
+          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+            {cropTarget && (
+              <button
+                type="button"
+                onClick={handleReplace}
+                className="bg-admin-accent text-white px-4 py-2 rounded-md hover:bg-admin-accent/90 transition-colors flex items-center gap-2 text-sm font-medium"
+              >
+                <CropIcon className="w-4 h-4" /> Adjust Crop
+              </button>
+            )}
+            <button
               type="button"
               onClick={() => handleFile(null)}
               className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-sm font-medium"
@@ -86,7 +141,10 @@ export function ImageUploadPreview({ label, initialImageUrl, onImageChange, clas
           />
           <Upload className="w-8 h-8 text-gray-400 mb-2" />
           <p className="text-sm text-gray-400">Click or drag image to upload</p>
-          <p className="mt-1 text-xs text-gray-500">Max size {MAX_FILE_SIZE_LABEL}</p>
+          <p className="mt-1 text-xs text-gray-500">
+            Max size {MAX_FILE_SIZE_LABEL}
+            {cropTarget && <> · crops to {cropTarget.label}px</>}
+          </p>
         </div>
       )}
 

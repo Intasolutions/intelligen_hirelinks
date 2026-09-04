@@ -9,6 +9,7 @@ import { AdminPage } from '../../../../components/admin/common/AdminPage';
 import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
+import { CROP_TARGETS } from '../../../../lib/crop-targets';
 
 export default function NewPlacedStudentPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,6 +90,7 @@ export default function NewPlacedStudentPage() {
               <ImageUploadPreview
                 label="Student Photo"
                 onImageChange={setImageFile}
+                cropTarget={CROP_TARGETS.studentPhoto}
               />
             </div>
           </div>

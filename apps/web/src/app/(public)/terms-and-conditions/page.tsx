@@ -42,17 +42,17 @@ export default async function TermsAndConditionsPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-20 bg-white">
+      {page.image?.url && (
+        <div className="w-full h-64 md:h-96 mb-12 bg-gray-100 flex items-center justify-center">
+          <img
+            src={page.image.url}
+            alt={page.title}
+            className="h-full w-auto max-w-full object-contain"
+          />
+        </div>
+      )}
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {page.image?.url && (
-          <div className="w-full h-64 md:h-96 rounded-xl overflow-hidden mb-12 shadow-md">
-            <img 
-              src={page.image.url} 
-              alt={page.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
 
         <div className="mb-12 border-b border-gray-200 pb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">

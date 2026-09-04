@@ -12,6 +12,7 @@ import { Button, Input } from '@hirelinks/ui';
 import { toast, Toaster } from 'sonner';
 import { Trash2, Plus, X } from 'lucide-react';
 import { ImageUploadPreview } from '../../../../components/admin/common/ImageUploadPreview';
+import { CROP_TARGETS } from '../../../../lib/crop-targets';
 
 export default function EditProgramPage() {
   const router = useRouter();
@@ -147,13 +148,14 @@ export default function EditProgramPage() {
 
               <div className="grid grid-cols-2 gap-6 pt-4 border-t border-admin-card">
                 <div>
-                  <ImageUploadPreview 
+                  <ImageUploadPreview
                     label="Primary Image"
                     initialImageUrl={existingPrimary}
                     onImageChange={(file) => {
                       setPrimaryImageFile(file);
                       setRemovePrimaryImage(!file && !!existingPrimary);
                     }}
+                    cropTarget={CROP_TARGETS.serviceProgramPrimary}
                   />
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-300 mb-1">Primary Image Alt Text</label>
@@ -163,13 +165,14 @@ export default function EditProgramPage() {
                 </div>
                 
                 <div>
-                  <ImageUploadPreview 
+                  <ImageUploadPreview
                     label="Secondary Image"
                     initialImageUrl={existingSecondary}
                     onImageChange={(file) => {
                       setSecondaryImageFile(file);
                       setRemoveSecondaryImage(!file && !!existingSecondary);
                     }}
+                    cropTarget={CROP_TARGETS.serviceProgramSecondary}
                   />
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-300 mb-1">Secondary Image Alt Text</label>
