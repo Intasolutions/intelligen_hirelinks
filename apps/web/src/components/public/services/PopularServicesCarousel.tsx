@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
@@ -34,12 +34,14 @@ function ServiceRow({
   isActive,
   onActivate,
   imageOnRight,
+  rowRef,
 }: {
   service: PopularService;
   index: number;
   isActive: boolean;
   onActivate: () => void;
   imageOnRight: boolean;
+  rowRef: (el: HTMLDivElement | null) => void;
 }) {
   const photo = (
     <div className="relative aspect-[16/10] w-3/4 shrink-0 overflow-hidden rounded-2xl bg-[#ececec] transition-all duration-500 lg:w-1/4">
@@ -113,6 +115,7 @@ function ServiceRow({
           three just call the same onActivate, so there's one source of
           truth for which row is "active" regardless of input method. */}
       <div
+        ref={rowRef}
         role="button"
         tabIndex={0}
         onMouseEnter={onActivate}
@@ -146,11 +149,42 @@ export function PopularServicesCarousel({ services }: { services: PopularService
   // the "hovered" state, the rest are muted). Mouse hover, tap, and keyboard
   // focus all move this single active index — see ServiceRow's onActivate.
   const [activeIndex, setActiveIndex] = useState(0);
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Mobile/tablet only (below lg, where there's no hover): as the list is
+  // scrolled, whichever row is nearest the vertical center of the viewport
+  // becomes active automatically — a scroll-spy standing in for the hover
+  // that touch input doesn't have. A single IntersectionObserver with a
+  // thin horizontal band at 45%-55% of viewport height (rootMargin) does
+  // this cheaply: a row is "intersecting" only while it crosses that
+  // center band, so the most recent intersection is always the row
+  // currently passing through the middle of the screen.
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 1024px)');
+    if (mql.matches) return; // desktop keeps hover-only activation
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const i = rowRefs.current.findIndex((el) => el === entry.target);
+          if (i !== -1) setActiveIndex(i);
+        }
+      },
+      { rootMargin: '-45% 0px -55% 0px', threshold: 0 }
+    );
+
+    rowRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, [services.length]);
 
   if (services.length === 0) return null;
 
   return (
-    <section className="w-full overflow-x-hidden bg-white py-8 sm:py-12 lg:py-16">
+    // scroll-mt accounts for the fixed/sticky header (90px tall at lg:) so
+    // the nav dropdown's "View all services" anchor lands with this
+    // section's heading clear of the header instead of tucked under it.
+    <section id="listing" className="w-full overflow-x-hidden bg-white py-8 scroll-mt-24 sm:py-12 lg:scroll-mt-[110px] lg:py-16">
       <div className="mx-auto max-w-[1360px] px-4 sm:px-6 lg:px-10">
         <FadeInWhenVisible className="flex items-center justify-center gap-2 text-center">
           <div className="relative h-[18px] w-5 shrink-0 lg:h-[30px] lg:w-[34px]">
@@ -182,6 +216,9 @@ export function PopularServicesCarousel({ services }: { services: PopularService
             isActive={activeIndex === i}
             onActivate={() => setActiveIndex(i)}
             imageOnRight={i % 2 === 1}
+            rowRef={(el) => {
+              rowRefs.current[i] = el;
+            }}
           />
         ))}
       </div>

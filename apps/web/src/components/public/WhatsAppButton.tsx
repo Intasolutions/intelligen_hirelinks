@@ -54,10 +54,12 @@ export function WhatsAppButton({ number }: WhatsAppButtonProps) {
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
-      {/* Speech-bubble teaser */}
+      {/* Speech-bubble teaser — desktop only. On phones it competes for the
+          same corner as thumb-reachable UI (and any fixed bottom nav), so
+          it's more intrusive than inviting on small screens. */}
       <div
         role="status"
-        className={`whatsapp-bubble max-w-[220px] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-sm text-gray-700 shadow-xl ring-1 ring-black/5 transition-all duration-300 ease-out ${
+        className={`whatsapp-bubble hidden max-w-[220px] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-sm text-gray-700 shadow-xl ring-1 ring-black/5 transition-all duration-300 ease-out sm:block ${
           showBubble && !hovering
             ? 'translate-y-0 scale-100 opacity-100'
             : 'pointer-events-none translate-y-2 scale-95 opacity-0'
@@ -72,7 +74,7 @@ export function WhatsAppButton({ number }: WhatsAppButtonProps) {
           ✕
         </button>
         <p className="font-semibold text-gray-900">Need help? 👋</p>
-        <p className="mt-0.5 text-gray-500">Chat with us on WhatsApp — we usually reply within minutes.</p>
+        <p className="mt-0.5 text-gray-500">Chat with us on WhatsApp - we usually reply within minutes.</p>
       </div>
 
       {/* FAB + hover tooltip */}

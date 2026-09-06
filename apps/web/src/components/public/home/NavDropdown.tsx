@@ -10,8 +10,10 @@ export interface NavDropdownItem {
 
 interface NavDropdownProps {
   label: string;
-  /** e.g. "/services" — items link to `${basePath}/${slug}`, "View all" links here. */
+  /** e.g. "/services" — items link to `${basePath}/${slug}`. */
   basePath: string;
+  /** e.g. "/services#listing" — where "View all" goes; the listing section itself, not the page top. */
+  viewAllHref: string;
   fetchItems: () => Promise<NavDropdownItem[]>;
 }
 
@@ -19,7 +21,7 @@ interface NavDropdownProps {
 // basePath (e.g. viewing a service detail page) — the plain nav link
 // elsewhere is unchanged. Items load on mount rather than on open since the
 // list is small and this avoids a loading flash on first hover/focus.
-export function NavDropdown({ label, basePath, fetchItems }: NavDropdownProps) {
+export function NavDropdown({ label, basePath, viewAllHref, fetchItems }: NavDropdownProps) {
   const pathname = usePathname();
   const [items, setItems] = useState<NavDropdownItem[] | null>(null);
   const [open, setOpen] = useState(false);
@@ -121,7 +123,7 @@ export function NavDropdown({ label, basePath, fetchItems }: NavDropdownProps) {
                   href={`${basePath}/${item.slug}`}
                   role="menuitem"
                   className={`flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm normal-case tracking-normal transition-colors hover:bg-[#e3efec] hover:text-black ${
-                    isCurrent ? 'font-semibold text-black' : 'font-medium text-[#3a403e]'
+                    isCurrent ? 'font-semibold text-[#2a9d8f]' : 'font-medium text-[#3a403e]'
                   }`}
                 >
                   {item.title}
@@ -131,7 +133,7 @@ export function NavDropdown({ label, basePath, fetchItems }: NavDropdownProps) {
             })}
             <div className="my-1.5 h-px bg-gray-100" />
             <a
-              href={basePath}
+              href={viewAllHref}
               role="menuitem"
               className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-xs font-semibold normal-case tracking-normal text-[#2a9d8f]"
             >

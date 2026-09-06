@@ -60,7 +60,7 @@ export function AboutUsSection() {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible delay={0.25} className="mt-8 lg:mt-10">
-            <PillButton href="#about" variant="solid">
+            <PillButton href="/about" variant="solid">
               View More!
             </PillButton>
           </FadeInWhenVisible>

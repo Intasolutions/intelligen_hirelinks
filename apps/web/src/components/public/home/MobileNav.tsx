@@ -160,7 +160,7 @@ export function MobileNav() {
                               href={`${link.href}/${item.slug}`}
                               onClick={() => setOpen(false)}
                               className={`flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm normal-case tracking-normal transition-colors active:bg-gray-100 ${
-                                isCurrent ? 'font-semibold text-black' : 'font-normal text-[#3a403e]'
+                                isCurrent ? 'font-semibold text-[#2a9d8f]' : 'font-normal text-[#3a403e]'
                               }`}
                             >
                               {item.title}
@@ -169,7 +169,7 @@ export function MobileNav() {
                           );
                         })}
                         <a
-                          href={link.href}
+                          href={`${link.href}#listing`}
                           onClick={() => setOpen(false)}
                           className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-xs font-semibold normal-case tracking-normal text-[#2a9d8f]"
                         >

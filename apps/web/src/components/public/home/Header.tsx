@@ -112,10 +112,14 @@ export function Header() {
             // item become a dropdown (featured 5 + view all) — everywhere
             // else it's the same plain link as before.
             if (link.href === '/services' && isActive) {
-              return <NavDropdown key={link.label} label={link.label} basePath="/services" fetchItems={fetchFeaturedServices} />;
+              return (
+                <NavDropdown key={link.label} label={link.label} basePath="/services" viewAllHref="/services#listing" fetchItems={fetchFeaturedServices} />
+              );
             }
             if (link.href === '/programs' && isActive) {
-              return <NavDropdown key={link.label} label={link.label} basePath="/programs" fetchItems={fetchFeaturedPrograms} />;
+              return (
+                <NavDropdown key={link.label} label={link.label} basePath="/programs" viewAllHref="/programs#listing" fetchItems={fetchFeaturedPrograms} />
+              );
             }
 
             return (

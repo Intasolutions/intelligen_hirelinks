@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import DOMPurify from 'isomorphic-dompurify';
+import { sanitizePageHtml } from '../../../../lib/sanitize-page-html';
 import { BlogsService } from '../../../../services/blogs.service';
 import { SetWhatsAppMessage } from '../../../../components/public/WhatsAppMessageContext';
 import { BlogDetailHero } from '../../../../components/public/blog/detail/BlogDetailHero';
@@ -42,10 +42,8 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
   const blog = await getBlog(params.slug);
   if (!blog) notFound();
 
-  // TipTap saves raw HTML — sanitize before dangerouslySetInnerHTML, same
-  // pattern the privacy-policy/terms pages already use for admin-authored
-  // rich text.
-  const safeHtml = DOMPurify.sanitize(blog.content || '');
+  // TipTap saves raw HTML — sanitize before dangerouslySetInnerHTML.
+  const safeHtml = sanitizePageHtml(blog.content || '');
 
   return (
     <div>

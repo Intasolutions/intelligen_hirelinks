@@ -75,13 +75,9 @@ export function Hero() {
           />
         </div>
 
-        <div className="absolute left-[60px] top-[649px] z-20 hidden w-[513px] lg:block">
-          <PillButton href="/contact" variant="white">
-            Talk to Expert
-          </PillButton>
-
+        <div className="absolute left-[60px] top-[629px] z-20 hidden w-[513px] lg:block">
           <h1
-            className="mt-6 w-[513px] font-medium normal text-gray-900"
+            className="w-[513px] font-medium normal text-gray-900"
             style={{ fontSize: 48, lineHeight: '115%' }}
           >
             <span className="font-bold text-[#2a9d8f]">Connecting Nurses </span>
@@ -93,7 +89,7 @@ export function Hero() {
             style={{ fontSize: 17 }}
           >
             Intelligen Hirelinks is an integrated nursing recruitment platform connecting nurses with the
-            right career opportunities — domestic and international.
+            right career opportunities - domestic and international.
           </p>
 
           <PillButton href="/contact" variant="solid" borderColor="#ffffff" className="mt-8">
@@ -112,14 +108,10 @@ export function Hero() {
 
         <p className="mt-4 font-sans text-base font-medium leading-relaxed text-black">
           Intelligen Hirelinks is an integrated nursing recruitment platform connecting nurses with the
-          right career opportunities — domestic and international.
+          right career opportunities - domestic and international.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <PillButton href="/contact" variant="white">
-            Talk to Expert
-          </PillButton>
-
           <PillButton href="/contact" variant="solid" borderColor="#ffffff">
             Register Now!
           </PillButton>

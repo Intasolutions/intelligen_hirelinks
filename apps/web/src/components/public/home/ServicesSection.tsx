@@ -2,7 +2,8 @@ import Image from 'next/image';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 import { ServicesService } from '../../../services/services.service';
-import { ServiceCard, type Service } from './ServiceCard';
+import { type Service } from './ServiceCard';
+import { ServicesGrid } from './ServicesGrid';
 
 const LOREM = 'Complete Nursing Career, Recruitment, Placement & Global Support Services';
 
@@ -157,28 +158,10 @@ export async function ServicesSection() {
 
       {/* Full-bleed grid — spans the entire viewport width, no outer container/border.
           Each card fades/slides in individually (staggered by index) and lifts
-          slightly on hover, instead of the whole grid animating as one block. */}
-      <div className="mt-10 w-full bg-white lg:mt-14">
-        {/* Row 1: three equal columns */}
-        <div className="grid grid-cols-1 divide-y divide-[#e5e5e5] border-y border-[#e5e5e5] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-          {services.slice(0, 3).map((service, i) => (
-            <ServiceCard key={service.slug} service={service} index={i} />
-          ))}
-        </div>
-        {/* Row 2: 1/3 + 2/3 split */}
-        {services.length > 3 && (
-          <div className="grid grid-cols-1 divide-y divide-[#e5e5e5] border-b border-[#e5e5e5] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-            <div>
-              <ServiceCard service={services[3]} index={3} />
-            </div>
-            {services[4] && (
-              <div className="lg:col-span-2">
-                <ServiceCard service={services[4]} index={4} />
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          slightly on hover, instead of the whole grid animating as one block.
+          ServicesGrid also owns the mobile/tablet scroll-spy that highlights
+          whichever card is centered as the page scrolls. */}
+      <ServicesGrid services={services} />
     </section>
   );
 }

@@ -61,9 +61,17 @@ function NewsCard({
   const dateLabel = formatDate(post.publishedAt || post.createdAt);
 
   const photo = (
-    <div className="relative aspect-[2.19/1] w-full overflow-hidden rounded-2xl bg-[#ececec]">
+    <div
+      className={`relative aspect-[2.19/1] w-full overflow-hidden rounded-2xl bg-[#ececec] transition-transform duration-500 ease-out ${isActive ? 'scale-100' : 'scale-[0.94]'}`}
+    >
       {post.image?.url && (
-        <Image src={post.image.url} alt={post.coverImageAlt || post.title} fill sizes={CARD_SIZES} className="object-cover" />
+        <Image
+          src={post.image.url}
+          alt={post.coverImageAlt || post.title}
+          fill
+          sizes={CARD_SIZES}
+          className={`object-cover transition-transform duration-[600ms] ease-out ${isActive ? 'scale-100' : 'scale-110'}`}
+        />
       )}
       {/* Peek cards read as inactive glass — a heavy white wash over the
           photo, tuned to the reference's near-white sliver (measured ~90%
@@ -77,7 +85,9 @@ function NewsCard({
   );
 
   const textBlock = (
-    <>
+    <div
+      className={`transition-all duration-500 ease-out ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-90'}`}
+    >
       <div className="mt-4 flex items-center justify-between gap-3 sm:mt-6 sm:gap-4">
         <h3 className="line-clamp-2 flex-1 font-sans text-base font-bold leading-snug text-black sm:text-lg lg:text-2xl">
           {post.title}
@@ -117,7 +127,7 @@ function NewsCard({
         <span className={`mx-2 ${isActive ? 'text-[#acacac]' : 'text-[#e5e5e5]'}`}>|</span>
         <span className={isActive ? 'text-[#acacac]' : 'text-[#e5e5e5]'}>{dateLabel}</span>
       </p>
-    </>
+    </div>
   );
 
   return (
@@ -196,6 +206,7 @@ export function NewsCarousel({ posts }: { posts: NewsPost[] }) {
     if (behavior === 'auto') {
       track.scrollLeft = target;
       isAnimating.current = false;
+      track.style.scrollSnapType = '';
       return;
     }
     const from = track.scrollLeft;
@@ -203,6 +214,13 @@ export function NewsCarousel({ posts }: { posts: NewsPost[] }) {
     const duration = Math.min(SLIDE_MAX_MS, SLIDE_BASE_MS + (cardsTraversed - 1) * SLIDE_PER_CARD_MS);
     const start = performance.now();
     isAnimating.current = true;
+    // Native scroll-snap fights our manual scrollLeft writes — the browser
+    // tries to settle onto the nearest snap point mid-tween, producing a
+    // visible stutter instead of one continuous glide. Suspend snapping for
+    // the duration of the JS tween and restore it once we land exactly on
+    // the target, so drag/swipe scrolling (which never touches this path)
+    // keeps its native snap behaviour.
+    track.style.scrollSnapType = 'none';
     const step = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
       track.scrollLeft = from + (target - from) * easeOutCubic(t);
@@ -211,6 +229,7 @@ export function NewsCarousel({ posts }: { posts: NewsPost[] }) {
       } else {
         animationFrame.current = null;
         isAnimating.current = false;
+        track.style.scrollSnapType = '';
       }
     };
     animationFrame.current = requestAnimationFrame(step);
@@ -308,6 +327,7 @@ export function NewsCarousel({ posts }: { posts: NewsPost[] }) {
         animationFrame.current = null;
       }
       isAnimating.current = false;
+      track.style.scrollSnapType = '';
     };
 
     track.addEventListener('scroll', onScroll, { passive: true });
@@ -372,7 +392,7 @@ export function NewsCarousel({ posts }: { posts: NewsPost[] }) {
                   type="button"
                   onClick={() => goTo(i)}
                   aria-label={`Go to story ${i + 1}`}
-                  className="rounded-md transition-all"
+                  className="rounded-md transition-all duration-300 ease-out"
                   style={{ height: active ? 14 : 8, width: active ? 14 : 8, backgroundColor: active ? '#2a9d8f' : '#b9b9b9' }}
                 />
               );

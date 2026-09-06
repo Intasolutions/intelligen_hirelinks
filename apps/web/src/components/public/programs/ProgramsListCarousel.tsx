@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FadeInWhenVisible } from '../FadeInWhenVisible';
 import { PillButton } from '../PillButton';
 
@@ -17,34 +17,27 @@ function ProgramCard({
   program,
   isActive,
   onActivate,
+  cardRef,
 }: {
   program: ProgramListItem;
   isActive: boolean;
   onActivate: () => void;
+  cardRef: (el: HTMLAnchorElement | null) => void;
 }) {
   return (
     <FadeInWhenVisible>
-      {/* Same hover/tap language as PopularServicesCarousel's rows: a slight
-          lift + shadow on hover, and a quick tap-flash (active:) for touch
-          devices where :hover never fires — onMouseEnter/onClick/onFocus
-          all drive the same onActivate so keyboard/touch/mouse share one
-          source of truth for which card is "active".
-
-          Background is driven by an inline `style` (not a Tailwind class
-          swap) specifically so the color change actually animates — CSS
-          can't tween between two different bg-gradient-to-r utility
-          classes (that's a discrete class swap, not an interpolated
-          value), but it can smoothly transition a plain `background`
-          property between any two values via the transition below. */}
-      <div
-        role="button"
-        tabIndex={0}
+      {/* The whole card is a real link now (previously only the "View
+          Details" pill navigated; the rest of the card just toggled the
+          highlight and went nowhere on click) — onMouseEnter/onFocus still
+          drive the hover highlight, and clicking anywhere, including the
+          decorative pill, follows the link to the program page. The pill
+          keeps its own look but is a span now, not a nested <a>, since an
+          anchor can't contain another interactive anchor. */}
+      <a
+        ref={cardRef}
+        href={`/programs/${program.slug}`}
         onMouseEnter={onActivate}
-        onClick={onActivate}
         onFocus={onActivate}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') onActivate();
-        }}
         className={`relative flex cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl p-5 outline-none transition-[transform,box-shadow,color] duration-500 ease-out hover:-translate-y-1 hover:shadow-xl active:bg-black/[0.03] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-6 lg:p-7 ${
           isActive ? 'text-white' : 'text-black'
         }`}
@@ -75,6 +68,7 @@ function ProgramCard({
           <div className="mt-1">
             <PillButton
               href={`/programs/${program.slug}`}
+              interactive={false}
               bgColor={isActive ? '#ffffff' : '#000000'}
               textColor={isActive ? '#2a9d8f' : '#ffffff'}
             >
@@ -94,7 +88,7 @@ function ProgramCard({
             />
           </div>
         )}
-      </div>
+      </a>
     </FadeInWhenVisible>
   );
 }
@@ -104,11 +98,38 @@ export function ProgramsListCarousel({ programs }: { programs: ProgramListItem[]
   // PopularServicesCarousel and ServiceProcessSection — first card active
   // on load.
   const [activeIndex, setActiveIndex] = useState(0);
+  const cardRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  // Mobile/tablet only (below lg, no hover): whichever card crosses the
+  // vertical center of the viewport as the list scrolls becomes active
+  // automatically — same scroll-spy as PopularServicesCarousel and
+  // ServicesGrid on the homepage.
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 1024px)');
+    if (mql.matches) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const i = cardRefs.current.findIndex((el) => el === entry.target);
+          if (i !== -1) setActiveIndex(i);
+        }
+      },
+      { rootMargin: '-45% 0px -55% 0px', threshold: 0 }
+    );
+
+    cardRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, [programs.length]);
 
   if (programs.length === 0) return null;
 
   return (
-    <section className="w-full overflow-x-hidden bg-white px-4 py-10 sm:px-6 sm:py-14 lg:px-10 lg:py-20">
+    // scroll-mt accounts for the fixed/sticky header (90px tall at lg:) so
+    // the nav dropdown's "View all programs" anchor lands with this
+    // section's heading clear of the header instead of tucked under it.
+    <section id="listing" className="w-full overflow-x-hidden bg-white px-4 py-10 scroll-mt-24 sm:px-6 sm:py-14 lg:scroll-mt-[110px] lg:px-10 lg:py-20">
       <div className="mx-auto max-w-[1360px]">
         <FadeInWhenVisible className="flex items-center justify-center gap-2 text-center">
           <div className="relative h-[18px] w-5 shrink-0 lg:h-[30px] lg:w-[34px]">
@@ -121,7 +142,15 @@ export function ProgramsListCarousel({ programs }: { programs: ProgramListItem[]
 
         <div className="mt-8 flex flex-col gap-5 sm:mt-10 lg:mt-12">
           {programs.map((program, i) => (
-            <ProgramCard key={program._id} program={program} isActive={activeIndex === i} onActivate={() => setActiveIndex(i)} />
+            <ProgramCard
+              key={program._id}
+              program={program}
+              isActive={activeIndex === i}
+              onActivate={() => setActiveIndex(i)}
+              cardRef={(el) => {
+                cardRefs.current[i] = el;
+              }}
+            />
           ))}
         </div>
       </div>

@@ -74,16 +74,16 @@ export function WeProvideSection() {
                   {PARAGRAPH2}
                 </FadeInWhenVisible>
                 <FadeInWhenVisible delay={0.3} className="hidden lg:block">
-                  <PillButton href="/services" variant="white" borderColor="#2a9d8f">
-                    Explore Services
+                  <PillButton href="/contact" variant="white" borderColor="#2a9d8f">
+                    Contact Now
                   </PillButton>
                 </FadeInWhenVisible>
               </div>
             </div>
 
             <FadeInWhenVisible delay={0.3} className="lg:hidden">
-              <PillButton href="/services" variant="white" borderColor="#2a9d8f">
-                Explore Services
+              <PillButton href="/contact" variant="white" borderColor="#2a9d8f">
+                Contact Now
               </PillButton>
             </FadeInWhenVisible>
           </div>
