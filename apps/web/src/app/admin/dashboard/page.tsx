@@ -8,6 +8,21 @@ export const metadata = {
   title: 'Admin Home - CMS'
 };
 
+// item.type -> its actual admin route segment. Naively lowercasing + "s"
+// (the previous approach) happens to work for SERVICE/PROGRAM/BLOG/REVIEW,
+// but CONTACT and REGISTRATION (dashboard.service.ts's two enquiry types)
+// both live under /admin/enquiries, not /admin/contacts or
+// /admin/registrations — neither of which is a real route — so the "go to
+// enquiry" link 404'd for every enquiry row.
+const TYPE_TO_ROUTE: Record<string, string> = {
+  SERVICE: 'services',
+  PROGRAM: 'programs',
+  BLOG: 'blogs',
+  REVIEW: 'reviews',
+  CONTACT: 'enquiries',
+  REGISTRATION: 'enquiries',
+};
+
 export default async function DashboardPage() {
   let dashboardData = null;
   let user = null;
@@ -148,7 +163,10 @@ export default async function DashboardPage() {
                     }`}>
                       {item.status.toUpperCase()}
                     </span>
-                    <Link href={`/admin/${item.type.toLowerCase()}s/${item.id}`} className="p-1.5 rounded bg-gray-800 text-gray-400 hover:text-white transition-colors">
+                    <Link
+                      href={`/admin/${TYPE_TO_ROUTE[item.type] ?? `${item.type.toLowerCase()}s`}/${item.id}`}
+                      className="p-1.5 rounded bg-gray-800 text-gray-400 hover:text-white transition-colors"
+                    >
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>

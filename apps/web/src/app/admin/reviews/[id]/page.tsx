@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -40,8 +40,13 @@ export default function EditReviewPage() {
     }
   });
 
-  const { register, handleSubmit, watch, reset, formState: { errors } } = form;
+  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = form;
   const currentLinkedType = watch('linkedType');
+
+  // The review's own saved linkedItem, captured once on load — used to
+  // re-select it once linkedOptions finishes loading (see below), since
+  // reset() alone sets it before that list exists yet.
+  const savedLinkedItemRef = useRef<string | null>(null);
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -53,6 +58,7 @@ export default function EditReviewPage() {
           if (reviewData.reviewDate) {
             reviewData.reviewDate = new Date(reviewData.reviewDate).toISOString().split('T')[0];
           }
+          savedLinkedItemRef.current = (reviewData as any).linkedItem || null;
           reset(reviewData);
           setExistingImage(res.data.customerPhoto?.url || null);
         } else {
@@ -70,19 +76,32 @@ export default function EditReviewPage() {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
+        let options: any[] = [];
         if (currentLinkedType === 'SERVICE') {
           const res = await ServicesService.listServices({ limit: 100 });
-          setLinkedOptions(res.data || []);
+          options = res.data || [];
         } else if (currentLinkedType === 'PROGRAM') {
           const res = await ProgramsService.listPrograms({ limit: 100 });
-          setLinkedOptions(res.data || []);
+          options = res.data || [];
+        }
+        setLinkedOptions(options);
+
+        // reset() (above) sets linkedItem to the review's saved id before
+        // this options list exists, so the <select> has no matching
+        // <option> yet and silently shows blank. Re-apply it now that the
+        // right list is loaded, but only once per review load — a manual
+        // category switch by the admin should still clear the selection
+        // rather than keep snapping back to the original item.
+        if (savedLinkedItemRef.current && options.some((o) => o._id === savedLinkedItemRef.current)) {
+          setValue('linkedItem', savedLinkedItemRef.current);
+          savedLinkedItemRef.current = null;
         }
       } catch (e) {
         toast.error('Failed to load linked items');
       }
     };
     fetchOptions();
-  }, [currentLinkedType]);
+  }, [currentLinkedType, setValue]);
 
   const onSubmit = async (data: ReviewInput) => {
     setIsSubmitting(true);

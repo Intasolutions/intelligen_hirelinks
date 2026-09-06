@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { PartnerLogosService } from '../../../services/partner-logos.service';
 import { AdminPage } from '../../../components/admin/common/AdminPage';
 import { Button, Tabs, TabsList, TabsTrigger } from '@hirelinks/ui';
@@ -16,8 +17,21 @@ const TABS: { value: Category; label: string; description: string }[] = [
   { value: 'CERTIFICATION', label: 'Certifications & Affiliations', description: 'Logos shown in the About page "Certifications & Affiliations" section.' },
 ];
 
+const CATEGORY_VALUES = TABS.map((t) => t.value);
+
+function isCategory(value: string | null): value is Category {
+  return !!value && (CATEGORY_VALUES as string[]).includes(value);
+}
+
 export default function PartnerLogosPage() {
-  const [category, setCategory] = useState<Category>('DOMESTIC');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  // The selected tab lives in the URL (?category=...), not just component
+  // state — this page remounts fresh every time the admin navigates back
+  // from editing a logo, which was resetting the tab to DOMESTIC even if
+  // they'd been on International or Certifications when they clicked edit.
+  const category: Category = isCategory(searchParams.get('category')) ? (searchParams.get('category') as Category) : 'DOMESTIC';
+  const setCategory = (next: Category) => router.replace(`/admin/partners?category=${next}`);
   const [logos, setLogos] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

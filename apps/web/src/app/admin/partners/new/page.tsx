@@ -40,7 +40,7 @@ export default function NewPartnerLogoPage() {
       const res = await PartnerLogosService.createPartnerLogo(payload);
       if (res.success) {
         toast.success('Logo created successfully');
-        window.location.href = '/admin/partners';
+        window.location.href = `/admin/partners?category=${data.category}`;
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to create logo');
       }

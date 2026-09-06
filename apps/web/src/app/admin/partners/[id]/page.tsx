@@ -63,7 +63,10 @@ export default function EditPartnerLogoPage() {
       const res = await PartnerLogosService.updatePartnerLogo(id, payload);
       if (res.success) {
         toast.success('Logo updated successfully');
-        window.location.href = '/admin/partners';
+        // Land back on whichever tab this logo now belongs to (its
+        // category as just saved — the admin may have changed it in this
+        // same edit), instead of always resetting to the Domestic tab.
+        window.location.href = `/admin/partners?category=${data.category}`;
       } else {
         toast.error(typeof res.error === 'string' ? res.error : res.error?.message || 'Failed to update logo');
       }
