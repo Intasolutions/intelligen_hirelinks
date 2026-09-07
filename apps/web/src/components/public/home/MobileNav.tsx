@@ -33,7 +33,7 @@ async function fetchFeaturedPrograms(): Promise<SectionItem[]> {
 }
 
 const PARTNER_LINKS = [
-  { id: 'intelligen', label: 'Intelligen', href: 'https://intelligenoverseas.com', logo: '/images/home/intelligen-logo.png', logoWidth: 110 },
+  { id: 'intelligen', label: 'Intelligen', href: 'https://intelligenimmigration.com/', logo: '/images/home/intelligen-logo.png', logoWidth: 110 },
   { id: 'growmedlink', label: 'GrowMedLink', href: 'https://growmedlink.com' },
 ];
 

@@ -21,18 +21,11 @@ export interface MapProfile {
 // without touching the others or needing a re-export from Figma.
 export const MAP_PROFILES: MapProfile[] = [
   {
-    name: 'Olivia Williams',
+    name: 'Priya Sharma',
     country: 'India',
     flagIcon: '/images/flags/in.svg',
     photo: '/images/home/profile-photo-india.png',
     highlight: { src: '/images/home/hero-map-india.svg', x: 968.88, y: 235.22, width: 137, height: 153 },
-  },
-  {
-    name: 'Rachel McDermott',
-    country: 'Brazil',
-    flagIcon: '/images/flags/br.svg',
-    photo: '/images/home/profile-photo-brazil.png',
-    highlight: { src: '/images/home/hero-map-brazil.svg', x: 283.28, y: 402.73, width: 191, height: 217 },
   },
   {
     name: 'Angelina David',

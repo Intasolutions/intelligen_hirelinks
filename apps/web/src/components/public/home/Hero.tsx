@@ -89,7 +89,7 @@ export function Hero() {
             style={{ fontSize: 17 }}
           >
             Intelligen Hirelinks is an integrated nursing recruitment platform connecting nurses with the
-            right career opportunities - domestic and international.
+            right career opportunities domestic and international.
           </p>
 
           <PillButton href="/contact" variant="solid" borderColor="#ffffff" className="mt-8">
@@ -108,7 +108,7 @@ export function Hero() {
 
         <p className="mt-4 font-sans text-base font-medium leading-relaxed text-black">
           Intelligen Hirelinks is an integrated nursing recruitment platform connecting nurses with the
-          right career opportunities - domestic and international.
+          right career opportunities domestic and international.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">

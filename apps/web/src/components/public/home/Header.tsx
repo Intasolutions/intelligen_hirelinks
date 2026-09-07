@@ -54,7 +54,7 @@ export function Header() {
 
       <div className="mx-auto hidden h-[90px] max-w-[1440px] items-center justify-between px-6 lg:flex xl:px-[60px]">
         <Link href="/" className="flex items-end gap-2.5">
-          <div className="relative h-10 w-[50px] shrink-0">
+          <div className="relative h-14 w-[70px] shrink-0">
             <Image
               src="/images/home/hirelinks-logo.png"
               alt="Hirelinks"
@@ -63,7 +63,7 @@ export function Header() {
               priority
             />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-0">
             <span className="text-[17.5px] font-bold uppercase tracking-[1.05px] text-[#2a9f90]">
               Hirelinks
             </span>
