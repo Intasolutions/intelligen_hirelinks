@@ -45,7 +45,6 @@ export default async function PublicHomePage() {
         <AboutUsSection />
         <WhyChooseUsSection />
         <TestimonialsSection />
-        <MissionSection />
         <NewsSection />
       </div>
     </PageReadyProvider>
